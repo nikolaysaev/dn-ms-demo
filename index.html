@@ -400,9 +400,13 @@
 
       #success-algorithm-event .mini-proof {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 14px;
         margin-top: 24px;
+      }
+
+      #success-algorithm-event .mini-proof-card:last-child {
+        grid-column: 2;
       }
 
       #success-algorithm-event .mini-proof-card {
@@ -935,6 +939,10 @@
         #success-algorithm-event .urgency-strip,
         #success-algorithm-event .mini-proof {
           grid-template-columns: 1fr;
+        }
+
+        #success-algorithm-event .mini-proof-card:last-child {
+          grid-column: auto;
         }
       }
 
