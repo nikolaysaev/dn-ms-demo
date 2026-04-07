@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Алгоритъм за успеха</title>
+    <style>
+      /*
+        Quick asset setup: replace the URLs below.
+        --logo: square transparent PNG/SVG logo.
+        --orn-line: thin decorative line / arc PNG or SVG with transparent background.
+        --orn-circle: circular ring ornament PNG/SVG with transparent background.
+        --orn-semi: half-circle / corner ornament PNG/SVG with transparent background.
+        --hero-banner: wide horizontal banner, recommended 1600x900.
+        --speaker-banner: wide horizontal banner, recommended 1600x700.
+      */
+
+      #success-algorithm-event * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #f7f3e8;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #162033;
+      }
+
+      #success-algorithm-event {
+        --navy: #000080;
+        --navy-2: #1a1aa6;
+        --navy-3: #00005a;
+        --gold: #cc9900;
+        --gold-light: #e0b84d;
+        --gold-soft: #f3dda0;
+        --cream: #f7f3e8;
+        --white: #ffffff;
+        --text: #162033;
+        --muted: #5f6b7a;
+        --border: rgba(0, 0, 128, 0.12);
+        --shadow: 0 16px 40px rgba(0, 0, 128, 0.1);
+        --max: 1180px;
+        --logo: url("static/img/logo-navy-blue.png");
+        --orn-line: url("static/img/rounded-line.png");
+        --orn-circle: url("static/img/circle.png");
+        --orn-semi: url("static/img/semi-thing.png");
+        --hero-banner: url("static/img/hero-1-pr-dim.jpg");
+        --speaker-banner: url("static/img/hero-1-text-only-pr-dim.jpg");
+      }
+
+      #success-algorithm-event a {
+        text-decoration: none;
+      }
+
+      #success-algorithm-event .wrap {
+        width: 100%;
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .section {
+        position: relative;
+        padding: 78px 0;
+        overflow: hidden;
+      }
+
+      #success-algorithm-event .section-light {
+        background: #fffdf8;
+      }
+
+      #success-algorithm-event .section-soft {
+        background: var(--cream);
+      }
+
+      #success-algorithm-event .section-title {
+        margin: 0 0 16px;
+        font-size: 38px;
+        line-height: 1.15;
+        font-weight: 800;
+        text-align: center;
+        color: var(--navy);
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .section-title:after {
+        content: "";
+        display: block;
+        width: 110px;
+        height: 28px;
+        margin: 14px auto 0;
+        background-image: var(--orn-line);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.22;
+      }
+
+      #success-algorithm-event .section-text {
+        max-width: 820px;
+        margin: 0 auto 40px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.75;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .orn {
+        position: absolute;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        pointer-events: none;
+        opacity: 0.18;
+        z-index: 1;
+      }
+
+      #success-algorithm-event .orn-gold {
+        opacity: 0.16;
+      }
+
+      #success-algorithm-event .orn-navy {
+        opacity: 0.09;
+      }
+
+      #success-algorithm-event .hero {
+        position: relative;
+        background:
+          radial-gradient(circle at top left, rgba(0, 0, 128, 0.08), transparent 24%),
+          radial-gradient(circle at 92% 16%, rgba(204, 153, 0, 0.18), transparent 20%),
+          linear-gradient(135deg, #ffffff, #fffaf0 58%, #f7f6ff 100%);
+        color: var(--navy);
+        padding: 90px 0 70px;
+        overflow: hidden;
+      }
+
+      #success-algorithm-event .hero:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 128, 0.03), transparent 22%, transparent 78%, rgba(204, 153, 0, 0.05)),
+          radial-gradient(circle at 10% 20%, rgba(204, 153, 0, 0.12), transparent 24%),
+          radial-gradient(circle at 86% 82%, rgba(0, 0, 128, 0.06), transparent 20%);
+        z-index: 0;
+      }
+
+      #success-algorithm-event .hero-grid {
+        display: grid;
+        grid-template-columns: 1.12fr 0.88fr;
+        gap: 36px;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .hero-copy {
+        position: relative;
+      }
+
+      #success-algorithm-event .logo-wrap {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        margin-bottom: 22px;
+      }
+
+      #success-algorithm-event .logo-img {
+        width: 124px;
+        height: 124px;
+        min-width: 84px;
+        padding: 10px;
+        border-radius: 20px;
+        background-image: var(--logo);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-origin: content-box;
+        background-clip: content-box;
+        background-color: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(0, 0, 128, 0.12);
+        box-shadow: 0 10px 30px rgba(0, 0, 128, 0.1);
+      }
+
+      #success-algorithm-event .logo-text {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: var(--navy);
+        font-weight: 700;
+      }
+
+      #success-algorithm-event .badge {
+        display: inline-block;
+        margin-bottom: 18px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        background: rgba(204, 153, 0, 0.1);
+        color: var(--navy);
+        border: 1px solid rgba(204, 153, 0, 0.35);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      #success-algorithm-event h1,
+      #success-algorithm-event h2,
+      #success-algorithm-event h3,
+      #success-algorithm-event h4 {
+        margin-top: 0;
+      }
+
+      #success-algorithm-event h1 {
+        margin-bottom: 20px;
+        max-width: 850px;
+        font-size: 52px;
+        line-height: 1.08;
+        font-weight: 800;
+        color: var(--navy);
+      }
+
+      #success-algorithm-event .hero-subtitle {
+        max-width: 760px;
+        margin-bottom: 28px;
+        font-size: 20px;
+        line-height: 1.8;
+        color: #33406f;
+      }
+
+      #success-algorithm-event .line-accent {
+        width: 150px;
+        height: 42px;
+        background-image: var(--orn-line);
+        background-repeat: no-repeat;
+        background-position: left center;
+        background-size: contain;
+        opacity: 0.28;
+      }
+
+      #success-algorithm-event .hero-line {
+        margin: -4px 0 24px;
+      }
+
+      #success-algorithm-event .banner-slot {
+        position: relative;
+        overflow: hidden;
+        border-radius: 24px;
+        border: 1px solid rgba(0, 0, 128, 0.12);
+        box-shadow: 0 18px 48px rgba(0, 0, 128, 0.1);
+      }
+
+      #success-algorithm-event .banner-slot:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 42%),
+          linear-gradient(120deg, rgba(0, 0, 128, 0.34), rgba(204, 153, 0, 0.16));
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      #success-algorithm-event .banner-slot:after {
+        content: "";
+        position: absolute;
+        right: 18px;
+        bottom: 14px;
+        width: 112px;
+        height: 56px;
+        background-image: var(--orn-line);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.22;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      #success-algorithm-event .banner-slot span {
+        position: absolute;
+        left: 18px;
+        top: 16px;
+        z-index: 2;
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.84);
+        color: var(--navy);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      #success-algorithm-event .hero-banner {
+        min-height: 190px;
+        margin: 0 0 28px;
+        background:
+          linear-gradient(135deg, rgba(0, 0, 128, 0.22), rgba(204, 153, 0, 0.18)),
+          var(--hero-banner) center/cover no-repeat,
+          linear-gradient(135deg, #eef1ff, #fff7e0);
+      }
+
+      #success-algorithm-event .speaker-banner {
+        min-height: 320px;
+        margin: 0 0 34px;
+        background:
+          linear-gradient(135deg, rgba(0, 0, 128, 0.24), rgba(204, 153, 0, 0.16)),
+          var(--speaker-banner) center/cover no-repeat,
+          linear-gradient(135deg, #f7f8ff, #fff7e5);
+      }
+
+      #success-algorithm-event .btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 10px;
+      }
+
+      #success-algorithm-event .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        padding: 0 24px;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 700;
+        transition: all 0.25s ease;
+      }
+
+      #success-algorithm-event .btn-primary {
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: #171717;
+        box-shadow: 0 12px 28px rgba(204, 153, 0, 0.28);
+      }
+
+      #success-algorithm-event .btn-secondary {
+        border: 1px solid rgba(0, 0, 128, 0.2);
+        color: var(--navy);
+        background: rgba(255, 255, 255, 0.86);
+      }
+
+      #success-algorithm-event .hero-card {
+        position: relative;
+        padding: 30px;
+        border-radius: 26px;
+        background: linear-gradient(155deg, rgba(0, 0, 128, 0.96), rgba(22, 22, 144, 0.94) 60%, rgba(204, 153, 0, 0.82));
+        border: 1px solid rgba(204, 153, 0, 0.28);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 24px 60px rgba(0, 0, 128, 0.24);
+        overflow: hidden;
+      }
+
+      #success-algorithm-event .hero-card:before {
+        content: "";
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 160px;
+        height: 160px;
+        background-image: var(--orn-circle);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.1;
+        transform: rotate(10deg);
+        pointer-events: none;
+      }
+
+      #success-algorithm-event .hero-card h3 {
+        margin-bottom: 16px;
+        color: #fff;
+        font-size: 24px;
+      }
+
+      #success-algorithm-event .event-info {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      #success-algorithm-event .event-info div {
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        line-height: 1.55;
+        font-size: 15px;
+      }
+
+      #success-algorithm-event .event-info strong {
+        color: var(--gold-soft);
+      }
+
+      #success-algorithm-event .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 28px;
+        max-width: 760px;
+      }
+
+      #success-algorithm-event .stat {
+        padding: 18px;
+        border-radius: 18px;
+        text-align: center;
+        background: linear-gradient(180deg, rgba(0, 0, 128, 0.03), rgba(204, 153, 0, 0.08));
+        border: 1px solid rgba(0, 0, 128, 0.12);
+      }
+
+      #success-algorithm-event .stat strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 28px;
+        color: var(--navy);
+      }
+
+      #success-algorithm-event .stat span {
+        color: #4b5477;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      #success-algorithm-event .quote-box {
+        position: relative;
+        z-index: 2;
+        padding: 24px 28px;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #fff8df, #fffdf4);
+        border: 1px solid rgba(204, 153, 0, 0.35);
+        text-align: center;
+        font-size: 24px;
+        line-height: 1.55;
+        font-weight: 700;
+        color: var(--navy);
+        box-shadow: var(--shadow);
+      }
+
+      #success-algorithm-event .cards-3,
+      #success-algorithm-event .cards-2 {
+        display: grid;
+        gap: 24px;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .cards-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      #success-algorithm-event .cards-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      #success-algorithm-event .card {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        padding: 28px;
+        border-radius: 24px;
+        background: #fff;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+
+      #success-algorithm-event .card:after {
+        content: "";
+        position: absolute;
+        right: -18px;
+        bottom: -18px;
+        width: 110px;
+        height: 110px;
+        background-image: var(--orn-semi);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.08;
+        pointer-events: none;
+      }
+
+      #success-algorithm-event .card h3 {
+        margin-bottom: 12px;
+        font-size: 22px;
+        color: var(--navy);
+      }
+
+      #success-algorithm-event .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      #success-algorithm-event .bullet-list {
+        list-style: none;
+        padding: 0;
+        margin: 16px 0 0;
+      }
+
+      #success-algorithm-event .bullet-list li {
+        position: relative;
+        margin-bottom: 12px;
+        padding-left: 28px;
+        line-height: 1.7;
+        color: #223047;
+      }
+
+      #success-algorithm-event .bullet-list li:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      }
+
+      #success-algorithm-event .timeline {
+        display: grid;
+        gap: 18px;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .timeline-item {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        border-radius: 24px;
+        background: #fff;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+
+      #success-algorithm-event .timeline-item:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        background: linear-gradient(180deg, var(--gold), var(--gold-light));
+      }
+
+      #success-algorithm-event .timeline-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+
+      #success-algorithm-event .timeline-title {
+        margin: 0;
+        font-size: 22px;
+        color: var(--navy);
+        font-weight: 800;
+      }
+
+      #success-algorithm-event .timeline-time {
+        white-space: nowrap;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #fff8df;
+        border: 1px solid rgba(204, 153, 0, 0.28);
+        color: var(--navy);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      #success-algorithm-event .timeline-item p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      #success-algorithm-event .steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 18px;
+        margin-top: 32px;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .step {
+        padding: 24px 18px;
+        text-align: center;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+      }
+
+      #success-algorithm-event .step-num {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: #1c2637;
+        font-size: 22px;
+        font-weight: 800;
+        box-shadow: 0 10px 24px rgba(204, 153, 0, 0.24);
+      }
+
+      #success-algorithm-event .step h4 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: var(--navy);
+      }
+
+      #success-algorithm-event .step p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.65;
+        color: var(--muted);
+      }
+
+      #success-algorithm-event .speaker-label {
+        display: inline-block;
+        margin-bottom: 14px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--navy);
+        background: #fff8df;
+        border: 1px solid rgba(204, 153, 0, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+
+      #success-algorithm-event .cta-box {
+        position: relative;
+        z-index: 2;
+        overflow: hidden;
+        padding: 48px 34px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, var(--navy-3), var(--navy));
+        color: #fff;
+        text-align: center;
+        box-shadow: 0 22px 60px rgba(0, 0, 128, 0.22);
+      }
+
+      #success-algorithm-event .cta-box:before {
+        content: "";
+        position: absolute;
+        left: -30px;
+        bottom: -30px;
+        width: 180px;
+        height: 180px;
+        background-image: var(--orn-line);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.12;
+        transform: rotate(-8deg);
+        pointer-events: none;
+      }
+
+      #success-algorithm-event .cta-box:after {
+        content: "";
+        position: absolute;
+        right: -20px;
+        top: -20px;
+        width: 170px;
+        height: 170px;
+        background-image: var(--orn-circle);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.1;
+        pointer-events: none;
+      }
+
+      #success-algorithm-event .cta-box h2 {
+        margin-bottom: 14px;
+        font-size: 40px;
+        color: #fff;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .cta-box p {
+        max-width: 760px;
+        margin: 0 auto 24px;
+        font-size: 18px;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.86);
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .faq {
+        display: grid;
+        gap: 16px;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .faq-item {
+        padding: 22px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      #success-algorithm-event .faq-item h3 {
+        margin-bottom: 10px;
+        font-size: 20px;
+        color: var(--navy);
+      }
+
+      #success-algorithm-event .faq-item p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      #success-algorithm-event .footer-note {
+        position: relative;
+        z-index: 2;
+        margin-top: 20px;
+        text-align: center;
+        color: #8a90a0;
+        font-size: 14px;
+      }
+
+      #success-algorithm-event .hero-orn-1 {
+        top: 40px;
+        left: -30px;
+        width: 180px;
+        height: 180px;
+        background-image: var(--orn-circle);
+        transform: rotate(-12deg);
+      }
+
+      #success-algorithm-event .hero-orn-2 {
+        bottom: 30px;
+        right: -10px;
+        width: 220px;
+        height: 220px;
+        background-image: var(--orn-line);
+        transform: rotate(10deg);
+      }
+
+      #success-algorithm-event .about-orn-1 {
+        top: 18px;
+        right: 4%;
+        width: 110px;
+        height: 110px;
+        background-image: var(--orn-semi);
+      }
+
+      #success-algorithm-event .benefits-orn-1 {
+        bottom: 12px;
+        left: 2%;
+        width: 130px;
+        height: 130px;
+        background-image: var(--orn-circle);
+      }
+
+      #success-algorithm-event .program-orn-1 {
+        top: 40px;
+        left: 1%;
+        width: 120px;
+        height: 120px;
+        background-image: var(--orn-semi);
+      }
+
+      #success-algorithm-event .steps-orn-1 {
+        top: 30px;
+        right: 2%;
+        width: 140px;
+        height: 140px;
+        background-image: var(--orn-line);
+      }
+
+      #success-algorithm-event .speaker-orn-1 {
+        bottom: 20px;
+        left: 2%;
+        width: 110px;
+        height: 110px;
+        background-image: var(--orn-circle);
+      }
+
+      #success-algorithm-event .faq-orn-1 {
+        top: 20px;
+        right: 1%;
+        width: 120px;
+        height: 120px;
+        background-image: var(--orn-semi);
+      }
+
+      @media (max-width: 1100px) {
+        #success-algorithm-event .hero-grid,
+        #success-algorithm-event .cards-3,
+        #success-algorithm-event .cards-2,
+        #success-algorithm-event .steps {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 767px) {
+        #success-algorithm-event .hero {
+          padding: 64px 0 50px;
+        }
+
+        #success-algorithm-event h1 {
+          font-size: 36px;
+        }
+
+        #success-algorithm-event .section-title,
+        #success-algorithm-event .cta-box h2 {
+          font-size: 30px;
+        }
+
+        #success-algorithm-event .hero-subtitle,
+        #success-algorithm-event .section-text,
+        #success-algorithm-event .cta-box p {
+          font-size: 17px;
+        }
+
+        #success-algorithm-event .stats {
+          grid-template-columns: 1fr;
+        }
+
+        #success-algorithm-event .btns {
+          flex-direction: column;
+        }
+
+        #success-algorithm-event .btn {
+          width: 100%;
+        }
+
+        #success-algorithm-event .logo-wrap {
+          align-items: flex-start;
+        }
+
+        #success-algorithm-event .logo-img {
+          width: 72px;
+          height: 72px;
+          min-width: 72px;
+        }
+
+        #success-algorithm-event .hero-banner,
+        #success-algorithm-event .speaker-banner {
+          min-height: 160px;
+        }
+
+        #success-algorithm-event .orn {
+          opacity: 0.08;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section id="success-algorithm-event">
+      <div class="hero">
+        <div class="orn orn-gold hero-orn-1"></div>
+        <div class="orn orn-gold hero-orn-2"></div>
+        <div class="wrap">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <div class="logo-wrap">
+                <div class="logo-img"></div>
+                <div class="logo-text">Събитие за лична трансформация и действие</div>
+              </div>
+              <div class="badge">Събитие на живо</div>
+              <h1>„Алгоритмите за успеха като мотивация на действие – от идея до резултат“</h1>
+              <p class="hero-subtitle">
+                Това не е поредното събитие, което временно ще те вдъхнови. Това е практическо преживяване, което ще ти помогне да разбереш какво те спира, да подредиш вътрешния си процес и да направиш реална първа крачка към идея, която досега си отлагал.
+              </p>
+              <div class="line-accent hero-line" aria-hidden="true"></div>
+              <div class="banner-slot hero-banner" aria-hidden="true">
+                <span>Hero banner</span>
+              </div>
+              <div class="btns">
+                <a href="#registration" class="btn btn-primary">Запази място</a>
+                <a href="#program" class="btn btn-secondary">Виж програмата</a>
+              </div>
+              <div class="stats">
+                <div class="stat">
+                  <strong>11</strong>
+                  <span>модула и упражнения</span>
+                </div>
+                <div class="stat">
+                  <strong>Практика</strong>
+                  <span>не просто мотивация, а метод</span>
+                </div>
+                <div class="stat">
+                  <strong>1 стъпка</strong>
+                  <span>към реално действие още сега</span>
+                </div>
+              </div>
+            </div>
+            <div class="hero-card">
+              <h3>Детайли за събитието</h3>
+              <div class="event-info">
+                <div><strong>Дата:</strong> [добави дата]</div>
+                <div><strong>Час:</strong> [добави час]</div>
+                <div><strong>Място:</strong> [добави локация]</div>
+                <div><strong>Формат:</strong> събитие на живо с упражнения, осъзнаване и конкретен модел за действие</div>
+                <div><strong>Подходящо за:</strong> хора с идеи, предприемачи, професионалисти, хора в преход и всеки, който иска да спре отлагането</div>
+              </div>
+              <div class="btns">
+                <a href="#" class="btn btn-primary">Регистрирай се</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section section-light">
+        <div class="orn orn-gold about-orn-1"></div>
+        <div class="wrap">
+          <h2 class="section-title">Защо това събитие е различно</h2>
+          <p class="section-text">
+            Повечето хора не се провалят, защото не знаят какво да правят. Провалят се, защото не действат. И не защото са мързеливи, а защото имат вътрешен конфликт, който ги връща назад точно когато решат да тръгнат напред.
+          </p>
+          <div class="quote-box">„Днес няма да говорим за мотивация. Ще говорим за алгоритъм.“</div>
+        </div>
+      </div>
+
+      <div class="section section-soft">
+        <div class="orn orn-navy benefits-orn-1"></div>
+        <div class="wrap">
+          <h2 class="section-title">Какво ще получиш</h2>
+          <p class="section-text">
+            Ще получиш яснота, вътрешно раздвижване и конкретна първа стъпка към нещо, което е важно за теб. Не просто идея, а посока и действие.
+          </p>
+          <div class="cards-3">
+            <div class="card">
+              <h3>Яснота</h3>
+              <p>Ще разбереш какво реално те спира и защо знанието само по себе си не е достатъчно, за да преминеш към действие.</p>
+            </div>
+            <div class="card">
+              <h3>Вътрешна промяна</h3>
+              <p>Ще разпознаеш модела на вътрешния саботьор, ще видиш къде губиш енергия и как да излезеш от това състояние.</p>
+            </div>
+            <div class="card">
+              <h3>Конкретна посока</h3>
+              <p>Ще си тръгнеш с ясна формулировка на следващата стъпка и с решение какво ще направиш още утре.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section section-light">
+        <div class="wrap">
+          <h2 class="section-title">За кого е това събитие</h2>
+          <div class="cards-2">
+            <div class="card">
+              <h3>Подходящо е за теб, ако:</h3>
+              <ul class="bullet-list">
+                <li>имаш идея или цел, която отлагаш отдавна</li>
+                <li>често знаеш какво трябва да направиш, но не го правиш</li>
+                <li>самосъмнението, страхът или перфекционизмът те спират</li>
+                <li>искаш по-дълбока вътрешна работа, а не просто временен ентусиазъм</li>
+                <li>търсиш практичен модел, който можеш да приложиш веднага</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Няма да е за теб, ако:</h3>
+              <ul class="bullet-list">
+                <li>искаш само да слушаш, без да участваш</li>
+                <li>не си готов да погледнеш честно какво те спира</li>
+                <li>очакваш бърз ефект без лична ангажираност</li>
+                <li>не искаш да превръщаш идеите си в конкретни действия</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="program" class="section section-soft">
+        <div class="orn orn-gold program-orn-1"></div>
+        <div class="wrap">
+          <h2 class="section-title">Програма на събитието</h2>
+          <p class="section-text">
+            Програмата е изградена така, че да преведе участниците от осъзнаване към вътрешно решение и конкретно действие.
+          </p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-top">
+                <h3 class="timeline-title">1. Откриване и създаване на енергия</h3>
+                <div class="timeline-time">15 мин</div>
+              </div>
+              <p>Мария започва със силен въпрос към залата и рамкира събитието: няма да се говори за мотивация, а за алгоритъм.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-top">
+                <h3 class="timeline-title">2. Упражнение „Идеята, която чака“</h3>
+                <div class="timeline-time">10 мин</div>
+              </div>
+              <p>Всеки записва идея, която отлага, и от колко време. Това отваря личния процес и подготвя почвата за реална вътрешна работа.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-top">
+                <h3 class="timeline-title">3. Психология на бездействието</h3>
+                <div class="timeline-time">40 мин</div>
+              </div>
+              <p>Разглеждаме механизмите зад вътрешното блокиране: страх от провал, страх от успех, синдром на самозванеца и перфекционизъм.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-top">
+                <h3 class="timeline-title">4. Алгоритъм от идея до резултат</h3>
+                <div class="timeline-time">45 мин</div>
+              </div>
+              <p>Ясна система за преминаване от вътрешна яснота към действие, последователност и устойчив резултат.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section section-light">
+        <div class="orn orn-navy steps-orn-1"></div>
+        <div class="wrap">
+          <h2 class="section-title">5-те стъпки от идея до резултат</h2>
+          <p class="section-text">
+            Ясна рамка, която участниците ще разберат, упражнят и приложат към своята лична или професионална идея.
+          </p>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <h4>Яснота</h4>
+              <p>Какво искаш, защо го искаш и какво има значение за теб.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <h4>Решение</h4>
+              <p>Вътрешният избор, без който няма реално движение.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <h4>Първо действие</h4>
+              <p>Малката, но реална крачка, която отключва инерция.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <h4>Система</h4>
+              <p>Как да не разчиташ само на настроение и временен импулс.</p>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <h4>Подкрепа</h4>
+              <p>Среда и процес, които държат посоката жива.</p>
+            </div>
+          </div>
+          <div class="quote-box" style="margin-top: 32px;">„Мотивацията идва след действието, не преди него.“</div>
+        </div>
+      </div>
+
+      <div class="section section-soft">
+        <div class="orn orn-gold speaker-orn-1"></div>
+        <div class="wrap">
+          <h2 class="section-title">Кои сме ние</h2>
+          <p class="section-text">
+            Тук сложи кратко, силно представяне на двете водещи, така че да изградиш доверие и усещане за стойност още преди регистрацията.
+          </p>
+          <div class="banner-slot speaker-banner" aria-hidden="true">
+            <span></span>
+          </div>
+          <div class="cards-2">
+            <div class="card">
+              <div class="speaker-label">Лектор</div>
+              <h3>Мария</h3>
+              <p>[Добави представяне на Мария – опит, работа с хора, НЛП, трансформационни процеси и как помага на хората да преминат от вътрешен блокаж към действие.]</p>
+            </div>
+            <div class="card">
+              <div class="speaker-label">Лектор</div>
+              <h3>Ваня</h3>
+              <p>[Добави представяне на Ваня – експертиза в психологията на поведението, ограничаващите модели, самосаботажа и практическата вътрешна работа.]</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section section-light">
+        <div class="wrap">
+          <h2 class="section-title">Специална възможност само за участниците</h2>
+          <p class="section-text">
+            Събитието е началото. По-дълбоката трансформация идва, когато човек започне да работи по-системно със своите модели на мислене и поведение.
+          </p>
+          <div class="cards-2">
+            <div class="card">
+              <h3>Програма „Алгоритъм за личен успех“</h3>
+              <ul class="bullet-list">
+                <li>3 индивидуални сесии или 6-седмична програма</li>
+                <li>по-дълбока работа върху вътрешните блокажи</li>
+                <li>нови стратегии за мислене и действие</li>
+                <li>ясна структура, подкрепа и процес</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Само за присъстващите</h3>
+              <ul class="bullet-list">
+                <li>специални условия за записване</li>
+                <li>ограничени места</li>
+                <li>възможност за продължаване на процеса след събитието</li>
+                <li>подходящо за хора, които искат реален резултат</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="registration" class="section section-soft">
+        <div class="wrap">
+          <div class="cta-box">
+            <h2>Запази своето място</h2>
+            <p>
+              Ако си готов да спреш да отлагаш, да разбереш какво реално те спира и да направиш първата истинска крачка към твоята идея, това събитие е за теб.
+            </p>
+            <div class="btns" style="justify-content: center;">
+              <a href="#" class="btn btn-primary">Регистрирай се сега</a>
+              <a href="#faq" class="btn btn-secondary">Често задавани въпроси</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="faq" class="section section-light">
+        <div class="orn orn-navy faq-orn-1"></div>
+        <div class="wrap">
+          <h2 class="section-title">Често задавани въпроси</h2>
+          <div class="faq">
+            <div class="faq-item">
+              <h3>Това мотивационно събитие ли е?</h3>
+              <p>Не. Това е практическо събитие с упражнения, осъзнаване и конкретна рамка за действие. Целта не е временен емоционален подем, а вътрешно решение и реална стъпка.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Подходящо ли е, ако още не съм напълно сигурен каква е идеята ми?</h3>
+              <p>Да. Част от събитието е именно да внесе яснота, да подреди мисленето ти и да ти помогне да видиш каква е следващата правилна крачка.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Ще има ли упражнения?</h3>
+              <p>Да. Събитието включва индивидуални задачи, работа по двойки и практическо приложение на модела.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Какво да нося?</h3>
+              <p>Носи тефтер, химикал и готовност да бъдеш честен със себе си. Това е най-важното.</p>
+            </div>
+          </div>
+          <div class="footer-note">
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

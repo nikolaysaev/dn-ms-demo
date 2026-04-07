@@ -1,0 +1,17 @@
+[Unit]
+Description=DN HTML demo static server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/dn-html-demo
+Environment=HOST=0.0.0.0
+Environment=PORT=3131
+ExecStart=/usr/bin/python3 /opt/dn-html-demo/main.py
+Restart=always
+RestartSec=3
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target
