@@ -339,12 +339,33 @@
         background: linear-gradient(135deg, var(--gold), var(--gold-light));
         color: #171717;
         box-shadow: 0 12px 28px rgba(204, 153, 0, 0.28);
+        border: 1px solid rgba(204, 153, 0, 0.45);
+      }
+
+      #success-algorithm-event .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 36px rgba(204, 153, 0, 0.36);
       }
 
       #success-algorithm-event .btn-secondary {
         border: 1px solid rgba(0, 0, 128, 0.2);
         color: var(--navy);
         background: rgba(255, 255, 255, 0.86);
+        box-shadow: 0 8px 18px rgba(0, 0, 128, 0.08);
+      }
+
+      #success-algorithm-event .section-cta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        margin-top: 28px;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .section-cta .btn {
+        min-width: 220px;
       }
 
       #success-algorithm-event .hero-card {
@@ -730,6 +751,51 @@
         line-height: 1.8;
       }
 
+      #success-algorithm-event .testimonials {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .testimonial {
+        padding: 28px;
+        border-radius: 24px;
+        background: #fff;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+
+      #success-algorithm-event .testimonial-tag {
+        display: inline-block;
+        margin-bottom: 14px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(0, 0, 128, 0.07);
+        color: var(--navy);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      #success-algorithm-event .testimonial p {
+        margin: 0 0 16px;
+        color: #223047;
+        line-height: 1.8;
+      }
+
+      #success-algorithm-event .testimonial strong {
+        display: block;
+        color: var(--navy);
+      }
+
+      #success-algorithm-event .testimonial span {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
       #success-algorithm-event .footer-note {
         position: relative;
         z-index: 2;
@@ -809,7 +875,8 @@
         #success-algorithm-event .hero-grid,
         #success-algorithm-event .cards-3,
         #success-algorithm-event .cards-2,
-        #success-algorithm-event .steps {
+        #success-algorithm-event .steps,
+        #success-algorithm-event .testimonials {
           grid-template-columns: 1fr;
         }
       }
@@ -932,6 +999,9 @@
             Повечето хора не се провалят, защото нямат потенциал. Провалят се, защото твърде дълго чакат “точния момент”. Това събитие е създадено, за да ти помогне да прекъснеш този модел и да превърнеш идеята си в реално движение.
           </p>
           <div class="quote-box">„Няма да си тръгнеш само вдъхновен. Ще си тръгнеш с решение и посока.“</div>
+          <div class="section-cta">
+            <a href="#registration" class="btn btn-primary">Запази мястото си</a>
+          </div>
         </div>
       </div>
 
@@ -955,6 +1025,9 @@
               <h3>Конкретен следващ ход</h3>
               <p>Ще си тръгнеш с ясно формулирана стъпка, която можеш да изпълниш веднага, вместо отново да оставиш идеята за “някой ден”.</p>
             </div>
+          </div>
+          <div class="section-cta">
+            <a href="#registration" class="btn btn-primary">Искам да участвам</a>
           </div>
         </div>
       </div>
@@ -982,6 +1055,9 @@
                 <li>предпочиташ да останеш в зоната на извиненията вместо да направиш следващата крачка</li>
               </ul>
             </div>
+          </div>
+          <div class="section-cta">
+            <a href="#registration" class="btn btn-primary">Това е за мен</a>
           </div>
         </div>
       </div>
@@ -1023,6 +1099,9 @@
               <p>Ще получиш конкретен модел, който да приложиш веднага след събитието, така че да не се върнеш към старото отлагане, а да започнеш с ясно действие.</p>
             </div>
           </div>
+          <div class="section-cta">
+            <a href="#registration" class="btn btn-primary">Запази място за събитието</a>
+          </div>
         </div>
       </div>
 
@@ -1061,6 +1140,41 @@
             </div>
           </div>
           <div class="quote-box" style="margin-top: 32px;">„Когато започнеш да действаш, увереността идва след теб.“</div>
+          <div class="section-cta">
+            <a href="#registration" class="btn btn-primary">Искам този резултат</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="section section-soft">
+        <div class="wrap">
+          <h2 class="section-title">Отзиви от участници</h2>
+          <p class="section-text">
+            Добави тук реални отзиви от хора, които вече са минали през подобна работа с вас. По-долу е примерен формат, който да замените с истински мнения и истински имена само с разрешение.
+          </p>
+          <div class="testimonials">
+            <div class="testimonial">
+              <div class="testimonial-tag">Примерен отзив</div>
+              <p>„Влязох с хаос в главата и излязох с ясно решение какво да направя още на следващия ден. Това беше моментът, в който спрях да отлагам.“</p>
+              <strong>[Име на клиент]</strong>
+              <span>[Позиция / бизнес / град]</span>
+            </div>
+            <div class="testimonial">
+              <div class="testimonial-tag">Примерен отзив</div>
+              <p>„Най-силното за мен беше, че не получих просто вдъхновение, а структура. За първи път усетих, че имам реален път напред.“</p>
+              <strong>[Име на клиент]</strong>
+              <span>[Позиция / бизнес / град]</span>
+            </div>
+            <div class="testimonial">
+              <div class="testimonial-tag">Примерен отзив</div>
+              <p>„Това събитие ми помогна да видя как сама се спирам и какво точно да променя. Само тази яснота си струваше присъствието.“</p>
+              <strong>[Име на клиент]</strong>
+              <span>[Позиция / бизнес / град]</span>
+            </div>
+          </div>
+          <div class="section-cta">
+            <a href="#registration" class="btn btn-primary">Искам да съм сред участниците</a>
+          </div>
         </div>
       </div>
 
@@ -1085,6 +1199,9 @@
               <h3>Ваня</h3>
               <p>[Добави силно био на Ваня: експертиза в психологията на поведението, ограничаващите модели, самосаботажа и практическата вътрешна работа.]</p>
             </div>
+          </div>
+          <div class="section-cta">
+            <a href="#registration" class="btn btn-primary">Запази място сега</a>
           </div>
         </div>
       </div>
@@ -1114,6 +1231,9 @@
                 <li>идеално за участници, които искат реален резултат, а не временен ентусиазъм</li>
               </ul>
             </div>
+          </div>
+          <div class="section-cta">
+            <a href="#registration" class="btn btn-primary">Искам достъп до това</a>
           </div>
         </div>
       </div>
@@ -1154,6 +1274,33 @@
               <h3>Защо да се регистрирам сега?</h3>
               <p>Защото най-голямата цена често не е билетът, а още един месец отлагане. Ако знаеш, че е време да тръгнеш напред, запази мястото си сега и си дай шанс за реален старт.</p>
             </div>
+            <div class="faq-item">
+              <h3>Подходящо ли е, ако имам бизнес, но се чувствам блокиран?</h3>
+              <p>Да. Събитието е особено ценно за хора, които имат потенциал, идеи и амбиция, но не успяват да превърнат това в последователно действие и растеж.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Подходящо ли е, ако съм в преход и още търся посоката си?</h3>
+              <p>Да. Ако си между етапи и имаш нужда от яснота каква е следващата ти стъпка, това събитие ще ти помогне да подредиш мисленето си и да спреш да се луташ.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Ще си тръгна ли с нещо конкретно, а не само с усещане?</h3>
+              <p>Това е целта. Да си тръгнеш с реално решение, конкретна стъпка и вътрешна яснота как да продължиш след събитието.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Колко места има?</h3>
+              <p>Местата са ограничени, за да се запази качеството на преживяването и реалното участие. Ако знаеш, че това събитие е за теб, не отлагай регистрацията.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Какво се случва след регистрация?</h3>
+              <p>Ще получиш потвърждение и последваща информация за събитието. Ако добавите билетен процес или плащане, тук може да се опише и следващата стъпка към финализиране на участието.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Какво ако се колебая дали това е правилният момент?</h3>
+              <p>Именно колебанието е един от най-честите начини човек да остане на едно място. Ако усещаш, че имаш нужда от яснота и движение, това вероятно е точният момент да присъстваш.</p>
+            </div>
+          </div>
+          <div class="section-cta">
+            <a href="#registration" class="btn btn-primary">Запази място преди да се запълнят</a>
           </div>
           <div class="footer-note">
             Смени линковете на бутоните, датата, часа, мястото и добави силни био текстове за лекторите преди публикуване.
