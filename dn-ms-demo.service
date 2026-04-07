@@ -1,0 +1,17 @@
+[Unit]
+Description=DN MS Demo landing page
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/srv/apps/dn-ms-demo/dn-ms-demo
+Environment=HOST=127.0.0.1
+Environment=PORT=3131
+ExecStart=/usr/bin/python3 /srv/apps/dn-ms-demo/dn-ms-demo/main.py
+Restart=always
+RestartSec=3
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
