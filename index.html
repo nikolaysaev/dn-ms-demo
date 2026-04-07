@@ -6,24 +6,25 @@
     <title>Алгоритъм за успеха</title>
     <style>
       /*
-        Quick asset setup: replace the URLs below.
+        Quick asset setup
         --logo: square transparent PNG/SVG logo.
-        --orn-line: thin decorative line / arc PNG or SVG with transparent background.
-        --orn-circle: circular ring ornament PNG/SVG with transparent background.
-        --orn-semi: half-circle / corner ornament PNG/SVG with transparent background.
-        --hero-banner: wide horizontal banner, recommended 1600x900.
-        --speaker-banner: wide horizontal banner, recommended 1600x700.
+        --orn-line: thin decorative line / arc PNG or SVG.
+        --orn-circle: circular transparent ornament.
+        --orn-semi: corner / half-circle transparent ornament.
+        --hero-banner: recommended 1600x900.
+        --speaker-banner: recommended 1600x700.
       */
-
-      #success-algorithm-event * {
-        box-sizing: border-box;
-      }
 
       body {
         margin: 0;
         background: #f7f3e8;
-        font-family: Arial, Helvetica, sans-serif;
         color: #162033;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      #success-algorithm-event,
+      #success-algorithm-event * {
+        box-sizing: border-box;
       }
 
       #success-algorithm-event {
@@ -53,18 +54,16 @@
       }
 
       #success-algorithm-event .wrap {
-        width: 100%;
-        max-width: var(--max);
+        width: min(1180px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 0 20px;
         position: relative;
         z-index: 2;
       }
 
       #success-algorithm-event .section {
         position: relative;
-        padding: 78px 0;
         overflow: hidden;
+        padding: 82px 0;
       }
 
       #success-algorithm-event .section-light {
@@ -75,68 +74,22 @@
         background: var(--cream);
       }
 
-      #success-algorithm-event .section-title {
-        margin: 0 0 16px;
-        font-size: 38px;
-        line-height: 1.15;
-        font-weight: 800;
-        text-align: center;
-        color: var(--navy);
-        position: relative;
-        z-index: 2;
-      }
-
-      #success-algorithm-event .section-title:after {
-        content: "";
-        display: block;
-        width: 110px;
-        height: 28px;
-        margin: 14px auto 0;
-        background-image: var(--orn-line);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        opacity: 0.22;
-      }
-
-      #success-algorithm-event .section-text {
-        max-width: 820px;
-        margin: 0 auto 40px;
-        text-align: center;
-        color: var(--muted);
-        font-size: 18px;
-        line-height: 1.75;
-        position: relative;
-        z-index: 2;
-      }
-
       #success-algorithm-event .orn {
         position: absolute;
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center;
         pointer-events: none;
-        opacity: 0.18;
         z-index: 1;
-      }
-
-      #success-algorithm-event .orn-gold {
-        opacity: 0.16;
-      }
-
-      #success-algorithm-event .orn-navy {
-        opacity: 0.09;
       }
 
       #success-algorithm-event .hero {
         position: relative;
+        padding: 82px 0 64px;
         background:
           radial-gradient(circle at top left, rgba(0, 0, 128, 0.08), transparent 24%),
           radial-gradient(circle at 92% 16%, rgba(204, 153, 0, 0.18), transparent 20%),
-          linear-gradient(135deg, #ffffff, #fffaf0 58%, #f7f6ff 100%);
-        color: var(--navy);
-        padding: 90px 0 70px;
-        overflow: hidden;
+          linear-gradient(135deg, #ffffff, #fffaf0 58%, #f8f7ff 100%);
       }
 
       #success-algorithm-event .hero:before {
@@ -152,28 +105,22 @@
 
       #success-algorithm-event .hero-grid {
         display: grid;
-        grid-template-columns: 1.12fr 0.88fr;
-        gap: 36px;
-        align-items: center;
-        position: relative;
-        z-index: 2;
-      }
-
-      #success-algorithm-event .hero-copy {
-        position: relative;
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 34px;
+        align-items: start;
       }
 
       #success-algorithm-event .logo-wrap {
         display: flex;
         align-items: center;
-        gap: 26px;
-        margin-bottom: 22px;
+        gap: 22px;
+        margin-bottom: 20px;
       }
 
       #success-algorithm-event .logo-img {
-        width: 124px;
-        height: 124px;
-        min-width: 84px;
+        width: 120px;
+        height: 120px;
+        min-width: 120px;
         padding: 10px;
         border-radius: 20px;
         background-image: var(--logo);
@@ -182,7 +129,7 @@
         background-size: contain;
         background-origin: content-box;
         background-clip: content-box;
-        background-color: rgba(255, 255, 255, 0.04);
+        background-color: rgba(255, 255, 255, 0.06);
         border: 1px solid rgba(0, 0, 128, 0.12);
         box-shadow: 0 10px 30px rgba(0, 0, 128, 0.1);
       }
@@ -195,7 +142,7 @@
         font-weight: 700;
       }
 
-      #success-algorithm-event .badge {
+      #success-algorithm-event .eyebrow {
         display: inline-block;
         margin-bottom: 18px;
         padding: 9px 16px;
@@ -217,25 +164,54 @@
       }
 
       #success-algorithm-event h1 {
-        margin-bottom: 20px;
-        max-width: 850px;
-        font-size: 52px;
-        line-height: 1.08;
+        margin-bottom: 18px;
+        max-width: 760px;
+        font-size: clamp(2.6rem, 5.7vw, 4.4rem);
+        line-height: 1.02;
         font-weight: 800;
         color: var(--navy);
       }
 
       #success-algorithm-event .hero-subtitle {
-        max-width: 760px;
-        margin-bottom: 28px;
+        max-width: 720px;
+        margin: 0 0 18px;
         font-size: 20px;
-        line-height: 1.8;
+        line-height: 1.75;
         color: #33406f;
+      }
+
+      #success-algorithm-event .lead-points {
+        display: grid;
+        gap: 12px;
+        margin: 0 0 28px;
+        padding: 0;
+        list-style: none;
+      }
+
+      #success-algorithm-event .lead-points li {
+        position: relative;
+        padding-left: 30px;
+        font-size: 17px;
+        line-height: 1.65;
+        color: #23314f;
+      }
+
+      #success-algorithm-event .lead-points li:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        box-shadow: 0 0 0 5px rgba(204, 153, 0, 0.14);
       }
 
       #success-algorithm-event .line-accent {
         width: 150px;
         height: 42px;
+        margin: 0 0 18px;
         background-image: var(--orn-line);
         background-repeat: no-repeat;
         background-position: left center;
@@ -243,30 +219,21 @@
         opacity: 0.28;
       }
 
-      #success-algorithm-event .hero-line {
-        margin: -4px 0 24px;
-      }
-
-      #success-algorithm-event .banner-slot {
+      #success-algorithm-event .hero-banner {
         position: relative;
+        min-height: 200px;
+        margin-bottom: 28px;
         overflow: hidden;
-        border-radius: 24px;
+        border-radius: 26px;
         border: 1px solid rgba(0, 0, 128, 0.12);
         box-shadow: 0 18px 48px rgba(0, 0, 128, 0.1);
-      }
-
-      #success-algorithm-event .banner-slot:before {
-        content: "";
-        position: absolute;
-        inset: 0;
         background:
-          linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 42%),
-          linear-gradient(120deg, rgba(0, 0, 128, 0.34), rgba(204, 153, 0, 0.16));
-        z-index: 1;
-        pointer-events: none;
+          linear-gradient(135deg, rgba(0, 0, 128, 0.22), rgba(204, 153, 0, 0.18)),
+          var(--hero-banner) center/cover no-repeat,
+          linear-gradient(135deg, #eef1ff, #fff7e0);
       }
 
-      #success-algorithm-event .banner-slot:after {
+      #success-algorithm-event .hero-banner:after {
         content: "";
         position: absolute;
         right: 18px;
@@ -278,15 +245,12 @@
         background-position: center;
         background-size: contain;
         opacity: 0.22;
-        z-index: 1;
-        pointer-events: none;
       }
 
-      #success-algorithm-event .banner-slot span {
+      #success-algorithm-event .hero-banner span {
         position: absolute;
         left: 18px;
         top: 16px;
-        z-index: 2;
         display: inline-block;
         padding: 8px 12px;
         border-radius: 999px;
@@ -298,53 +262,39 @@
         text-transform: uppercase;
       }
 
-      #success-algorithm-event .hero-banner {
-        min-height: 190px;
-        margin: 0 0 28px;
-        background:
-          linear-gradient(135deg, rgba(0, 0, 128, 0.22), rgba(204, 153, 0, 0.18)),
-          var(--hero-banner) center/cover no-repeat,
-          linear-gradient(135deg, #eef1ff, #fff7e0);
-      }
-
-      #success-algorithm-event .speaker-banner {
-        min-height: 320px;
-        margin: 0 0 34px;
-        background:
-          linear-gradient(135deg, rgba(0, 0, 128, 0.24), rgba(204, 153, 0, 0.16)),
-          var(--speaker-banner) center/cover no-repeat,
-          linear-gradient(135deg, #f7f8ff, #fff7e5);
-      }
-
-      #success-algorithm-event .btns {
+      #success-algorithm-event .btns,
+      #success-algorithm-event .section-cta {
         display: flex;
         flex-wrap: wrap;
         gap: 14px;
-        margin-top: 10px;
+      }
+
+      #success-algorithm-event .section-cta {
+        justify-content: center;
+        margin-top: 28px;
       }
 
       #success-algorithm-event .btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 52px;
-        padding: 0 24px;
+        min-height: 56px;
+        padding: 0 26px;
         border-radius: 14px;
         font-size: 15px;
-        font-weight: 700;
-        transition: all 0.25s ease;
+        font-weight: 800;
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      #success-algorithm-event .btn:hover {
+        transform: translateY(-2px);
       }
 
       #success-algorithm-event .btn-primary {
         background: linear-gradient(135deg, var(--gold), var(--gold-light));
         color: #171717;
-        box-shadow: 0 12px 28px rgba(204, 153, 0, 0.28);
         border: 1px solid rgba(204, 153, 0, 0.45);
-      }
-
-      #success-algorithm-event .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 18px 36px rgba(204, 153, 0, 0.36);
+        box-shadow: 0 16px 36px rgba(204, 153, 0, 0.32);
       }
 
       #success-algorithm-event .btn-secondary {
@@ -354,133 +304,179 @@
         box-shadow: 0 8px 18px rgba(0, 0, 128, 0.08);
       }
 
-      #success-algorithm-event .section-cta {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 14px;
-        margin-top: 28px;
-        position: relative;
-        z-index: 2;
-      }
-
       #success-algorithm-event .section-cta .btn {
-        min-width: 220px;
+        min-width: 228px;
       }
 
-      #success-algorithm-event .hero-card {
+      #success-algorithm-event .hero-form-card {
         position: relative;
         padding: 30px;
-        border-radius: 26px;
+        border-radius: 28px;
         background: linear-gradient(155deg, rgba(0, 0, 128, 0.96), rgba(22, 22, 144, 0.94) 60%, rgba(204, 153, 0, 0.82));
         border: 1px solid rgba(204, 153, 0, 0.28);
-        backdrop-filter: blur(10px);
         box-shadow: 0 24px 60px rgba(0, 0, 128, 0.24);
         overflow: hidden;
       }
 
-      #success-algorithm-event .hero-card:before {
+      #success-algorithm-event .hero-form-card:before {
         content: "";
         position: absolute;
         top: -20px;
         right: -20px;
-        width: 160px;
-        height: 160px;
+        width: 170px;
+        height: 170px;
         background-image: var(--orn-circle);
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
         opacity: 0.1;
         transform: rotate(10deg);
-        pointer-events: none;
       }
 
-      #success-algorithm-event .hero-card h3 {
-        margin-bottom: 16px;
+      #success-algorithm-event .hero-form-card h3 {
+        margin-bottom: 12px;
         color: #fff;
-        font-size: 24px;
+        font-size: 28px;
       }
 
-      #success-algorithm-event .event-info {
-        display: grid;
-        gap: 12px;
-        margin-bottom: 24px;
+      #success-algorithm-event .hero-form-card .card-text {
+        margin: 0 0 22px;
+        color: rgba(255, 255, 255, 0.88);
+        line-height: 1.7;
       }
 
-      #success-algorithm-event .event-info div {
-        padding: 12px 14px;
-        border-radius: 14px;
+      #success-algorithm-event .meta-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 0 0 20px;
+      }
+
+      #success-algorithm-event .meta-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 999px;
         background: rgba(255, 255, 255, 0.12);
         color: #fff;
-        line-height: 1.55;
-        font-size: 15px;
+        font-size: 13px;
+        font-weight: 700;
       }
 
-      #success-algorithm-event .event-info strong {
-        color: var(--gold-soft);
+      #success-algorithm-event .lead-form {
+        display: grid;
+        gap: 12px;
       }
 
-      #success-algorithm-event .stats {
+      #success-algorithm-event .lead-form input {
+        width: 100%;
+        min-height: 54px;
+        padding: 0 16px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font: inherit;
+      }
+
+      #success-algorithm-event .lead-form input::placeholder {
+        color: rgba(255, 255, 255, 0.68);
+      }
+
+      #success-algorithm-event .lead-form .btn-primary {
+        width: 100%;
+      }
+
+      #success-algorithm-event .micro-copy {
+        margin: 14px 0 0;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      #success-algorithm-event .mini-proof {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 14px;
-        margin-top: 28px;
-        max-width: 760px;
+        margin-top: 24px;
       }
 
-      #success-algorithm-event .stat {
-        padding: 18px;
+      #success-algorithm-event .mini-proof-card {
+        padding: 18px 16px;
         border-radius: 18px;
         text-align: center;
         background: linear-gradient(180deg, rgba(0, 0, 128, 0.03), rgba(204, 153, 0, 0.08));
         border: 1px solid rgba(0, 0, 128, 0.12);
       }
 
-      #success-algorithm-event .stat strong {
+      #success-algorithm-event .mini-proof-card strong {
         display: block;
         margin-bottom: 6px;
-        font-size: 28px;
         color: var(--navy);
+        font-size: 28px;
       }
 
-      #success-algorithm-event .stat span {
+      #success-algorithm-event .mini-proof-card span {
         color: #4b5477;
         font-size: 14px;
-        line-height: 1.45;
+        line-height: 1.5;
       }
 
-      #success-algorithm-event .quote-box {
+      #success-algorithm-event .section-title {
+        margin: 0 0 16px;
+        font-size: 40px;
+        line-height: 1.12;
+        font-weight: 800;
+        text-align: center;
+        color: var(--navy);
         position: relative;
         z-index: 2;
-        padding: 24px 28px;
-        border-radius: 22px;
-        background: linear-gradient(135deg, #fff8df, #fffdf4);
-        border: 1px solid rgba(204, 153, 0, 0.35);
-        text-align: center;
-        font-size: 24px;
-        line-height: 1.55;
-        font-weight: 700;
-        color: var(--navy);
-        box-shadow: var(--shadow);
       }
 
+      #success-algorithm-event .section-title:after {
+        content: "";
+        display: block;
+        width: 110px;
+        height: 28px;
+        margin: 14px auto 0;
+        background-image: var(--orn-line);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.22;
+      }
+
+      #success-algorithm-event .section-text {
+        max-width: 860px;
+        margin: 0 auto 38px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.8;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .cards-2,
       #success-algorithm-event .cards-3,
-      #success-algorithm-event .cards-2 {
+      #success-algorithm-event .testimonials {
         display: grid;
         gap: 24px;
         position: relative;
         z-index: 2;
       }
 
-      #success-algorithm-event .cards-3 {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
       #success-algorithm-event .cards-2 {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      #success-algorithm-event .card {
+      #success-algorithm-event .cards-3,
+      #success-algorithm-event .testimonials {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      #success-algorithm-event .card,
+      #success-algorithm-event .testimonial {
         position: relative;
         overflow: hidden;
         height: 100%;
@@ -506,22 +502,37 @@
         pointer-events: none;
       }
 
-      #success-algorithm-event .card h3 {
+      #success-algorithm-event .card h3,
+      #success-algorithm-event .testimonial h3 {
         margin-bottom: 12px;
         font-size: 22px;
         color: var(--navy);
       }
 
-      #success-algorithm-event .card p {
+      #success-algorithm-event .card p,
+      #success-algorithm-event .testimonial p {
         margin: 0;
         color: var(--muted);
         line-height: 1.8;
       }
 
+      #success-algorithm-event .quote-box {
+        padding: 24px 28px;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #fff8df, #fffdf4);
+        border: 1px solid rgba(204, 153, 0, 0.35);
+        text-align: center;
+        font-size: 24px;
+        line-height: 1.55;
+        font-weight: 700;
+        color: var(--navy);
+        box-shadow: var(--shadow);
+      }
+
       #success-algorithm-event .bullet-list {
-        list-style: none;
-        padding: 0;
         margin: 16px 0 0;
+        padding: 0;
+        list-style: none;
       }
 
       #success-algorithm-event .bullet-list li {
@@ -546,8 +557,6 @@
       #success-algorithm-event .timeline {
         display: grid;
         gap: 18px;
-        position: relative;
-        z-index: 2;
       }
 
       #success-algorithm-event .timeline-item {
@@ -582,14 +591,14 @@
       #success-algorithm-event .timeline-title {
         margin: 0;
         font-size: 22px;
-        color: var(--navy);
         font-weight: 800;
+        color: var(--navy);
       }
 
       #success-algorithm-event .timeline-time {
-        white-space: nowrap;
         padding: 8px 14px;
         border-radius: 999px;
+        white-space: nowrap;
         background: #fff8df;
         border: 1px solid rgba(204, 153, 0, 0.28);
         color: var(--navy);
@@ -607,7 +616,6 @@
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: 18px;
-        margin-top: 32px;
         position: relative;
         z-index: 2;
       }
@@ -615,9 +623,9 @@
       #success-algorithm-event .step {
         padding: 24px 18px;
         text-align: center;
+        border-radius: 24px;
         background: #fff;
         border: 1px solid var(--border);
-        border-radius: 24px;
         box-shadow: var(--shadow);
       }
 
@@ -649,25 +657,122 @@
         color: var(--muted);
       }
 
-      #success-algorithm-event .speaker-label {
+      #success-algorithm-event .speaker-banner {
+        position: relative;
+        min-height: 320px;
+        margin: 0 0 34px;
+        overflow: hidden;
+        border-radius: 26px;
+        border: 1px solid rgba(0, 0, 128, 0.12);
+        box-shadow: 0 18px 48px rgba(0, 0, 128, 0.1);
+        background:
+          linear-gradient(135deg, rgba(0, 0, 128, 0.24), rgba(204, 153, 0, 0.16)),
+          var(--speaker-banner) center/cover no-repeat,
+          linear-gradient(135deg, #f7f8ff, #fff7e5);
+      }
+
+      #success-algorithm-event .speaker-banner span {
+        position: absolute;
+        left: 18px;
+        top: 16px;
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.84);
+        color: var(--navy);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      #success-algorithm-event .speaker-label,
+      #success-algorithm-event .testimonial-tag {
         display: inline-block;
         margin-bottom: 14px;
         padding: 7px 12px;
         border-radius: 999px;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      #success-algorithm-event .speaker-label {
         color: var(--navy);
         background: #fff8df;
         border: 1px solid rgba(204, 153, 0, 0.3);
-        text-transform: uppercase;
-        letter-spacing: 0.4px;
+      }
+
+      #success-algorithm-event .testimonial-tag {
+        background: rgba(0, 0, 128, 0.07);
+        color: var(--navy);
+      }
+
+      #success-algorithm-event .testimonial strong {
+        display: block;
+        margin-top: 16px;
+        color: var(--navy);
+      }
+
+      #success-algorithm-event .testimonial span {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      #success-algorithm-event .offer-box {
+        position: relative;
+        padding: 34px;
+        border-radius: 28px;
+        background: linear-gradient(135deg, #fffdf7, #fff7e5);
+        border: 1px solid rgba(204, 153, 0, 0.26);
+        box-shadow: var(--shadow);
+      }
+
+      #success-algorithm-event .offer-box h3 {
+        margin-bottom: 12px;
+        font-size: 30px;
+        color: var(--navy);
+      }
+
+      #success-algorithm-event .offer-box p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      #success-algorithm-event .urgency-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 22px;
+      }
+
+      #success-algorithm-event .urgency-item {
+        padding: 16px 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(0, 0, 128, 0.09);
+        text-align: center;
+      }
+
+      #success-algorithm-event .urgency-item strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--navy);
+        font-size: 18px;
+      }
+
+      #success-algorithm-event .urgency-item span {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
       }
 
       #success-algorithm-event .cta-box {
         position: relative;
-        z-index: 2;
         overflow: hidden;
-        padding: 48px 34px;
+        padding: 52px 34px;
         border-radius: 30px;
         background: linear-gradient(135deg, var(--navy-3), var(--navy));
         color: #fff;
@@ -688,7 +793,6 @@
         background-size: contain;
         opacity: 0.12;
         transform: rotate(-8deg);
-        pointer-events: none;
       }
 
       #success-algorithm-event .cta-box:after {
@@ -703,39 +807,32 @@
         background-position: center;
         background-size: contain;
         opacity: 0.1;
-        pointer-events: none;
       }
 
       #success-algorithm-event .cta-box h2 {
         margin-bottom: 14px;
-        font-size: 40px;
+        font-size: 42px;
         color: #fff;
-        position: relative;
-        z-index: 2;
       }
 
       #success-algorithm-event .cta-box p {
         max-width: 760px;
         margin: 0 auto 24px;
-        font-size: 18px;
+        font-size: 19px;
         line-height: 1.8;
-        color: rgba(255, 255, 255, 0.86);
-        position: relative;
-        z-index: 2;
+        color: rgba(255, 255, 255, 0.88);
       }
 
       #success-algorithm-event .faq {
         display: grid;
         gap: 16px;
-        position: relative;
-        z-index: 2;
       }
 
       #success-algorithm-event .faq-item {
         padding: 22px;
+        border-radius: 18px;
         background: #fff;
         border: 1px solid var(--border);
-        border-radius: 18px;
         box-shadow: var(--shadow);
       }
 
@@ -751,60 +848,6 @@
         line-height: 1.8;
       }
 
-      #success-algorithm-event .testimonials {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-        position: relative;
-        z-index: 2;
-      }
-
-      #success-algorithm-event .testimonial {
-        padding: 28px;
-        border-radius: 24px;
-        background: #fff;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow);
-      }
-
-      #success-algorithm-event .testimonial-tag {
-        display: inline-block;
-        margin-bottom: 14px;
-        padding: 7px 12px;
-        border-radius: 999px;
-        background: rgba(0, 0, 128, 0.07);
-        color: var(--navy);
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      #success-algorithm-event .testimonial p {
-        margin: 0 0 16px;
-        color: #223047;
-        line-height: 1.8;
-      }
-
-      #success-algorithm-event .testimonial strong {
-        display: block;
-        color: var(--navy);
-      }
-
-      #success-algorithm-event .testimonial span {
-        color: var(--muted);
-        font-size: 14px;
-      }
-
-      #success-algorithm-event .footer-note {
-        position: relative;
-        z-index: 2;
-        margin-top: 20px;
-        text-align: center;
-        color: #8a90a0;
-        font-size: 14px;
-      }
-
       #success-algorithm-event .hero-orn-1 {
         top: 40px;
         left: -30px;
@@ -812,6 +855,7 @@
         height: 180px;
         background-image: var(--orn-circle);
         transform: rotate(-12deg);
+        opacity: 0.14;
       }
 
       #success-algorithm-event .hero-orn-2 {
@@ -821,6 +865,7 @@
         height: 220px;
         background-image: var(--orn-line);
         transform: rotate(10deg);
+        opacity: 0.18;
       }
 
       #success-algorithm-event .about-orn-1 {
@@ -829,6 +874,7 @@
         width: 110px;
         height: 110px;
         background-image: var(--orn-semi);
+        opacity: 0.12;
       }
 
       #success-algorithm-event .benefits-orn-1 {
@@ -837,6 +883,7 @@
         width: 130px;
         height: 130px;
         background-image: var(--orn-circle);
+        opacity: 0.09;
       }
 
       #success-algorithm-event .program-orn-1 {
@@ -845,6 +892,7 @@
         width: 120px;
         height: 120px;
         background-image: var(--orn-semi);
+        opacity: 0.12;
       }
 
       #success-algorithm-event .steps-orn-1 {
@@ -853,6 +901,7 @@
         width: 140px;
         height: 140px;
         background-image: var(--orn-line);
+        opacity: 0.14;
       }
 
       #success-algorithm-event .speaker-orn-1 {
@@ -861,6 +910,7 @@
         width: 110px;
         height: 110px;
         background-image: var(--orn-circle);
+        opacity: 0.1;
       }
 
       #success-algorithm-event .faq-orn-1 {
@@ -869,21 +919,24 @@
         width: 120px;
         height: 120px;
         background-image: var(--orn-semi);
+        opacity: 0.1;
       }
 
       @media (max-width: 1100px) {
         #success-algorithm-event .hero-grid,
-        #success-algorithm-event .cards-3,
         #success-algorithm-event .cards-2,
+        #success-algorithm-event .cards-3,
         #success-algorithm-event .steps,
-        #success-algorithm-event .testimonials {
+        #success-algorithm-event .testimonials,
+        #success-algorithm-event .urgency-strip,
+        #success-algorithm-event .mini-proof {
           grid-template-columns: 1fr;
         }
       }
 
       @media (max-width: 767px) {
         #success-algorithm-event .hero {
-          padding: 64px 0 50px;
+          padding: 60px 0 46px;
         }
 
         #success-algorithm-event h1 {
@@ -901,15 +954,13 @@
           font-size: 17px;
         }
 
-        #success-algorithm-event .stats {
-          grid-template-columns: 1fr;
-        }
-
-        #success-algorithm-event .btns {
+        #success-algorithm-event .btns,
+        #success-algorithm-event .section-cta {
           flex-direction: column;
         }
 
-        #success-algorithm-event .btn {
+        #success-algorithm-event .btn,
+        #success-algorithm-event .section-cta .btn {
           width: 100%;
         }
 
@@ -922,100 +973,117 @@
           height: 72px;
           min-width: 72px;
         }
-
-        #success-algorithm-event .hero-banner,
-        #success-algorithm-event .speaker-banner {
-          min-height: 160px;
-        }
-
-        #success-algorithm-event .orn {
-          opacity: 0.08;
-        }
       }
     </style>
   </head>
   <body>
     <section id="success-algorithm-event">
       <div class="hero">
-        <div class="orn orn-gold hero-orn-1"></div>
-        <div class="orn orn-gold hero-orn-2"></div>
+        <div class="orn hero-orn-1"></div>
+        <div class="orn hero-orn-2"></div>
         <div class="wrap">
           <div class="hero-grid">
-            <div class="hero-copy">
+            <div>
               <div class="logo-wrap">
                 <div class="logo-img"></div>
-              <div class="logo-text">Събитие, което превръща идеите в действие</div>
-            </div>
-              <div class="badge">Събитие на живо</div>
-              <h1>Спри да отлагаш. Подреди идеята си. Направи първата крачка към реален резултат.</h1>
+                <div class="logo-text">Събитие, което превръща идеите в действие</div>
+              </div>
+              <div class="eyebrow">Събитие на живо</div>
+              <h1>Спри да отлагаш. Подреди идеята си. Излез с ясен план за действие.</h1>
               <p class="hero-subtitle">
-                Това не е поредната доза мотивация, която ще забравиш след два дни. Това е практическо събитие, на което ще разбереш какво те спира, ще подредиш посоката си и ще излезеш с конкретен план за действие още същия ден.
+                Ако от месеци или години знаеш, че имаш потенциал за повече, но не успяваш да преминеш към действие, това събитие е създадено точно за теб. Тук няма да получиш поредната временна мотивация. Ще получиш яснота, структура и реален следващ ход.
               </p>
-              <div class="line-accent hero-line" aria-hidden="true"></div>
-              <div class="banner-slot hero-banner" aria-hidden="true">
+              <ul class="lead-points">
+                <li>Ще видиш какво реално те спира да действаш, дори когато знаеш какво искаш.</li>
+                <li>Ще подредиш идеята си така, че да спре да бъде само мисъл и да стане план.</li>
+                <li>Ще си тръгнеш с конкретна първа стъпка, а не само с добро усещане.</li>
+              </ul>
+              <div class="line-accent" aria-hidden="true"></div>
+              <div class="hero-banner" aria-hidden="true">
                 <span>Hero banner</span>
               </div>
               <div class="btns">
-                <a href="#registration" class="btn btn-primary">Запази място</a>
+                <a href="#registration" class="btn btn-primary">Запази място сега</a>
                 <a href="#program" class="btn btn-secondary">Виж програмата</a>
               </div>
-              <div class="stats">
-                <div class="stat">
-                  <strong>11</strong>
-                  <span>модула с реална стойност и упражнения</span>
+              <div class="mini-proof">
+                <div class="mini-proof-card">
+                  <strong>Практично</strong>
+                  <span>не вдъхновение за ден, а модел за реално движение</span>
                 </div>
-                <div class="stat">
-                  <strong>Практика</strong>
-                  <span>не просто вдъхновение, а работещ модел</span>
+                <div class="mini-proof-card">
+                  <strong>11 модула</strong>
+                  <span>структура, упражнения и ясно насочване към действие</span>
                 </div>
-                <div class="stat">
-                  <strong>Ясна стъпка</strong>
-                  <span>с която да започнеш веднага след събитието</span>
+                <div class="mini-proof-card">
+                  <strong>1 резултат</strong>
+                  <span>да спреш да стоиш на едно място и да тръгнеш напред</span>
                 </div>
               </div>
             </div>
-            <div class="hero-card">
-              <h3>Детайли за събитието</h3>
-              <div class="event-info">
-                <div><strong>Дата:</strong> [добави дата]</div>
-                <div><strong>Час:</strong> [добави час]</div>
-                <div><strong>Място:</strong> [добави локация]</div>
-                <div><strong>Формат:</strong> събитие на живо с упражнения, ясна структура и конкретни стъпки към действие</div>
-                <div><strong>Подходящо за:</strong> хора с идеи, предприемачи, професионалисти и всеки, който е готов да спре отлагането и да тръгне напред</div>
+
+            <div class="hero-form-card" id="registration">
+              <h3>Заяви интерес за участие</h3>
+              <p class="card-text">
+                Остави име, имейл и телефон. Когато местата и билетите са активни, ще получиш приоритетно информация и линк за записване.
+              </p>
+              <div class="meta-pills">
+                <span class="meta-pill">Местата са ограничени</span>
+                <span class="meta-pill">Приоритетен достъп</span>
+                <span class="meta-pill">Информация първо към теб</span>
               </div>
-              <div class="btns">
-                <a href="#" class="btn btn-primary">Запази мястото си</a>
-              </div>
+              <form class="lead-form">
+                <input type="text" placeholder="Твоето име" />
+                <input type="email" placeholder="Имейл адрес" />
+                <input type="tel" placeholder="Телефон" />
+                <a href="#" class="btn btn-primary">Искам да запазя място</a>
+              </form>
+              <p class="micro-copy">
+                Няма плащане на този етап. Оставяш контакт, за да получиш информация веднага щом регистрацията и билетите са активни.
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       <div class="section section-light">
-        <div class="orn orn-gold about-orn-1"></div>
+        <div class="orn about-orn-1"></div>
         <div class="wrap">
           <h2 class="section-title">Защо това събитие е различно</h2>
           <p class="section-text">
-            Повечето хора не се провалят, защото нямат потенциал. Провалят се, защото твърде дълго чакат “точния момент”. Това събитие е създадено, за да ти помогне да прекъснеш този модел и да превърнеш идеята си в реално движение.
+            Повечето хора не се провалят, защото нямат идея. Провалят се, защото остават прекалено дълго в колебание, страх и свръхмислене. Това събитие е създадено, за да прекъсне точно този модел и да те премести от “някой ден” към “започвам сега”.
           </p>
-          <div class="quote-box">„Няма да си тръгнеш само вдъхновен. Ще си тръгнеш с решение и посока.“</div>
+          <div class="cards-3">
+            <div class="card">
+              <h3>Не говорим общо</h3>
+              <p>Тук няма да слушаш абстрактни фрази за успех. Ще видиш как да преведеш идеята си в реална, изпълнима стъпка.</p>
+            </div>
+            <div class="card">
+              <h3>Не търсим емоционален пик</h3>
+              <p>Целта не е да си тръгнеш просто вдъхновен. Целта е да си тръгнеш решен и подготвен да действаш.</p>
+            </div>
+            <div class="card">
+              <h3>Не оставаш сам</h3>
+              <p>Ще получиш структура, която можеш да използваш и след събитието, вместо временен импулс, който изчезва след два дни.</p>
+            </div>
+          </div>
           <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Запази мястото си</a>
+            <a href="#registration" class="btn btn-primary">Да, това е за мен</a>
           </div>
         </div>
       </div>
 
       <div class="section section-soft">
-        <div class="orn orn-navy benefits-orn-1"></div>
+        <div class="orn benefits-orn-1"></div>
         <div class="wrap">
           <h2 class="section-title">Какво ще получиш</h2>
           <p class="section-text">
-            Ще получиш нещо много по-ценно от моментен ентусиазъм: яснота, вътрешна увереност и конкретен план как да започнеш още сега.
+            Ще получиш нещо много по-ценно от моментен ентусиазъм: яснота какво искаш, увереност как да започнеш и конкретен план за първата реална крачка.
           </p>
           <div class="cards-3">
             <div class="card">
               <h3>Яснота, която спестява време</h3>
-              <p>Ще разбереш какво реално те блокира и ще спреш да губиш месеци в колебание, свръхмислене и отлагане.</p>
+              <p>Ще разбереш какво точно те блокира и ще спреш да губиш месеци в отлагане, вътрешен шум и самосъмнение.</p>
             </div>
             <div class="card">
               <h3>Вътрешна промяна</h3>
@@ -1023,11 +1091,12 @@
             </div>
             <div class="card">
               <h3>Конкретен следващ ход</h3>
-              <p>Ще си тръгнеш с ясно формулирана стъпка, която можеш да изпълниш веднага, вместо отново да оставиш идеята за “някой ден”.</p>
+              <p>Ще си тръгнеш с реална стъпка, която можеш да изпълниш веднага, вместо отново да оставиш идеята за по-късно.</p>
             </div>
           </div>
+          <div class="quote-box" style="margin-top: 30px;">„Няма да си тръгнеш само вдъхновен. Ще си тръгнеш с решение и посока.“</div>
           <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Искам да участвам</a>
+            <a href="#registration" class="btn btn-primary">Искам този резултат</a>
           </div>
         </div>
       </div>
@@ -1035,24 +1104,27 @@
       <div class="section section-light">
         <div class="wrap">
           <h2 class="section-title">За кого е това събитие</h2>
+          <p class="section-text">
+            Това събитие е създадено за хора, които усещат, че имат повече потенциал, отколкото реално използват в момента.
+          </p>
           <div class="cards-2">
             <div class="card">
               <h3>Това събитие е за теб, ако:</h3>
               <ul class="bullet-list">
-                <li>имаш идея, проект или цел, които знаеш, че заслужават да се случат</li>
-                <li>често отлагаш, въпреки че разбираш какво трябва да направиш</li>
-                <li>страхът, самосъмнението или перфекционизмът те държат на едно място</li>
+                <li>имаш идея, проект или посока, които отлагаш твърде дълго</li>
+                <li>знаеш какво трябва да направиш, но не стигаш до действие</li>
+                <li>страхът, самосъмнението или перфекционизмът те държат в застой</li>
                 <li>искаш не просто мотивация, а практичен модел, който да приложиш веднага</li>
-                <li>си готов да инвестираш в себе си, за да отключиш реален резултат</li>
+                <li>си готов да инвестираш внимание и енергия в реална промяна</li>
               </ul>
             </div>
             <div class="card">
               <h3>Няма да е за теб, ако:</h3>
               <ul class="bullet-list">
-                <li>искаш просто да “чуеш нещо интересно”, без да предприемеш действие</li>
-                <li>не си готов да бъдеш честен със себе си за това какво те спира</li>
-                <li>очакваш промяна без лична ангажираност и реално участие</li>
-                <li>предпочиташ да останеш в зоната на извиненията вместо да направиш следващата крачка</li>
+                <li>искаш просто да чуеш нещо приятно, без да участваш истински</li>
+                <li>не си готов да погледнеш честно какво те спира</li>
+                <li>очакваш промяна без лична ангажираност</li>
+                <li>предпочиташ да останеш в зоната на извиненията вместо да започнеш</li>
               </ul>
             </div>
           </div>
@@ -1063,7 +1135,7 @@
       </div>
 
       <div id="program" class="section section-soft">
-        <div class="orn orn-gold program-orn-1"></div>
+        <div class="orn program-orn-1"></div>
         <div class="wrap">
           <h2 class="section-title">Програма на събитието</h2>
           <p class="section-text">
@@ -1075,7 +1147,7 @@
                 <h3 class="timeline-title">1. Откриване и създаване на енергия</h3>
                 <div class="timeline-time">15 мин</div>
               </div>
-              <p>Още в първите минути ще излезеш от шума, съмнението и вътрешното колебание, за да влезеш в състояние на яснота, фокус и готовност за действие.</p>
+              <p>Още в първите минути ще излезеш от вътрешния шум и ще влезеш в състояние на яснота, фокус и готовност да погледнеш честно какво искаш.</p>
             </div>
             <div class="timeline-item">
               <div class="timeline-top">
@@ -1106,7 +1178,7 @@
       </div>
 
       <div class="section section-light">
-        <div class="orn orn-navy steps-orn-1"></div>
+        <div class="orn steps-orn-1"></div>
         <div class="wrap">
           <h2 class="section-title">5-те стъпки от идея до резултат</h2>
           <p class="section-text">
@@ -1150,23 +1222,23 @@
         <div class="wrap">
           <h2 class="section-title">Отзиви от участници</h2>
           <p class="section-text">
-            Добави тук реални отзиви от хора, които вече са минали през подобна работа с вас. По-долу е примерен формат, който да замените с истински мнения и истински имена само с разрешение.
+            Тук трябва да стоят реални отзиви. Оставям примерна секция само като формат, който да замените с истински мнения, когато ги имате.
           </p>
           <div class="testimonials">
             <div class="testimonial">
-              <div class="testimonial-tag">Примерен отзив</div>
+              <div class="testimonial-tag">Примерен формат</div>
               <p>„Влязох с хаос в главата и излязох с ясно решение какво да направя още на следващия ден. Това беше моментът, в който спрях да отлагам.“</p>
               <strong>[Име на клиент]</strong>
               <span>[Позиция / бизнес / град]</span>
             </div>
             <div class="testimonial">
-              <div class="testimonial-tag">Примерен отзив</div>
+              <div class="testimonial-tag">Примерен формат</div>
               <p>„Най-силното за мен беше, че не получих просто вдъхновение, а структура. За първи път усетих, че имам реален път напред.“</p>
               <strong>[Име на клиент]</strong>
               <span>[Позиция / бизнес / град]</span>
             </div>
             <div class="testimonial">
-              <div class="testimonial-tag">Примерен отзив</div>
+              <div class="testimonial-tag">Примерен формат</div>
               <p>„Това събитие ми помогна да видя как сама се спирам и какво точно да променя. Само тази яснота си струваше присъствието.“</p>
               <strong>[Име на клиент]</strong>
               <span>[Позиция / бизнес / град]</span>
@@ -1179,25 +1251,25 @@
       </div>
 
       <div class="section section-soft">
-        <div class="orn orn-gold speaker-orn-1"></div>
+        <div class="orn speaker-orn-1"></div>
         <div class="wrap">
           <h2 class="section-title">Кои сме ние</h2>
           <p class="section-text">
-            Това събитие е водено от хора, които съчетават дълбока вътрешна работа с практичен подход към реалната промяна. Тук покажи опита, резултатите и причината участниците да имат доверие именно на вас.
+            Това събитие е водено от хора, които съчетават дълбока вътрешна работа с практичен подход към реалната промяна. Покажи тук опита, резултатите и причината участниците да имат доверие именно на вас.
           </p>
-          <div class="banner-slot speaker-banner" aria-hidden="true">
+          <div class="speaker-banner" aria-hidden="true">
             <span>Speakers banner</span>
           </div>
           <div class="cards-2">
             <div class="card">
               <div class="speaker-label">Лектор</div>
               <h3>Мария</h3>
-              <p>[Добави силно био на Мария: конкретен опит, реални резултати, работа с хора, НЛП и как помага на участниците да преминат от блокаж към действие.]</p>
+              <p>Мария е част от този процес като водещ, който помага на участниците да преминат от вътрешен блокаж към по-ясна посока, решение и действие.</p>
             </div>
             <div class="card">
               <div class="speaker-label">Лектор</div>
               <h3>Ваня</h3>
-              <p>[Добави силно био на Ваня: експертиза в психологията на поведението, ограничаващите модели, самосаботажа и практическата вътрешна работа.]</p>
+              <p>Ваня внася перспектива към вътрешните модели, самосаботажа и психологията на поведението, за да могат участниците да видят какво реално ги задържа.</p>
             </div>
           </div>
           <div class="section-cta">
@@ -1212,24 +1284,24 @@
           <p class="section-text">
             За някои хора това събитие ще е силен старт. За други ще е началото на много по-голяма промяна. Ако искаш не просто импулс, а дълбок и устойчив резултат, ще имаш възможност да продължиш напред.
           </p>
-          <div class="cards-2">
-            <div class="card">
-              <h3>Програма „Алгоритъм за личен успех“</h3>
-              <ul class="bullet-list">
-                <li>3 индивидуални сесии или 6-седмична програма за по-дълбока трансформация</li>
-                <li>работа върху блокажите, които най-много те бавят</li>
-                <li>лични стратегии за мислене, действие и устойчивост</li>
-                <li>структура и подкрепа, за да не се върнеш към стария модел</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>Предимства само за присъстващите</h3>
-              <ul class="bullet-list">
-                <li>специални условия за записване след събитието</li>
-                <li>ограничени места за хора, които действат бързо</li>
-                <li>възможност да продължиш процеса с професионална подкрепа</li>
-                <li>идеално за участници, които искат реален резултат, а не временен ентусиазъм</li>
-              </ul>
+          <div class="offer-box">
+            <h3>Следваща стъпка за хората, които искат повече</h3>
+            <p>
+              Събитието отваря вратата. Ако искаш да продължиш с по-дълбока работа, лична подкрепа и по-ясна система за действие, ще имаш възможност да го направиш само като участник в събитието.
+            </p>
+            <div class="urgency-strip">
+              <div class="urgency-item">
+                <strong>Ограничени места</strong>
+                <span>по-малко хора, повече реално участие и фокус</span>
+              </div>
+              <div class="urgency-item">
+                <strong>Специални условия</strong>
+                <span>валидни само за присъстващите на събитието</span>
+              </div>
+              <div class="urgency-item">
+                <strong>Продължение</strong>
+                <span>за хора, които искат реална, а не временна промяна</span>
+              </div>
             </div>
           </div>
           <div class="section-cta">
@@ -1238,23 +1310,23 @@
         </div>
       </div>
 
-      <div id="registration" class="section section-soft">
+      <div class="section section-soft">
         <div class="wrap">
           <div class="cta-box">
             <h2>Запази мястото си сега</h2>
             <p>
               Ако усещаш, че е време да спреш да отлагаш и да дадеш шанс на идеята си да стане реалност, това е твоят момент. Местата са ограничени и това събитие е за хора, които са готови да действат.
             </p>
-            <div class="btns" style="justify-content: center;">
-              <a href="#" class="btn btn-primary">Искам да запазя място</a>
-              <a href="#faq" class="btn btn-secondary">Често задавани въпроси</a>
+            <div class="section-cta" style="margin-top: 0;">
+              <a href="#registration" class="btn btn-primary">Искам да запазя място</a>
+              <a href="#faq" class="btn btn-secondary">Имам въпроси</a>
             </div>
           </div>
         </div>
       </div>
 
       <div id="faq" class="section section-light">
-        <div class="orn orn-navy faq-orn-1"></div>
+        <div class="orn faq-orn-1"></div>
         <div class="wrap">
           <h2 class="section-title">Често задавани въпроси</h2>
           <div class="faq">
@@ -1264,15 +1336,11 @@
             </div>
             <div class="faq-item">
               <h3>Подходящо ли е, ако още не съм напълно сигурен в идеята си?</h3>
-              <p>Да. Точно затова това събитие ще ти е полезно. Ще ти помогне да внесеш яснота, да подредиш посоката си и да видиш каква е най-правилната следваща крачка за теб.</p>
+              <p>Да. Това събитие ще ти помогне да внесеш яснота, да подредиш посоката си и да видиш каква е най-правилната следваща крачка за теб.</p>
             </div>
             <div class="faq-item">
               <h3>Ще има ли упражнения?</h3>
               <p>Да. Събитието включва индивидуални задачи и практическо приложение, за да не останеш само с теория, а да направиш реална вътрешна и външна стъпка.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Защо да се регистрирам сега?</h3>
-              <p>Защото най-голямата цена често не е билетът, а още един месец отлагане. Ако знаеш, че е време да тръгнеш напред, запази мястото си сега и си дай шанс за реален старт.</p>
             </div>
             <div class="faq-item">
               <h3>Подходящо ли е, ако имам бизнес, но се чувствам блокиран?</h3>
@@ -1283,7 +1351,7 @@
               <p>Да. Ако си между етапи и имаш нужда от яснота каква е следващата ти стъпка, това събитие ще ти помогне да подредиш мисленето си и да спреш да се луташ.</p>
             </div>
             <div class="faq-item">
-              <h3>Ще си тръгна ли с нещо конкретно, а не само с усещане?</h3>
+              <h3>Ще си тръгна ли с нещо конкретно?</h3>
               <p>Това е целта. Да си тръгнеш с реално решение, конкретна стъпка и вътрешна яснота как да продължиш след събитието.</p>
             </div>
             <div class="faq-item">
@@ -1292,7 +1360,11 @@
             </div>
             <div class="faq-item">
               <h3>Какво се случва след регистрация?</h3>
-              <p>Ще получиш потвърждение и последваща информация за събитието. Ако добавите билетен процес или плащане, тук може да се опише и следващата стъпка към финализиране на участието.</p>
+              <p>Ще получиш потвърждение и последваща информация за събитието. Когато билетите и записването са активни, ще получите детайлите по имейл и телефон.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Защо да се регистрирам сега?</h3>
+              <p>Защото най-голямата цена често не е билетът, а още един месец отлагане. Ако знаеш, че е време да тръгнеш напред, запази мястото си сега и си дай шанс за реален старт.</p>
             </div>
             <div class="faq-item">
               <h3>Какво ако се колебая дали това е правилният момент?</h3>
