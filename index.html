@@ -13,6 +13,11 @@
         --orn-semi: corner / half-circle transparent ornament.
         --hero-banner: recommended 1600x900.
         --speaker-banner: recommended 1600x700.
+
+        Mailchimp setup
+        1. Replace the form action in .lead-form with the action URL from Mailchimp embedded form code.
+        2. Replace the honeypot field name with the exact hidden field name from Mailchimp embed code.
+        3. If your audience uses a different merge tag for phone, replace PHONE with the correct field name.
       */
 
       body {
@@ -360,6 +365,7 @@
       #success-algorithm-event .lead-form {
         display: grid;
         gap: 12px;
+        position: relative;
       }
 
       #success-algorithm-event .lead-form input {
@@ -377,8 +383,20 @@
         color: rgba(255, 255, 255, 0.68);
       }
 
+      #success-algorithm-event .lead-form button.btn-primary {
+        width: 100%;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+      }
+
       #success-algorithm-event .lead-form .btn-primary {
         width: 100%;
+      }
+
+      #success-algorithm-event .mc-hidden {
+        position: absolute;
+        left: -5000px;
       }
 
       #success-algorithm-event .micro-copy {
@@ -996,11 +1014,21 @@
                 <span class="meta-pill">Подарък за всеки гост</span>
                 <span class="meta-pill">Информация първо към теб</span>
               </div>
-              <form class="lead-form">
-                <input type="text" placeholder="Твоето име" />
-                <input type="email" placeholder="Имейл адрес" />
-                <input type="tel" placeholder="Телефон" />
-                <a href="#" class="btn btn-primary">Искам да запазя място</a>
+              <form
+                class="lead-form"
+                action="https://YOUR_DC.list-manage.com/subscribe/post?u=YOUR_U&amp;id=YOUR_ID&amp;f_id=YOUR_FORM_ID"
+                method="post"
+                target="_blank"
+                novalidate
+              >
+                <input type="text" name="FNAME" placeholder="Твоето име" required />
+                <input type="email" name="EMAIL" placeholder="Имейл адрес" required />
+                <input type="tel" name="PHONE" placeholder="Телефон" />
+                <div class="mc-hidden" aria-hidden="true">
+                  <input type="text" name="b_YOUR_U_YOUR_ID" tabindex="-1" value="" />
+                </div>
+                <input type="hidden" name="tags" value="landing-page-demo,algoritam-za-uspeha" />
+                <button type="submit" class="btn btn-primary">Искам да запазя място</button>
               </form>
               <p class="micro-copy">
                 Няма плащане на този етап. Оставяш контакт, за да получиш информация веднага щом регистрацията и билетите са активни.
