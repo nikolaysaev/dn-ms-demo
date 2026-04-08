@@ -14,11 +14,10 @@
         --hero-banner: recommended 1600x900.
         --speaker-banner: recommended 1600x700.
 
-        Mailchimp setup
-        Edit mailchimp-config.js
-        1. Replace actionUrl with the action URL from Mailchimp embedded form code.
-        2. Replace honeypotName with the exact hidden field name from Mailchimp embed code.
-        3. If your audience uses different merge tags, replace them in fields.
+        Form setup
+        Edit formspree-config.js
+        1. Replace endpoint with your real Formspree endpoint.
+        2. Adjust subject/source/tags if needed.
       */
 
       body {
@@ -416,6 +415,10 @@
 
       #success-algorithm-event .micro-copy.warning {
         color: #ffe7a8;
+      }
+
+      #success-algorithm-event .micro-copy.success {
+        color: #dff8bf;
       }
 
       #success-algorithm-event .mini-proof {
@@ -1029,19 +1032,21 @@
               <form
                 class="lead-form"
                 method="post"
-                id="mailchimp-form"
+                id="lead-capture-form"
                 novalidate
               >
-                <input type="text" data-mailchimp-field="firstName" placeholder="Твоето име" required />
-                <input type="email" data-mailchimp-field="email" placeholder="Имейл адрес" required />
-                <input type="tel" data-mailchimp-field="phone" placeholder="Телефон" />
+                <input type="text" name="name" placeholder="Твоето име" required />
+                <input type="email" name="email" placeholder="Имейл адрес" required />
+                <input type="tel" name="phone" placeholder="Телефон" />
                 <div class="mc-hidden" aria-hidden="true">
-                  <input type="text" data-mailchimp-field="honeypot" tabindex="-1" value="" />
+                  <input type="text" name="_gotcha" tabindex="-1" value="" autocomplete="off" />
                 </div>
-                <input type="hidden" data-mailchimp-field="tags" value="" />
-                <button type="submit" class="btn btn-primary" id="mailchimp-submit">Искам да запазя място</button>
+                <input type="hidden" name="_subject" id="form-subject" value="" />
+                <input type="hidden" name="source" id="form-source" value="" />
+                <input type="hidden" name="tags" id="form-tags" value="" />
+                <button type="submit" class="btn btn-primary" id="lead-submit">Искам да запазя място</button>
               </form>
-              <p class="micro-copy" id="mailchimp-note">
+              <p class="micro-copy" id="form-status" aria-live="polite">
                 Няма плащане на този етап. Оставяш контакт, за да получиш информация веднага щом регистрацията и билетите са активни.
               </p>
             </div>
@@ -1416,15 +1421,20 @@
         </div>
       </div>
     </section>
-    <script src="mailchimp-config.js"></script>
+    <script src="formspree-config.js"></script>
     <script>
       (function () {
-        var form = document.getElementById("mailchimp-form");
-        var submit = document.getElementById("mailchimp-submit");
-        var note = document.getElementById("mailchimp-note");
-        var config = window.MAILCHIMP_CONFIG || {};
+        var form = document.getElementById("lead-capture-form");
+        var submit = document.getElementById("lead-submit");
+        var note = document.getElementById("form-status");
+        var subjectField = document.getElementById("form-subject");
+        var sourceField = document.getElementById("form-source");
+        var tagsField = document.getElementById("form-tags");
+        var config = window.FORMSPREE_CONFIG || {};
+        var defaultSubmitLabel = submit ? submit.textContent : "";
+        var defaultNote = note ? note.textContent : "";
 
-        if (!form || !submit || !note) {
+        if (!form || !submit || !note || !subjectField || !sourceField || !tagsField) {
           return;
         }
 
@@ -1432,47 +1442,79 @@
           return !value || String(value).indexOf("YOUR_") !== -1;
         }
 
-        var fields = config.fields || {};
-        var actionUrl = config.actionUrl || "";
-        var honeypotName = config.honeypotName || "";
-        var tags = config.tags || "";
-        var configured = !isPlaceholder(actionUrl) && !isPlaceholder(honeypotName);
-
-        form.action = actionUrl;
-        form.target = config.openInNewTab === false ? "_self" : "_blank";
-
-        var firstNameField = form.querySelector('[data-mailchimp-field="firstName"]');
-        var emailField = form.querySelector('[data-mailchimp-field="email"]');
-        var phoneField = form.querySelector('[data-mailchimp-field="phone"]');
-        var honeypotField = form.querySelector('[data-mailchimp-field="honeypot"]');
-        var tagsField = form.querySelector('[data-mailchimp-field="tags"]');
-
-        if (firstNameField) {
-          firstNameField.name = fields.firstName || "FNAME";
+        function setStatus(message, kind) {
+          note.textContent = message;
+          note.classList.remove("warning", "success");
+          if (kind) {
+            note.classList.add(kind);
+          }
         }
 
-        if (emailField) {
-          emailField.name = fields.email || "EMAIL";
+        function setSubmitting(isSubmitting) {
+          submit.disabled = isSubmitting;
+          submit.textContent = isSubmitting ? "Изпращане..." : defaultSubmitLabel;
         }
 
-        if (phoneField) {
-          phoneField.name = fields.phone || "PHONE";
-        }
+        var endpoint = config.endpoint || "";
+        var configured = !isPlaceholder(endpoint);
 
-        if (honeypotField) {
-          honeypotField.name = honeypotName;
-        }
-
-        if (tagsField) {
-          tagsField.name = "tags";
-          tagsField.value = tags;
-        }
+        form.action = endpoint;
+        form.method = "post";
+        subjectField.value = config.subject || "";
+        sourceField.value = config.source || "";
+        tagsField.value = config.tags || "";
 
         if (!configured) {
           submit.disabled = true;
-          note.textContent = "Формата очаква настройка в mailchimp-config.js преди да започне да изпраща към Mailchimp.";
-          note.classList.add("warning");
+          setStatus("Формата очаква настройка в formspree-config.js преди да започне да приема регистрации.", "warning");
+          return;
         }
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          if (!form.reportValidity()) {
+            return;
+          }
+
+          setSubmitting(true);
+          setStatus(defaultNote, "");
+
+          fetch(endpoint, {
+            method: "POST",
+            body: new FormData(form),
+            headers: {
+              Accept: "application/json"
+            }
+          })
+            .then(function (response) {
+              if (response.ok) {
+                form.reset();
+                subjectField.value = config.subject || "";
+                sourceField.value = config.source || "";
+                tagsField.value = config.tags || "";
+                setStatus(config.successMessage || "Благодарим. Регистрацията ти е получена.", "success");
+                return null;
+              }
+
+              return response.json().then(function (data) {
+                var message = config.errorMessage || "Не успяхме да изпратим формата. Опитай отново след малко.";
+                if (data && data.errors && data.errors.length && data.errors[0].message) {
+                  message = data.errors[0].message;
+                }
+                throw new Error(message);
+              }).catch(function () {
+                throw new Error(config.errorMessage || "Не успяхме да изпратим формата. Опитай отново след малко.");
+              });
+            })
+            .then(function () {
+              setSubmitting(false);
+            })
+            .catch(function (error) {
+              setSubmitting(false);
+              setStatus(error.message, "warning");
+            });
+        });
       })();
     </script>
   </body>
