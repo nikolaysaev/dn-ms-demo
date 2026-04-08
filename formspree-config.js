@@ -1,5 +1,5 @@
 window.FORMSPREE_CONFIG = {
-  endpoint: "https://formspree.io/f/YOUR_FORM_ID",
+  endpoint: "https://formspree.io/f/xbdpbvoj",
   subject: "Нова регистрация за Алгоритъм за успеха",
   source: "demo.datanetica.cloud",
   tags: "landing-page-demo,algoritam-za-uspeha",
