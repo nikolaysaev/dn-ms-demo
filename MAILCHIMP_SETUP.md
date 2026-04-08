@@ -2,6 +2,10 @@
 
 This landing page is prepared for Mailchimp form submission from the hero form.
 
+## Files
+- `mailchimp-config.js`
+- `index.html`
+
 ## What you need from Mailchimp
 From the Mailchimp embedded form code for your audience, copy:
 
@@ -10,13 +14,13 @@ From the Mailchimp embedded form code for your audience, copy:
 3. The correct phone merge tag if it is not `PHONE`
 
 ## Where to place them
-Open `index.html` and update the hero form:
+Open `mailchimp-config.js` and replace the placeholders there.
 
 ### 1. Replace the form action
 Find:
 
-```html
-action="https://YOUR_DC.list-manage.com/subscribe/post?u=YOUR_U&amp;id=YOUR_ID&amp;f_id=YOUR_FORM_ID"
+```js
+actionUrl: "https://YOUR_DC.list-manage.com/subscribe/post?u=YOUR_U&id=YOUR_ID&f_id=YOUR_FORM_ID"
 ```
 
 Replace it with the real Mailchimp action URL from the embed code.
@@ -24,17 +28,21 @@ Replace it with the real Mailchimp action URL from the embed code.
 ### 2. Replace the hidden anti-bot field name
 Find:
 
-```html
-<input type="text" name="b_YOUR_U_YOUR_ID" tabindex="-1" value="" />
+```js
+honeypotName: "b_YOUR_U_YOUR_ID"
 ```
 
 Replace `b_YOUR_U_YOUR_ID` with the exact hidden field name from Mailchimp.
 
 ### 3. Verify phone field name
-Current form uses:
+Current config uses:
 
-```html
-name="PHONE"
+```js
+fields: {
+  firstName: "FNAME",
+  email: "EMAIL",
+  phone: "PHONE"
+}
 ```
 
 If your Mailchimp audience uses another merge tag for phone, replace it.
@@ -62,10 +70,10 @@ Recommended tags:
 4. You send follow-up details or payment links later
 
 ## Important note
-The current form opens submission in a new tab because it uses:
+The current config opens submission in a new tab because it uses:
 
-```html
-target="_blank"
+```js
+openInNewTab: true
 ```
 
 If you want a smoother UX later, replace raw Mailchimp post with:
