@@ -753,9 +753,9 @@
       }
 
       #success-algorithm-event .speaker-photo {
-        width: 132px;
+        width: 176px;
         aspect-ratio: 1;
-        margin: 0 0 18px;
+        margin: 0 0 20px;
         border-radius: 24px;
         border: 1px solid rgba(0, 0, 128, 0.12);
         box-shadow: 0 16px 34px rgba(0, 0, 128, 0.14);
@@ -1099,6 +1099,10 @@
             linear-gradient(135deg, rgba(0, 0, 128, 0.12), rgba(204, 153, 0, 0.1)),
             var(--speaker-banner) center/cover no-repeat,
             linear-gradient(135deg, #101347, #1b1f61);
+        }
+
+        #success-algorithm-event .speaker-photo {
+          width: min(58vw, 220px);
         }
 
         #success-algorithm-event .micro-copy {
