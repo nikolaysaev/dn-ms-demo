@@ -344,6 +344,51 @@
         line-height: 1.7;
       }
 
+      #success-algorithm-event .offer-alert {
+        margin: 0 0 18px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(255, 224, 142, 0.2), rgba(255, 255, 255, 0.1));
+        border: 1px solid rgba(255, 221, 122, 0.42);
+        color: #fff7da;
+      }
+
+      #success-algorithm-event .offer-alert strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #ffffff;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      #success-algorithm-event .offer-alert span {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      #success-algorithm-event .offer-stack {
+        display: grid;
+        gap: 10px;
+        margin: 18px 0 22px;
+      }
+
+      #success-algorithm-event .offer-item {
+        padding: 12px 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: #fff;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      #success-algorithm-event .offer-item strong {
+        color: #ffe9a6;
+      }
+
       #success-algorithm-event .meta-pills {
         display: flex;
         flex-wrap: wrap;
@@ -839,6 +884,23 @@
         color: rgba(255, 255, 255, 0.88);
       }
 
+      #success-algorithm-event .cta-price {
+        margin: 18px auto 0;
+        max-width: 720px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 221, 122, 0.34);
+        color: #fff;
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      #success-algorithm-event .cta-price strong {
+        color: #ffe49a;
+        font-size: 24px;
+      }
+
       #success-algorithm-event .faq {
         display: grid;
         gap: 16px;
@@ -1049,8 +1111,13 @@
             <div class="hero-form-card" id="registration">
               <h3>Запази мястото си</h3>
               <p class="card-text">
-                Остави име, имейл и телефон, за да потвърдим участието ти и да ти изпратим детайлите за събитието.
+                Ако сериозно искаш яснота, посока и конкретен план за действие, това е моментът да вземеш решението. Остави име, имейл и телефон, за да потвърдим участието ти.
               </p>
+              <div class="offer-alert">
+                <span>Инвестиция за участие</span>
+                <strong>50 EUR</strong>
+                <span>Не купуваш мотивация. Купуваш ден с реална структура, упражнения и ясен следващ ход.</span>
+              </div>
               <div class="meta-pills">
                 <span class="meta-pill">Цена: 50 EUR</span>
                 <span class="meta-pill">Начало: 10:00</span>
@@ -1060,6 +1127,11 @@
                 <span class="meta-pill">Обедна почивка</span>
                 <span class="meta-pill">Подарък за всеки гост</span>
                 <span class="meta-pill">Практически упражнения</span>
+              </div>
+              <div class="offer-stack">
+                <div class="offer-item"><strong>Включено:</strong> цялото събитие на живо, практическа рамка и упражнения, които да приложиш веднага.</div>
+                <div class="offer-item"><strong>Получаваш още:</strong> 2 кафе паузи с безплатни напитки, обедна почивка и персонален подарък.</div>
+                <div class="offer-item"><strong>Причината да действаш сега:</strong> местата са ограничени, а цената е фиксирана на 50 EUR.</div>
               </div>
               <form
                 class="lead-form"
@@ -1079,7 +1151,7 @@
                 <button type="submit" class="btn btn-primary" id="lead-submit">Искам да запазя място</button>
               </form>
               <p class="micro-copy" id="form-status" aria-live="polite">
-                Цена за участие: 50 EUR. Начало: 10:00. Включва достъп до цялото събитие, 2 кафе паузи с безплатни напитки, обедна почивка, практически упражнения и персонален подарък.
+                Цена за участие: 50 EUR. Начало: 10:00. Това включва достъп до цялото събитие, 2 кафе паузи с безплатни напитки, обедна почивка, практически упражнения и персонален подарък.
               </p>
             </div>
           </div>
@@ -1205,10 +1277,10 @@
         <div class="wrap">
           <h2 class="section-title">Програма на събитието</h2>
           <p class="section-text">
-            Всеки елемент от програмата е подреден така, че да те премести от колебание към ясно решение и конкретно действие още по време на събитието.
+            Всеки елемент от програмата е подреден така, че да те премести от колебание към ясно решение и конкретно действие още по време на събитието. Това не е ден за слушане. Това е ден за реално преместване напред.
           </p>
           <div class="quote-box" style="margin-bottom: 30px;">
-            <strong>Старт в 10:00.</strong> В програмата са включени 2 кафе паузи с безплатни напитки и обедна почивка.
+            <strong>Старт в 10:00.</strong> Срещу 50 EUR получаваш цялата програма на живо, 2 кафе паузи с безплатни напитки и обедна почивка.
           </div>
           <div class="timeline">
             <div class="timeline-item">
@@ -1384,8 +1456,11 @@
           <div class="cta-box">
             <h2>Запази мястото си сега</h2>
             <p>
-              Ако усещаш, че е време да спреш да отлагаш и да дадеш шанс на идеята си да стане реалност, това е твоят момент. Местата са ограничени и това събитие е за хора, които са готови да действат.
+              Ако знаеш, че повече не искаш да въртиш едни и същи мисли без движение, това е точният момент. За 50 EUR влизаш в среда, структура и процес, които са направени да те извадят от отлагането и да те придвижат към действие.
             </p>
+            <div class="cta-price">
+              <strong>50 EUR</strong> включват достъп до събитието, практически упражнения, 2 кафе паузи с безплатни напитки, обедна почивка и персонален подарък. Ако това е твоят момент, не чакай по-удобен.
+            </div>
             <div class="section-cta" style="margin-top: 0;">
               <a href="#registration" class="btn btn-primary">Искам да запазя място</a>
               <a href="#faq" class="btn btn-secondary">Имам въпроси</a>
