@@ -191,6 +191,37 @@
         color: #33406f;
       }
 
+      #success-algorithm-event .hero-facts {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin: 0 0 22px;
+      }
+
+      #success-algorithm-event .hero-fact {
+        padding: 12px 14px;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 128, 0.12);
+        box-shadow: 0 10px 26px rgba(0, 0, 128, 0.08);
+      }
+
+      #success-algorithm-event .hero-fact strong {
+        display: block;
+        color: var(--navy);
+        font-size: 18px;
+        line-height: 1.1;
+      }
+
+      #success-algorithm-event .hero-fact span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
       #success-algorithm-event .lead-points {
         display: grid;
         gap: 12px;
@@ -641,6 +672,39 @@
         gap: 18px;
       }
 
+      #success-algorithm-event .program-facts {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin: 0 0 30px;
+        position: relative;
+        z-index: 2;
+      }
+
+      #success-algorithm-event .program-fact {
+        padding: 18px 16px;
+        border-radius: 22px;
+        background: linear-gradient(160deg, var(--navy), var(--navy-2));
+        color: #fff;
+        border: 1px solid rgba(204, 153, 0, 0.32);
+        box-shadow: 0 18px 34px rgba(0, 0, 128, 0.14);
+      }
+
+      #success-algorithm-event .program-fact strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #ffe49a;
+        font-size: 24px;
+        line-height: 1.1;
+      }
+
+      #success-algorithm-event .program-fact span {
+        display: block;
+        color: rgba(255, 255, 255, 0.84);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
       #success-algorithm-event .timeline-item {
         position: relative;
         overflow: hidden;
@@ -1027,6 +1091,8 @@
         #success-algorithm-event .steps,
         #success-algorithm-event .testimonials,
         #success-algorithm-event .urgency-strip,
+        #success-algorithm-event .hero-facts,
+        #success-algorithm-event .program-facts,
         #success-algorithm-event .mini-proof {
           grid-template-columns: 1fr;
         }
@@ -1161,16 +1227,34 @@
                 <div class="logo-img"></div>
                 <div class="logo-text">Събитие, което превръща идеите в действие</div>
               </div>
-              <div class="eyebrow">Събитие на живо</div>
-              <h1>Спри да отлагаш. Подреди идеята си. Излез с ясен план за действие.</h1>
+              <div class="eyebrow">5-часов практически семинар на живо</div>
+              <h1>Алгоритъмът за успеха: от идея до реален резултат</h1>
               <p class="hero-subtitle">
-                Ако от месеци или години знаеш, че имаш потенциал за повече, но не успяваш да преминеш към действие, това събитие е създадено точно за теб. Тук няма да получиш поредната временна мотивация. Ще получиш яснота, структура и реален следващ ход.
+                Ако от месеци или години знаеш, че имаш потенциал за повече, но не успяваш да преминеш към действие, това събитие е създадено точно за теб. За 5 часа ще получиш яснота, структура и реален следващ ход.
               </p>
+              <div class="hero-facts">
+                <div class="hero-fact">
+                  <strong>10:00-15:00</strong>
+                  <span>5-часов семинар</span>
+                </div>
+                <div class="hero-fact">
+                  <strong>50 EUR</strong>
+                  <span>цена за участие</span>
+                </div>
+                <div class="hero-fact">
+                  <strong>2 x 15 мин</strong>
+                  <span>кафе паузи с напитки</span>
+                </div>
+                <div class="hero-fact">
+                  <strong>1 час</strong>
+                  <span>обедна почивка</span>
+                </div>
+              </div>
               <ul class="lead-points">
                 <li>Ще видиш какво реално те спира да действаш, дори когато знаеш какво искаш.</li>
                 <li>Ще подредиш идеята си така, че да спре да бъде само мисъл и да стане план.</li>
                 <li>Ще си тръгнеш с конкретна първа стъпка, а не само с добро усещане.</li>
-                <li>Начало: 10:00 в хотел Campus 90, с 2 кафе паузи с безплатни напитки, обедна почивка и персонален подарък за всеки гост.</li>
+                <li>Провежда се в хотел Campus 90, с 2 кафе паузи с безплатни напитки, 1 час обедна почивка и персонален подарък за всеки гост.</li>
               </ul>
             </div>
 
@@ -1186,17 +1270,18 @@
               </div>
               <div class="meta-pills">
                 <span class="meta-pill">Цена: 50 EUR</span>
-                <span class="meta-pill">Начало: 10:00</span>
+                <span class="meta-pill">10:00-15:00</span>
+                <span class="meta-pill">5-часов семинар</span>
                 <span class="meta-pill">Хотел Campus 90</span>
                 <span class="meta-pill">Местата са ограничени</span>
-                <span class="meta-pill">2 кафе паузи с безплатни напитки</span>
-                <span class="meta-pill">Обедна почивка</span>
+                <span class="meta-pill">2 x 15 мин кафе паузи</span>
+                <span class="meta-pill">1 час обедна почивка</span>
                 <span class="meta-pill">Подарък за всеки гост</span>
                 <span class="meta-pill">Практически упражнения</span>
               </div>
               <div class="offer-stack">
                 <div class="offer-item"><strong>Включено:</strong> цялото събитие на живо, практическа рамка и упражнения, които да приложиш веднага.</div>
-                <div class="offer-item"><strong>Получаваш още:</strong> 2 кафе паузи с безплатни напитки, обедна почивка и персонален подарък.</div>
+                <div class="offer-item"><strong>Получаваш още:</strong> 2 кафе паузи по 15 минути с безплатни напитки, 1 час обедна почивка и персонален подарък.</div>
                 <div class="offer-item"><strong>Причината да действаш сега:</strong> местата са ограничени, а цената е фиксирана на 50 EUR.</div>
               </div>
               <form
@@ -1217,7 +1302,7 @@
                 <button type="submit" class="btn btn-primary" id="lead-submit">Искам да запазя място</button>
               </form>
               <p class="micro-copy" id="form-status" aria-live="polite">
-                Цена за участие: 50 EUR. Начало: 10:00. Това включва достъп до цялото събитие, 2 кафе паузи с безплатни напитки, обедна почивка, практически упражнения и персонален подарък.
+                Цена за участие: 50 EUR. Събитието е от 10:00 до 15:00 и включва достъп до цялата програма, 2 кафе паузи по 15 минути с безплатни напитки, 1 час обедна почивка, практически упражнения и персонален подарък.
               </p>
             </div>
           </div>
@@ -1319,7 +1404,7 @@
                 <li>знаеш какво трябва да направиш, но не стигаш до действие</li>
                 <li>страхът, самосъмнението или перфекционизмът те държат в застой</li>
                 <li>искаш не просто мотивация, а практичен модел, който да приложиш веднага</li>
-                <li>си готов да инвестираш внимание и енергия в реална промяна</li>
+                <li>си готов да отделиш внимание и енергия за реална промяна</li>
               </ul>
             </div>
             <div class="card">
@@ -1341,12 +1426,27 @@
       <div id="program" class="section section-soft">
         <div class="orn program-orn-1"></div>
         <div class="wrap">
-          <h2 class="section-title">Програма на събитието</h2>
+          <h2 class="section-title">5-часова програма, без празно говорене</h2>
           <p class="section-text">
             Всеки елемент от програмата е подреден така, че да те премести от колебание към ясно решение и конкретно действие още по време на събитието. Това не е ден за слушане. Това е ден за реално преместване напред.
           </p>
-          <div class="quote-box" style="margin-bottom: 30px;">
-            <strong>Старт в 10:00.</strong> Срещу 50 EUR получаваш цялата програма на живо, 2 кафе паузи с безплатни напитки и обедна почивка.
+          <div class="program-facts">
+            <div class="program-fact">
+              <strong>10:00-15:00</strong>
+              <span>ясен 5-часов формат, за да знаеш точно какво планираш</span>
+            </div>
+            <div class="program-fact">
+              <strong>50 EUR</strong>
+              <span>цялата програма на живо, упражнения и работа по твоята посока</span>
+            </div>
+            <div class="program-fact">
+              <strong>2 x 15 мин</strong>
+              <span>кафе паузи с безплатни напитки, без да губим темпото</span>
+            </div>
+            <div class="program-fact">
+              <strong>1 час обяд</strong>
+              <span>обедна почивка, за да се върнеш свеж към следващата част</span>
+            </div>
           </div>
           <div class="timeline">
             <div class="timeline-item">
@@ -1527,7 +1627,7 @@
               Ако знаеш, че повече не искаш да въртиш едни и същи мисли без движение, това е точният момент. За 50 EUR влизаш в среда, структура и процес, които са направени да те извадят от отлагането и да те придвижат към действие.
             </p>
             <div class="cta-price">
-              <strong>50 EUR</strong> включват достъп до събитието, практически упражнения, 2 кафе паузи с безплатни напитки, обедна почивка и персонален подарък. Ако това е твоят момент, не чакай по-удобен.
+              <strong>50 EUR</strong> включват 5-часовия семинар от 10:00 до 15:00, практически упражнения, 2 кафе паузи по 15 минути с безплатни напитки, 1 час обедна почивка и персонален подарък. Ако това е твоят момент, не чакай по-удобен.
             </div>
             <div class="section-cta">
               <a href="#registration" class="btn btn-primary">Искам да запазя място</a>
@@ -1544,7 +1644,7 @@
           <div class="faq">
             <div class="faq-item">
               <h3>Каква е цената и какво включва участието?</h3>
-              <p>Цената е 50 EUR. В нея са включени достъп до цялото събитие, практически упражнения, 2 кафе паузи с безплатни напитки, обедна почивка и персонален подарък за всеки гост.</p>
+              <p>Цената е 50 EUR. В нея са включени 5-часовият семинар от 10:00 до 15:00, практически упражнения, 2 кафе паузи по 15 минути с безплатни напитки, 1 час обедна почивка и персонален подарък за всеки гост.</p>
             </div>
             <div class="faq-item">
               <h3>Това просто мотивационно събитие ли е?</h3>
@@ -1564,11 +1664,11 @@
             </div>
             <div class="faq-item">
               <h3>Ще има ли кафе паузи и почерпка?</h3>
-              <p>Да. По време на събитието има 2 кафе паузи с безплатни напитки, както и обедна почивка.</p>
+              <p>Да. По време на събитието има 2 кафе паузи по 15 минути с безплатни напитки, както и 1 час обедна почивка.</p>
             </div>
             <div class="faq-item">
-              <h3>В колко часа започва събитието?</h3>
-              <p>Събитието започва в 10:00. Препоръчваме да бъдеш на място малко по-рано за спокойна регистрация.</p>
+              <h3>В колко часа започва и приключва събитието?</h3>
+              <p>Събитието е 5-часов семинар от 10:00 до 15:00. Препоръчваме да бъдеш на място малко по-рано за спокойна регистрация.</p>
             </div>
             <div class="faq-item">
               <h3>Ще получа ли нещо допълнително като гост?</h3>
