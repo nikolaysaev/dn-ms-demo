@@ -672,39 +672,6 @@
         gap: 18px;
       }
 
-      #success-algorithm-event .program-facts {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-        margin: 0 0 30px;
-        position: relative;
-        z-index: 2;
-      }
-
-      #success-algorithm-event .program-fact {
-        padding: 18px 16px;
-        border-radius: 22px;
-        background: linear-gradient(160deg, var(--navy), var(--navy-2));
-        color: #fff;
-        border: 1px solid rgba(204, 153, 0, 0.32);
-        box-shadow: 0 18px 34px rgba(0, 0, 128, 0.14);
-      }
-
-      #success-algorithm-event .program-fact strong {
-        display: block;
-        margin-bottom: 6px;
-        color: #ffe49a;
-        font-size: 24px;
-        line-height: 1.1;
-      }
-
-      #success-algorithm-event .program-fact span {
-        display: block;
-        color: rgba(255, 255, 255, 0.84);
-        font-size: 13px;
-        line-height: 1.45;
-      }
-
       #success-algorithm-event .timeline-item {
         position: relative;
         overflow: hidden;
@@ -1092,7 +1059,6 @@
         #success-algorithm-event .testimonials,
         #success-algorithm-event .urgency-strip,
         #success-algorithm-event .hero-facts,
-        #success-algorithm-event .program-facts,
         #success-algorithm-event .mini-proof {
           grid-template-columns: 1fr;
         }
@@ -1254,7 +1220,6 @@
                 <li>Ще видиш какво реално те спира да действаш, дори когато знаеш какво искаш.</li>
                 <li>Ще подредиш идеята си така, че да спре да бъде само мисъл и да стане план.</li>
                 <li>Ще си тръгнеш с конкретна първа стъпка, а не само с добро усещане.</li>
-                <li>Провежда се в хотел Campus 90, с 2 кафе паузи с безплатни напитки, 1 час обедна почивка и персонален подарък за всеки гост.</li>
               </ul>
             </div>
 
@@ -1269,18 +1234,12 @@
                 <span>Не купуваш мотивация. Купуваш ден с реална структура, упражнения и ясен следващ ход.</span>
               </div>
               <div class="meta-pills">
-                <span class="meta-pill">10:00-15:00</span>
-                <span class="meta-pill">5-часов семинар</span>
-                <span class="meta-pill">Хотел Campus 90</span>
                 <span class="meta-pill">Местата са ограничени</span>
-                <span class="meta-pill">2 x 15 мин кафе паузи</span>
-                <span class="meta-pill">1 час обедна почивка</span>
                 <span class="meta-pill">Подарък за всеки гост</span>
                 <span class="meta-pill">Практически упражнения</span>
               </div>
               <div class="offer-stack">
                 <div class="offer-item"><strong>Включено:</strong> цялото събитие на живо, практическа рамка и упражнения, които да приложиш веднага.</div>
-                <div class="offer-item"><strong>Получаваш още:</strong> 2 кафе паузи по 15 минути с безплатни напитки, 1 час обедна почивка и персонален подарък.</div>
                 <div class="offer-item"><strong>Причината да действаш сега:</strong> местата са ограничени, а форматът е направен за фокусирана работа в малка група.</div>
               </div>
               <form
@@ -1301,7 +1260,7 @@
                 <button type="submit" class="btn btn-primary" id="lead-submit">Искам да запазя място</button>
               </form>
               <p class="micro-copy" id="form-status" aria-live="polite">
-                Събитието е от 10:00 до 15:00 и включва достъп до цялата програма, 2 кафе паузи по 15 минути с безплатни напитки, 1 час обедна почивка, практически упражнения и персонален подарък.
+                Остави контакт и ще получиш потвърждение с детайлите за участие.
               </p>
             </div>
           </div>
@@ -1427,54 +1386,43 @@
         <div class="wrap">
           <h2 class="section-title">5-часова програма, без празно говорене</h2>
           <p class="section-text">
-            Всеки елемент от програмата е подреден така, че да те премести от колебание към ясно решение и конкретно действие още по време на събитието. Това не е ден за слушане. Това е ден за реално преместване напред.
+            Програмата следва естествения ритъм на деня: фокус в началото, дълбока работа преди обед, практическо подреждане след почивките и финал с конкретен следващ ход.
           </p>
-          <div class="program-facts">
-            <div class="program-fact">
-              <strong>10:00-15:00</strong>
-              <span>ясен 5-часов формат, за да знаеш точно какво планираш</span>
-            </div>
-            <div class="program-fact">
-              <strong>Практика</strong>
-              <span>цялата програма на живо, упражнения и работа по твоята посока</span>
-            </div>
-            <div class="program-fact">
-              <strong>2 x 15 мин</strong>
-              <span>кафе паузи с безплатни напитки, без да губим темпото</span>
-            </div>
-            <div class="program-fact">
-              <strong>1 час обяд</strong>
-              <span>обедна почивка, за да се върнеш свеж към следващата част</span>
-            </div>
-          </div>
           <div class="timeline">
             <div class="timeline-item">
               <div class="timeline-top">
-                <h3 class="timeline-title">1. Откриване и създаване на енергия</h3>
-                <div class="timeline-time">15 мин</div>
+                <h3 class="timeline-title">1. Откриване и фокус</h3>
+                <div class="timeline-time">10:00</div>
               </div>
-              <p>Още в първите минути ще излезеш от вътрешния шум и ще влезеш в състояние на яснота, фокус и готовност да погледнеш честно какво искаш.</p>
+              <p>Влизаме в темата, изчистваме очакванията и насочваме вниманието към реалния въпрос: какво искаш да преместиш от идея към действие.</p>
             </div>
             <div class="timeline-item">
               <div class="timeline-top">
-                <h3 class="timeline-title">2. Упражнение „Идеята, която чака“</h3>
-                <div class="timeline-time">10 мин</div>
+                <h3 class="timeline-title">2. Яснота и блокажи</h3>
+                <div class="timeline-time">Преди обед</div>
               </div>
-              <p>Ще дадеш име, форма и посока на идеята, която досега е стояла само в главата ти, за да започнеш да я превръщаш в реалност.</p>
+              <p>Работим върху това какво реално те спира, къде губиш посока и защо добрата идея често остава само мисъл.</p>
             </div>
             <div class="timeline-item">
               <div class="timeline-top">
-                <h3 class="timeline-title">3. Психология на бездействието</h3>
-                <div class="timeline-time">40 мин</div>
+                <h3 class="timeline-title">3. Подреждане на идеята</h3>
+                <div class="timeline-time">След първата пауза</div>
               </div>
-              <p>Ще разбереш защо дори умни, способни и амбициозни хора блокират точно преди пробива си и как да прекъснеш този цикъл.</p>
+              <p>Превеждаш идеята си от общо желание към по-конкретна посока, за да видиш кое е важно и кое само създава шум.</p>
             </div>
             <div class="timeline-item">
               <div class="timeline-top">
-                <h3 class="timeline-title">4. Алгоритъм от идея до резултат</h3>
-                <div class="timeline-time">45 мин</div>
+                <h3 class="timeline-title">4. Обедна почивка и връщане към действие</h3>
+                <div class="timeline-time">Обед</div>
               </div>
-              <p>Ще получиш конкретен модел, който да приложиш веднага след събитието, така че да не се върнеш към старото отлагане, а да започнеш с ясно действие.</p>
+              <p>След почивката продължаваме с практическа част, в която превръщаш яснотата в реален следващ ход.</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-top">
+                <h3 class="timeline-title">5. Алгоритъм от идея до резултат</h3>
+                <div class="timeline-time">До 15:00</div>
+              </div>
+              <p>Завършваш с конкретен модел и първа стъпка, която можеш да изпълниш след събитието, вместо отново да оставиш идеята за по-късно.</p>
             </div>
           </div>
           <div class="section-cta">
@@ -1626,7 +1574,7 @@
               Ако знаеш, че повече не искаш да въртиш едни и същи мисли без движение, това е точният момент. Влизаш в среда, структура и процес, които са направени да те извадят от отлагането и да те придвижат към действие.
             </p>
             <div class="cta-price">
-              Включени са 5-часовият семинар от 10:00 до 15:00, практически упражнения, 2 кафе паузи по 15 минути с безплатни напитки, 1 час обедна почивка и персонален подарък. Ако това е твоят момент, не чакай по-удобен.
+              Включени са практическите упражнения, работата по твоята посока и персонален подарък за всеки гост. Ако това е твоят момент, не чакай по-удобен.
             </div>
             <div class="section-cta">
               <a href="#registration" class="btn btn-primary">Искам да запазя място</a>
