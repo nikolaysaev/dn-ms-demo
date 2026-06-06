@@ -5,7 +5,7 @@ import sys
 
 
 DEFAULT_HOST = "127.0.0.1"
-DEFAULT_PORT = 8000
+DEFAULT_PORT = 8090
 ROOT = Path(__file__).resolve().parent
 
 
@@ -34,7 +34,7 @@ def run() -> None:
     host = resolve_host()
     port = resolve_port()
     server = ThreadingHTTPServer((host, port), DemoRequestHandler)
-    print(f"Serving demo at http://{host}:{port}")
+    print(f"Serving chatbot demo at http://{host}:{port}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

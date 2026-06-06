@@ -1,0 +1,118 @@
+{
+  "source": "json/ProductsDetailsExport.json",
+  "recordCount": 4223,
+  "fileSizeBytes": 152694267,
+  "schema": [
+    "Id",
+    "Name",
+    "Description",
+    "Appliances",
+    "CategoryId"
+  ],
+  "categoryCount": 58,
+  "topCategories": [
+    {
+      "categoryId": "84",
+      "count": 327
+    },
+    {
+      "categoryId": "92",
+      "count": 326
+    },
+    {
+      "categoryId": "94",
+      "count": 252
+    },
+    {
+      "categoryId": "75",
+      "count": 228
+    },
+    {
+      "categoryId": "89",
+      "count": 221
+    },
+    {
+      "categoryId": "69",
+      "count": 175
+    },
+    {
+      "categoryId": "159",
+      "count": 143
+    },
+    {
+      "categoryId": "150",
+      "count": 139
+    },
+    {
+      "categoryId": "71",
+      "count": 138
+    },
+    {
+      "categoryId": "231",
+      "count": 135
+    }
+  ],
+  "samples": [
+    {
+      "id": 20505,
+      "name": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф37 х 330mm | 1500004054",
+      "categoryId": 485,
+      "description": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф37 х 330mmМарка: ROTHENBERGERМодел: DX HIGH SPEED DRYАрт. номер: 1500004054Диамантената боркорона DX HIGH SPEED DRY е предназначена за сухо...",
+      "appliances": []
+    },
+    {
+      "id": 20504,
+      "name": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф42 х 330mm | 1500004055",
+      "categoryId": 485,
+      "description": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф42 х 330mmМарка: ROTHENBERGERМодел: DX HIGH SPEED DRYАрт. номер: 1500004055Диамантената боркорона DX HIGH SPEED DRY е предназначена за сухо...",
+      "appliances": []
+    },
+    {
+      "id": 20498,
+      "name": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф57 х 330mm | 1500004057",
+      "categoryId": 485,
+      "description": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф57 х 330mmМарка: ROTHENBERGERМодел: DX HIGH SPEED DRYАрт. номер: 1500004057Диамантената боркорона DX HIGH SPEED DRY е предназначена за сухо...",
+      "appliances": []
+    },
+    {
+      "id": 20512,
+      "name": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф112 х 330mm | 1500004064",
+      "categoryId": 485,
+      "description": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф112 х 330mmМарка: ROTHENBERGERМодел: DX HIGH SPEED DRYАрт. номер: 1500004064Диамантената боркорона DX HIGH SPEED DRY е предназначена за сухо...",
+      "appliances": []
+    },
+    {
+      "id": 20513,
+      "name": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф122 х 330mm | 1500004065",
+      "categoryId": 485,
+      "description": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф122 х 330mmМарка: ROTHENBERGERМодел: DX HIGH SPEED DRYАрт. номер: 1500004065Диамантената боркорона DX HIGH SPEED DRY е предназначена за сухо...",
+      "appliances": []
+    },
+    {
+      "id": 20494,
+      "name": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф68 х 330mm | 1500004059",
+      "categoryId": 485,
+      "description": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф68 х 330mmМарка: ROTHENBERGERМодел: DX HIGH SPEED DRYАрт. номер: 1500004059Диамантената боркорона DX HIGH SPEED DRY е предназначена за сухо...",
+      "appliances": []
+    },
+    {
+      "id": 20565,
+      "name": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф127 х 330mm | 1500004066",
+      "categoryId": 485,
+      "description": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф127 х 330mmМарка: ROTHENBERGERМодел: DX HIGH SPEED DRYАрт. номер: 1500004066Диамантената боркорона DX HIGH SPEED DRY е предназначена за сухо...",
+      "appliances": []
+    },
+    {
+      "id": 20566,
+      "name": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф132 х 330mm | 1500004067",
+      "categoryId": 485,
+      "description": "Диамантена боркорона ROTHENBERGER DX HIGH SPEED DRY за сухо пробиване, 1 1/4\", ф132 х 330mmМарка: ROTHENBERGERМодел: DX HIGH SPEED DRYАрт. номер: 1500004067Диамантената боркорона DX HIGH SPEED DRY е предназначена за сухо...",
+      "appliances": []
+    }
+  ],
+  "notes": [
+    "This summary is for the demo page only.",
+    "The full product database remains json/ProductsDetailsExport.json.",
+    "The export uses capitalized keys: Id, Name, Description, Appliances, CategoryId."
+  ]
+}

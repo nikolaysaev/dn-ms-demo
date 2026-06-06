@@ -3,3 +3,6 @@
 __pycache__/
 *.pyc
 backups/
+
+# Large local product exports
+json/ProductsDetailsExport.json

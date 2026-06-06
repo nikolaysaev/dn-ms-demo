@@ -1,1797 +1,670 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="bg">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="facebook-domain-verification" content="ubanvb5reukdi571n7zlvbkwnfn97i" />
-    <title>Алгоритъм за успеха</title>
-    <style>
-      /*
-        Quick asset setup
-        --logo: square transparent PNG/SVG logo.
-        --orn-line: thin decorative line / arc PNG or SVG.
-        --orn-circle: circular transparent ornament.
-        --orn-semi: corner / half-circle transparent ornament.
-        --hero-banner: recommended 1600x900.
-        --speaker-banner: recommended 1600x700.
-
-        Form setup
-        Edit formspree-config.js
-        1. Replace endpoint with your real Formspree endpoint.
-        2. Adjust subject/source/tags if needed.
-      */
-
-      body {
-        margin: 0;
-        background: #f7f3e8;
-        color: #162033;
-        font-family: Arial, Helvetica, sans-serif;
-      }
-
-      #success-algorithm-event,
-      #success-algorithm-event * {
-        box-sizing: border-box;
-      }
-
-      #success-algorithm-event {
-        --navy: #000080;
-        --navy-2: #1a1aa6;
-        --navy-3: #00005a;
-        --gold: #cc9900;
-        --gold-light: #e0b84d;
-        --gold-soft: #f3dda0;
-        --cream: #f7f3e8;
-        --white: #ffffff;
-        --text: #162033;
-        --muted: #5f6b7a;
-        --border: rgba(0, 0, 128, 0.12);
-        --shadow: 0 16px 40px rgba(0, 0, 128, 0.1);
-        --max: 1180px;
-        --logo: url("static/img/logo-navy-blue.png");
-        --orn-line: url("static/img/rounded-line.png");
-        --orn-circle: url("static/img/circle.png");
-        --orn-semi: url("static/img/semi-thing.png");
-        --hero-banner: url("static/img/hero-1-pr-dim.jpg");
-        --speaker-banner: url("static/img/hero-1-text-only-pr-dim.jpg");
-      }
-
-      #success-algorithm-event a {
-        text-decoration: none;
-      }
-
-      #success-algorithm-event .wrap {
-        width: min(1180px, calc(100% - 32px));
-        margin: 0 auto;
-        position: relative;
-        z-index: 2;
-      }
-
-      #success-algorithm-event .section {
-        position: relative;
-        overflow: hidden;
-        padding: 82px 0;
-      }
-
-      #success-algorithm-event .section-light {
-        background: #fffdf8;
-      }
-
-      #success-algorithm-event .section-soft {
-        background: var(--cream);
-      }
-
-      #success-algorithm-event .orn {
-        position: absolute;
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-position: center;
-        pointer-events: none;
-        z-index: 1;
-      }
-
-      #success-algorithm-event .hero {
-        position: relative;
-        padding: 82px 0 64px;
-        background:
-          radial-gradient(circle at top left, rgba(0, 0, 128, 0.08), transparent 24%),
-          radial-gradient(circle at 92% 16%, rgba(204, 153, 0, 0.18), transparent 20%),
-          linear-gradient(135deg, #ffffff, #fffaf0 58%, #f8f7ff 100%);
-      }
-
-      #success-algorithm-event .hero:before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          linear-gradient(90deg, rgba(0, 0, 128, 0.03), transparent 22%, transparent 78%, rgba(204, 153, 0, 0.05)),
-          radial-gradient(circle at 10% 20%, rgba(204, 153, 0, 0.12), transparent 24%),
-          radial-gradient(circle at 86% 82%, rgba(0, 0, 128, 0.06), transparent 20%);
-        z-index: 0;
-      }
-
-      #success-algorithm-event .hero-grid {
-        display: grid;
-        grid-template-columns: 1.08fr 0.92fr;
-        gap: 34px;
-        align-items: start;
-      }
-
-      #success-algorithm-event .hero-bottom {
-        max-width: 760px;
-        margin: 28px auto 0;
-      }
-
-      #success-algorithm-event .logo-wrap {
-        display: flex;
-        align-items: center;
-        gap: 22px;
-        margin-bottom: 20px;
-      }
-
-      #success-algorithm-event .logo-img {
-        width: 120px;
-        height: 120px;
-        min-width: 120px;
-        padding: 10px;
-        border-radius: 20px;
-        background-image: var(--logo);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        background-origin: content-box;
-        background-clip: content-box;
-        background-color: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(0, 0, 128, 0.12);
-        box-shadow: 0 10px 30px rgba(0, 0, 128, 0.1);
-      }
-
-      #success-algorithm-event .logo-text {
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: var(--navy);
-        font-weight: 700;
-      }
-
-      #success-algorithm-event .eyebrow {
-        display: inline-block;
-        margin-bottom: 18px;
-        padding: 9px 16px;
-        border-radius: 999px;
-        background: rgba(204, 153, 0, 0.1);
-        color: var(--navy);
-        border: 1px solid rgba(204, 153, 0, 0.35);
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-      }
-
-      #success-algorithm-event h1,
-      #success-algorithm-event h2,
-      #success-algorithm-event h3,
-      #success-algorithm-event h4 {
-        margin-top: 0;
-      }
-
-      #success-algorithm-event h1 {
-        margin-bottom: 18px;
-        max-width: 760px;
-        font-size: clamp(2.6rem, 5.7vw, 4.4rem);
-        line-height: 1.02;
-        font-weight: 800;
-        color: var(--navy);
-      }
-
-      #success-algorithm-event .hero-subtitle {
-        max-width: 720px;
-        margin: 0 0 18px;
-        font-size: 20px;
-        line-height: 1.75;
-        color: #33406f;
-      }
-
-      #success-algorithm-event .hero-facts {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 10px;
-        margin: 0 0 22px;
-      }
-
-      #success-algorithm-event .hero-fact {
-        padding: 12px 14px;
-        border-radius: 18px;
-        background: #ffffff;
-        border: 1px solid rgba(0, 0, 128, 0.12);
-        box-shadow: 0 10px 26px rgba(0, 0, 128, 0.08);
-      }
-
-      #success-algorithm-event .hero-fact strong {
-        display: block;
-        color: var(--navy);
-        font-size: 18px;
-        line-height: 1.1;
-      }
-
-      #success-algorithm-event .hero-fact span {
-        display: block;
-        margin-top: 4px;
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 1.35;
-      }
-
-      #success-algorithm-event .lead-points {
-        display: grid;
-        gap: 12px;
-        margin: 0 0 28px;
-        padding: 0;
-        list-style: none;
-      }
-
-      #success-algorithm-event .lead-points li {
-        position: relative;
-        padding-left: 30px;
-        font-size: 17px;
-        line-height: 1.65;
-        color: #23314f;
-      }
-
-      #success-algorithm-event .lead-points li:before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 10px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--gold), var(--gold-light));
-        box-shadow: 0 0 0 5px rgba(204, 153, 0, 0.14);
-      }
-
-      #success-algorithm-event .line-accent {
-        width: 150px;
-        height: 42px;
-        margin: 0 0 18px;
-        background-image: var(--orn-line);
-        background-repeat: no-repeat;
-        background-position: left center;
-        background-size: contain;
-        opacity: 0.28;
-      }
-
-      #success-algorithm-event .hero-banner {
-        position: relative;
-        min-height: 300px;
-        margin-bottom: 28px;
-        overflow: hidden;
-        border-radius: 26px;
-        border: 1px solid rgba(0, 0, 128, 0.12);
-        box-shadow: 0 18px 48px rgba(0, 0, 128, 0.1);
-        background:
-          linear-gradient(135deg, rgba(0, 0, 128, 0.22), rgba(204, 153, 0, 0.18)),
-          var(--hero-banner) center/cover no-repeat,
-          linear-gradient(135deg, #eef1ff, #fff7e0);
-      }
-
-      #success-algorithm-event .hero-banner:after {
-        content: "";
-        position: absolute;
-        right: 18px;
-        bottom: 14px;
-        width: 112px;
-        height: 56px;
-        background-image: var(--orn-line);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        opacity: 0.22;
-      }
-
-      #success-algorithm-event .btns,
-      #success-algorithm-event .section-cta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 14px;
-      }
-
-      #success-algorithm-event .hero .btns {
-        justify-content: center;
-      }
-
-      #success-algorithm-event .section-cta {
-        justify-content: center;
-        margin-top: 28px;
-      }
-
-      #success-algorithm-event .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 56px;
-        padding: 0 26px;
-        border-radius: 14px;
-        font-size: 15px;
-        font-weight: 800;
-        transition: transform 0.22s ease, box-shadow 0.22s ease;
-      }
-
-      #success-algorithm-event .btn:hover {
-        transform: translateY(-2px);
-      }
-
-      #success-algorithm-event .btn-primary {
-        background: linear-gradient(135deg, var(--gold), var(--gold-light));
-        color: #171717;
-        border: 1px solid rgba(204, 153, 0, 0.45);
-        box-shadow: 0 16px 36px rgba(204, 153, 0, 0.32);
-      }
-
-      #success-algorithm-event .btn-secondary {
-        border: 1px solid rgba(0, 0, 128, 0.2);
-        color: var(--navy);
-        background: rgba(255, 255, 255, 0.86);
-        box-shadow: 0 8px 18px rgba(0, 0, 128, 0.08);
-      }
-
-      #success-algorithm-event .section-cta .btn {
-        min-width: 228px;
-      }
-
-      #success-algorithm-event .hero-form-card {
-        position: relative;
-        padding: 30px;
-        border-radius: 28px;
-        background: linear-gradient(155deg, rgba(0, 0, 128, 0.96), rgba(22, 22, 144, 0.94) 60%, rgba(204, 153, 0, 0.82));
-        border: 1px solid rgba(204, 153, 0, 0.28);
-        box-shadow: 0 24px 60px rgba(0, 0, 128, 0.24);
-        overflow: hidden;
-      }
-
-      #success-algorithm-event .hero-form-card:before {
-        content: "";
-        position: absolute;
-        top: -20px;
-        right: -20px;
-        width: 170px;
-        height: 170px;
-        background-image: var(--orn-circle);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        opacity: 0.1;
-        transform: rotate(10deg);
-      }
-
-      #success-algorithm-event .hero-form-card h3 {
-        margin-bottom: 12px;
-        color: #fff;
-        font-size: 28px;
-      }
-
-      #success-algorithm-event .hero-form-card .card-text {
-        margin: 0 0 22px;
-        color: rgba(255, 255, 255, 0.88);
-        line-height: 1.7;
-      }
-
-      #success-algorithm-event .offer-alert {
-        margin: 0 0 18px;
-        padding: 14px 16px;
-        border-radius: 18px;
-        background: linear-gradient(135deg, rgba(255, 224, 142, 0.2), rgba(255, 255, 255, 0.1));
-        border: 1px solid rgba(255, 221, 122, 0.42);
-        color: #fff7da;
-      }
-
-      #success-algorithm-event .offer-alert strong {
-        display: block;
-        margin-bottom: 4px;
-        color: #ffffff;
-        font-size: 28px;
-        line-height: 1;
-      }
-
-      #success-algorithm-event .offer-alert span {
-        display: block;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-      }
-
-      #success-algorithm-event .offer-stack {
-        display: grid;
-        gap: 10px;
-        margin: 18px 0 22px;
-      }
-
-      #success-algorithm-event .offer-item {
-        padding: 12px 14px;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        color: #fff;
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      #success-algorithm-event .offer-item strong {
-        color: #ffe9a6;
-      }
-
-      #success-algorithm-event .meta-pills {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin: 0 0 20px;
-      }
-
-      #success-algorithm-event .meta-pill {
-        display: inline-flex;
-        align-items: center;
-        padding: 8px 12px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.12);
-        color: #fff;
-        font-size: 13px;
-        font-weight: 700;
-      }
-
-      #success-algorithm-event .lead-form {
-        display: grid;
-        gap: 12px;
-        position: relative;
-      }
-
-      #success-algorithm-event .lead-form input {
-        width: 100%;
-        min-height: 54px;
-        padding: 0 16px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        font: inherit;
-      }
-
-      #success-algorithm-event .lead-form input::placeholder {
-        color: rgba(255, 255, 255, 0.68);
-      }
-
-      #success-algorithm-event .lead-form button.btn-primary {
-        width: 100%;
-        border: none;
-        cursor: pointer;
-        font: inherit;
-      }
-
-      #success-algorithm-event .lead-form button.btn-primary:disabled {
-        opacity: 0.55;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-      }
-
-      #success-algorithm-event .lead-form .btn-primary {
-        width: 100%;
-      }
-
-      #success-algorithm-event .mc-hidden {
-        position: absolute;
-        left: -5000px;
-      }
-
-      #success-algorithm-event .micro-copy {
-        margin: 14px 0 0;
-        padding: 12px 14px;
-        border-radius: 16px;
-        background: rgba(9, 11, 74, 0.28);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        color: rgba(255, 255, 255, 0.92);
-        font-size: 13px;
-        line-height: 1.7;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.22);
-      }
-
-      #success-algorithm-event .micro-copy.warning {
-        color: #ffe7a8;
-      }
-
-      #success-algorithm-event .micro-copy.success {
-        color: #dff8bf;
-      }
-
-      #success-algorithm-event .mini-proof {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-        margin-top: 24px;
-      }
-
-      #success-algorithm-event .mini-proof-card:last-child {
-        grid-column: 2;
-      }
-
-      #success-algorithm-event .mini-proof-card {
-        padding: 18px 16px;
-        border-radius: 18px;
-        text-align: center;
-        background: linear-gradient(180deg, rgba(0, 0, 128, 0.03), rgba(204, 153, 0, 0.08));
-        border: 1px solid rgba(0, 0, 128, 0.12);
-      }
-
-      #success-algorithm-event .mini-proof-card strong {
-        display: block;
-        margin-bottom: 6px;
-        color: var(--navy);
-        font-size: 28px;
-      }
-
-      #success-algorithm-event .mini-proof-card span {
-        color: #4b5477;
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      #success-algorithm-event .section-title {
-        margin: 0 0 16px;
-        font-size: 40px;
-        line-height: 1.12;
-        font-weight: 800;
-        text-align: center;
-        color: var(--navy);
-        position: relative;
-        z-index: 2;
-      }
-
-      #success-algorithm-event .section-title:after {
-        content: "";
-        display: block;
-        width: 110px;
-        height: 28px;
-        margin: 14px auto 0;
-        background-image: var(--orn-line);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        opacity: 0.22;
-      }
-
-      #success-algorithm-event .section-text {
-        max-width: 860px;
-        margin: 0 auto 38px;
-        text-align: center;
-        color: var(--muted);
-        font-size: 18px;
-        line-height: 1.8;
-        position: relative;
-        z-index: 2;
-      }
-
-      #success-algorithm-event .cards-2,
-      #success-algorithm-event .cards-3,
-      #success-algorithm-event .testimonials {
-        display: grid;
-        gap: 24px;
-        position: relative;
-        z-index: 2;
-      }
-
-      #success-algorithm-event .cards-2 {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      #success-algorithm-event .cards-3,
-      #success-algorithm-event .testimonials {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      #success-algorithm-event .card,
-      #success-algorithm-event .testimonial {
-        position: relative;
-        overflow: hidden;
-        height: 100%;
-        padding: 28px;
-        border-radius: 24px;
-        background: #fff;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow);
-      }
-
-      #success-algorithm-event .card:after {
-        content: "";
-        position: absolute;
-        right: -18px;
-        bottom: -18px;
-        width: 110px;
-        height: 110px;
-        background-image: var(--orn-semi);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        opacity: 0.08;
-        pointer-events: none;
-      }
-
-      #success-algorithm-event .card h3,
-      #success-algorithm-event .testimonial h3 {
-        margin-bottom: 12px;
-        font-size: 22px;
-        color: var(--navy);
-      }
-
-      #success-algorithm-event .card p,
-      #success-algorithm-event .testimonial p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.8;
-      }
-
-      #success-algorithm-event .quote-box {
-        padding: 24px 28px;
-        border-radius: 22px;
-        background: linear-gradient(135deg, #fff8df, #fffdf4);
-        border: 1px solid rgba(204, 153, 0, 0.35);
-        text-align: center;
-        font-size: 24px;
-        line-height: 1.55;
-        font-weight: 700;
-        color: var(--navy);
-        box-shadow: var(--shadow);
-      }
-
-      #success-algorithm-event .bullet-list {
-        margin: 16px 0 0;
-        padding: 0;
-        list-style: none;
-      }
-
-      #success-algorithm-event .bullet-list li {
-        position: relative;
-        margin-bottom: 12px;
-        padding-left: 28px;
-        line-height: 1.7;
-        color: #223047;
-      }
-
-      #success-algorithm-event .bullet-list li:before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 10px;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      }
-
-      #success-algorithm-event .timeline {
-        display: grid;
-        gap: 18px;
-      }
-
-      #success-algorithm-event .timeline-item {
-        position: relative;
-        overflow: hidden;
-        padding: 24px;
-        border-radius: 24px;
-        background: #fff;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow);
-      }
-
-      #success-algorithm-event .timeline-item:before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 5px;
-        background: linear-gradient(180deg, var(--gold), var(--gold-light));
-      }
-
-      #success-algorithm-event .timeline-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 18px;
-        flex-wrap: wrap;
-        margin-bottom: 10px;
-      }
-
-      #success-algorithm-event .timeline-title {
-        margin: 0;
-        font-size: 22px;
-        font-weight: 800;
-        color: var(--navy);
-      }
-
-      #success-algorithm-event .timeline-time {
-        padding: 8px 14px;
-        border-radius: 999px;
-        white-space: nowrap;
-        background: #fff8df;
-        border: 1px solid rgba(204, 153, 0, 0.28);
-        color: var(--navy);
-        font-size: 14px;
-        font-weight: 700;
-      }
-
-      #success-algorithm-event .timeline-item p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.8;
-      }
-
-      #success-algorithm-event .steps {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 18px;
-        position: relative;
-        z-index: 2;
-      }
-
-      #success-algorithm-event .step {
-        padding: 24px 18px;
-        text-align: center;
-        border-radius: 24px;
-        background: #fff;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow);
-      }
-
-      #success-algorithm-event .step-num {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 54px;
-        height: 54px;
-        margin: 0 auto 14px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--gold), var(--gold-light));
-        color: #1c2637;
-        font-size: 22px;
-        font-weight: 800;
-        box-shadow: 0 10px 24px rgba(204, 153, 0, 0.24);
-      }
-
-      #success-algorithm-event .step h4 {
-        margin: 0 0 8px;
-        font-size: 20px;
-        color: var(--navy);
-      }
-
-      #success-algorithm-event .step p {
-        margin: 0;
-        font-size: 15px;
-        line-height: 1.65;
-        color: var(--muted);
-      }
-
-      #success-algorithm-event .speaker-banner {
-        position: relative;
-        min-height: 320px;
-        margin: 0 0 34px;
-        overflow: hidden;
-        border-radius: 26px;
-        border: 1px solid rgba(0, 0, 128, 0.12);
-        box-shadow: 0 18px 48px rgba(0, 0, 128, 0.1);
-        background:
-          linear-gradient(135deg, rgba(0, 0, 128, 0.24), rgba(204, 153, 0, 0.16)),
-          var(--speaker-banner) center/cover no-repeat,
-          linear-gradient(135deg, #f7f8ff, #fff7e5);
-      }
-
-      #success-algorithm-event .speaker-photo {
-        width: 176px;
-        aspect-ratio: 1;
-        margin: 0 0 20px;
-        border-radius: 24px;
-        border: 1px solid rgba(0, 0, 128, 0.12);
-        box-shadow: 0 16px 34px rgba(0, 0, 128, 0.14);
-        background-color: #eef1ff;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-      }
-
-      #success-algorithm-event .speaker-photo-maria {
-        background-image: url("static/img/faces-m-1.jpg");
-      }
-
-      #success-algorithm-event .speaker-photo-vanya {
-        background-image: url("static/img/faces-v-1.jpg");
-      }
-
-      #success-algorithm-event .speaker-label,
-      #success-algorithm-event .testimonial-tag {
-        display: inline-block;
-        margin-bottom: 14px;
-        padding: 7px 12px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      #success-algorithm-event .speaker-label {
-        color: var(--navy);
-        background: #fff8df;
-        border: 1px solid rgba(204, 153, 0, 0.3);
-      }
-
-      #success-algorithm-event .testimonial-tag {
-        background: rgba(0, 0, 128, 0.07);
-        color: var(--navy);
-      }
-
-      #success-algorithm-event .testimonial strong {
-        display: block;
-        margin-top: 16px;
-        color: var(--navy);
-      }
-
-      #success-algorithm-event .testimonial span {
-        color: var(--muted);
-        font-size: 14px;
-      }
-
-      #success-algorithm-event .offer-box {
-        position: relative;
-        padding: 34px;
-        border-radius: 28px;
-        background: linear-gradient(135deg, #fffdf7, #fff7e5);
-        border: 1px solid rgba(204, 153, 0, 0.26);
-        box-shadow: var(--shadow);
-      }
-
-      #success-algorithm-event .offer-box h3 {
-        margin-bottom: 12px;
-        font-size: 30px;
-        color: var(--navy);
-      }
-
-      #success-algorithm-event .offer-box p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.8;
-      }
-
-      #success-algorithm-event .urgency-strip {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-        margin-top: 22px;
-      }
-
-      #success-algorithm-event .urgency-item {
-        padding: 16px 18px;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(0, 0, 128, 0.09);
-        text-align: center;
-      }
-
-      #success-algorithm-event .urgency-item strong {
-        display: block;
-        margin-bottom: 6px;
-        color: var(--navy);
-        font-size: 18px;
-      }
-
-      #success-algorithm-event .urgency-item span {
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      #success-algorithm-event .cta-box {
-        position: relative;
-        overflow: hidden;
-        padding: 52px 34px;
-        border-radius: 30px;
-        background: linear-gradient(135deg, var(--navy-3), var(--navy));
-        color: #fff;
-        text-align: center;
-        box-shadow: 0 22px 60px rgba(0, 0, 128, 0.22);
-      }
-
-      #success-algorithm-event .cta-box:before {
-        content: "";
-        position: absolute;
-        left: -30px;
-        bottom: -30px;
-        width: 180px;
-        height: 180px;
-        background-image: var(--orn-line);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        opacity: 0.12;
-        transform: rotate(-8deg);
-      }
-
-      #success-algorithm-event .cta-box:after {
-        content: "";
-        position: absolute;
-        right: -20px;
-        top: -20px;
-        width: 170px;
-        height: 170px;
-        background-image: var(--orn-circle);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        opacity: 0.1;
-      }
-
-      #success-algorithm-event .cta-box h2 {
-        margin-bottom: 14px;
-        font-size: 42px;
-        color: #fff;
-      }
-
-      #success-algorithm-event .cta-box p {
-        max-width: 760px;
-        margin: 0 auto 24px;
-        font-size: 19px;
-        line-height: 1.8;
-        color: rgba(255, 255, 255, 0.88);
-      }
-
-      #success-algorithm-event .cta-price {
-        margin: 18px auto 0;
-        max-width: 720px;
-        padding: 16px 18px;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.12);
-        border: 1px solid rgba(255, 221, 122, 0.34);
-        color: #fff;
-        font-size: 15px;
-        line-height: 1.65;
-      }
-
-      #success-algorithm-event .cta-price strong {
-        color: #ffe49a;
-        font-size: 24px;
-      }
-
-      #success-algorithm-event .cta-box .section-cta {
-        margin-top: 22px;
-      }
-
-      #success-algorithm-event .faq {
-        display: grid;
-        gap: 16px;
-      }
-
-      #success-algorithm-event .faq-item {
-        padding: 22px;
-        border-radius: 18px;
-        background: #fff;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow);
-      }
-
-      #success-algorithm-event .faq-item h3 {
-        margin-bottom: 10px;
-        font-size: 20px;
-        color: var(--navy);
-      }
-
-      #success-algorithm-event .faq-item p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.8;
-      }
-
-      #success-algorithm-event .hero-orn-2 {
-        top: 22px;
-        right: 0;
-        width: 168px;
-        height: 168px;
-        background-image: var(--orn-semi);
-        opacity: 0.12;
-      }
-
-      #success-algorithm-event .about-orn-1 {
-        top: 18px;
-        right: 4%;
-        width: 110px;
-        height: 110px;
-        background-image: var(--orn-semi);
-        opacity: 0.12;
-      }
-
-      #success-algorithm-event .benefits-orn-1 {
-        bottom: 12px;
-        left: 2%;
-        width: 130px;
-        height: 130px;
-        background-image: var(--orn-circle);
-        opacity: 0.09;
-      }
-
-      #success-algorithm-event .program-orn-1 {
-        top: 40px;
-        left: 1%;
-        width: 120px;
-        height: 120px;
-        background-image: var(--orn-semi);
-        opacity: 0.12;
-      }
-
-      #success-algorithm-event .steps-orn-1 {
-        top: 30px;
-        right: 2%;
-        width: 140px;
-        height: 140px;
-        background-image: var(--orn-line);
-        opacity: 0.14;
-      }
-
-      #success-algorithm-event .speaker-orn-1 {
-        bottom: 20px;
-        left: 2%;
-        width: 110px;
-        height: 110px;
-        background-image: var(--orn-circle);
-        opacity: 0.1;
-      }
-
-      #success-algorithm-event .faq-orn-1 {
-        top: 20px;
-        right: 1%;
-        width: 120px;
-        height: 120px;
-        background-image: var(--orn-semi);
-        opacity: 0.1;
-      }
-
-      @media (max-width: 1100px) {
-        #success-algorithm-event .hero-grid,
-        #success-algorithm-event .cards-2,
-        #success-algorithm-event .cards-3,
-        #success-algorithm-event .steps,
-        #success-algorithm-event .testimonials,
-        #success-algorithm-event .urgency-strip,
-        #success-algorithm-event .hero-facts,
-        #success-algorithm-event .mini-proof {
-          grid-template-columns: 1fr;
-        }
-
-        #success-algorithm-event .mini-proof-card:last-child {
-          grid-column: auto;
-        }
-      }
-
-      @media (max-width: 767px) {
-        #success-algorithm-event .hero {
-          padding: 60px 0 46px;
-        }
-
-        #success-algorithm-event h1 {
-          font-size: 36px;
-        }
-
-        #success-algorithm-event .section-title,
-        #success-algorithm-event .cta-box h2 {
-          font-size: 30px;
-        }
-
-        #success-algorithm-event .hero-subtitle,
-        #success-algorithm-event .section-text,
-        #success-algorithm-event .cta-box p {
-          font-size: 17px;
-        }
-
-        #success-algorithm-event .btns,
-        #success-algorithm-event .section-cta {
-          flex-direction: column;
-        }
-
-        #success-algorithm-event .btn,
-        #success-algorithm-event .section-cta .btn {
-          width: 100%;
-        }
-
-        #success-algorithm-event .logo-wrap {
-          align-items: flex-start;
-        }
-
-        #success-algorithm-event .logo-img {
-          width: 72px;
-          height: 72px;
-          min-width: 72px;
-        }
-
-        #success-algorithm-event .hero-orn-2 {
-          top: 14px;
-          right: -8px;
-          width: 120px;
-          height: 120px;
-          opacity: 0.1;
-        }
-
-        #success-algorithm-event .hero-banner {
-          min-height: auto;
-          aspect-ratio: 16 / 7;
-          background:
-            linear-gradient(135deg, rgba(0, 0, 128, 0.12), rgba(204, 153, 0, 0.1)),
-            var(--hero-banner) center/cover no-repeat,
-            linear-gradient(135deg, #101347, #1b1f61);
-        }
-
-        #success-algorithm-event .speaker-banner {
-          min-height: auto;
-          aspect-ratio: 16 / 7;
-          background:
-            linear-gradient(135deg, rgba(0, 0, 128, 0.12), rgba(204, 153, 0, 0.1)),
-            var(--speaker-banner) center/cover no-repeat,
-            linear-gradient(135deg, #101347, #1b1f61);
-        }
-
-        #success-algorithm-event .speaker-photo {
-          width: min(58vw, 220px);
-        }
-
-        #success-algorithm-event .micro-copy {
-          padding: 14px 15px;
-          background: rgba(8, 10, 66, 0.42);
-          color: #ffffff;
-          font-size: 14px;
-          line-height: 1.75;
-        }
-
-        #success-algorithm-event .cta-box .section-cta {
-          margin-top: 18px;
-          gap: 12px;
-        }
-      }
-    </style>
-    <!-- Meta Pixel Code -->
-    <script>
-      !(function (f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = "2.0";
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
-      fbq("init", "1623419722327202");
-      fbq("track", "PageView");
-    </script>
-    <!-- End Meta Pixel Code -->
-  </head>
-  <body>
-    <noscript
-      ><img
-        height="1"
-        width="1"
-        style="display: none"
-        src="https://www.facebook.com/tr?id=1623419722327202&ev=PageView&noscript=1"
-    /></noscript>
-    <section id="success-algorithm-event">
-      <div class="hero">
-        <div class="orn hero-orn-2"></div>
-        <div class="wrap">
-          <div class="hero-grid">
-            <div>
-              <div class="logo-wrap">
-                <div class="logo-img"></div>
-                <div class="logo-text">Събитие, което превръща идеите в действие</div>
-              </div>
-              <div class="eyebrow">5-часов практически семинар на живо</div>
-              <h1>Алгоритъмът за успеха: от идея до реален резултат</h1>
-              <p class="hero-subtitle">
-                Ако от месеци или години знаеш, че имаш потенциал за повече, но не успяваш да преминеш към действие, това събитие е създадено точно за теб. За 5 часа ще получиш яснота, структура и реален следващ ход.
-              </p>
-              <div class="hero-facts">
-                <div class="hero-fact">
-                  <strong>13.06</strong>
-                  <span>дата на събитието</span>
-                </div>
-                <div class="hero-fact">
-                  <strong>10:00-15:00</strong>
-                  <span>5-часов семинар</span>
-                </div>
-                <div class="hero-fact">
-                  <strong>Campus 90</strong>
-                  <span>локация на събитието</span>
-                </div>
-                <div class="hero-fact">
-                  <strong>2 x 15 мин</strong>
-                  <span>кафе паузи с напитки</span>
-                </div>
-                <div class="hero-fact">
-                  <strong>1 час</strong>
-                  <span>обедна почивка</span>
-                </div>
-              </div>
-              <ul class="lead-points">
-                <li>Ще видиш какво реално те спира да действаш, дори когато знаеш какво искаш.</li>
-                <li>Ще подредиш идеята си така, че да спре да бъде само мисъл и да стане план.</li>
-                <li>Ще си тръгнеш с конкретна първа стъпка, а не само с добро усещане.</li>
-              </ul>
-            </div>
-
-            <div class="hero-form-card" id="registration">
-              <h3>Запази мястото си</h3>
-              <p class="card-text">
-                Ако сериозно искаш яснота, посока и конкретен план за действие, това е моментът да вземеш решението. Остави име, имейл и телефон, за да потвърдим участието ти.
-              </p>
-              <div class="offer-alert">
-                <span>Цена за участие</span>
-                <strong>50 EUR</strong>
-                <span>Не купуваш мотивация. Купуваш ден с реална структура, упражнения и ясен следващ ход.</span>
-              </div>
-              <div class="meta-pills">
-                <span class="meta-pill">Дата: 13.06</span>
-                <span class="meta-pill">10:00-15:00</span>
-                <span class="meta-pill">Хотел Campus 90</span>
-                <span class="meta-pill">Местата са ограничени</span>
-                <span class="meta-pill">Подарък за всеки гост</span>
-                <span class="meta-pill">Практически упражнения</span>
-              </div>
-              <div class="offer-stack">
-                <div class="offer-item"><strong>Включено:</strong> цялото събитие на живо, практическа рамка и упражнения, които да приложиш веднага.</div>
-                <div class="offer-item"><strong>Причината да действаш сега:</strong> местата са ограничени, а форматът е направен за фокусирана работа в малка група.</div>
-              </div>
-              <form
-                class="lead-form"
-                method="post"
-                id="lead-capture-form"
-                novalidate
-              >
-                <input type="text" name="name" placeholder="Твоето име" required />
-                <input type="email" name="email" placeholder="Имейл адрес" required />
-                <input type="tel" name="phone" placeholder="Телефон" />
-                <div class="mc-hidden" aria-hidden="true">
-                  <input type="text" name="_gotcha" tabindex="-1" value="" autocomplete="off" />
-                </div>
-                <input type="hidden" name="_subject" id="form-subject" value="" />
-                <input type="hidden" name="source" id="form-source" value="" />
-                <input type="hidden" name="tags" id="form-tags" value="" />
-                <button type="submit" class="btn btn-primary" id="lead-submit">Искам да запазя място</button>
-              </form>
-              <p class="micro-copy" id="form-status" aria-live="polite">
-                Остави контакт и ще получиш потвърждение с детайлите за участие.
-              </p>
-            </div>
-          </div>
-          <div class="hero-bottom">
-            <div class="line-accent" aria-hidden="true"></div>
-            <div class="hero-banner" aria-hidden="true"></div>
-            <div class="btns">
-              <a href="#registration" class="btn btn-primary">Запази място сега</a>
-              <a href="#program" class="btn btn-secondary">Виж програмата</a>
-            </div>
-            <div class="mini-proof">
-              <div class="mini-proof-card">
-                <strong>Практично</strong>
-                <span>не вдъхновение за ден, а модел за реално движение</span>
-              </div>
-              <div class="mini-proof-card">
-                <strong>Яснота</strong>
-                <span>разбираш какво те спира и как да излезеш от застой</span>
-              </div>
-              <div class="mini-proof-card">
-                <strong>План</strong>
-                <span>излизаш с конкретна следваща стъпка, а не само с мотивация</span>
-              </div>
-              <div class="mini-proof-card">
-                <strong>Действие</strong>
-                <span>тръгваш напред с повече фокус, увереност и посока</span>
-              </div>
-            </div>
-          </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CartAssist Chatbot Demo</title>
+  <meta name="description" content="White demo storefront for the CartAssist chatbot and product database.">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --soft: #f9fafb;
+      --soft-2: #f3f4f6;
+      --accent: #111827;
+      --ok: #047857;
+      --warn: #b45309;
+      --danger: #b91c1c;
+      --radius: 18px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: var(--bg); color: var(--text); }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      background:
+        linear-gradient(180deg, rgba(249, 250, 251, 0.9), #ffffff 34%),
+        #ffffff;
+    }
+
+    button, input, textarea { font: inherit; }
+
+    a { color: inherit; }
+
+    .page {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 44px 0 80px;
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: 18px;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #111827;
+      color: #fff;
+      font-size: 13px;
+      letter-spacing: -0.06em;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.86);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--warn);
+    }
+
+    .dot.ok { background: var(--ok); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 32px;
+      align-items: start;
+      padding: 54px 0 34px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(40px, 6vw, 76px);
+      line-height: 0.94;
+      letter-spacing: -0.075em;
+    }
+
+    .lead {
+      margin: 24px 0 0;
+      max-width: 680px;
+      color: #374151;
+      font-size: clamp(17px, 2vw, 21px);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      border: 1px solid #111827;
+      background: #111827;
+      color: #fff;
+      border-radius: 999px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: 750;
+      transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn.secondary {
+      background: #fff;
+      color: #111827;
+      border-color: var(--line);
+    }
+
+    .btn.small {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.94);
+      box-shadow: 0 18px 60px rgba(17, 24, 39, 0.06);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      background: var(--soft);
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+
+    .panel-body { padding: 20px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: #fff;
+    }
+
+    .metric {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+    }
+
+    .label {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      color: #374151;
+      font-size: 13px;
+      font-weight: 750;
+      margin-bottom: 6px;
+    }
+
+    .input, .textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+    }
+
+    .textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    .input:focus, .textarea:focus {
+      border-color: #111827;
+      box-shadow: 0 0 0 3px rgba(17,24,39,0.08);
+    }
+
+    .help {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .log {
+      min-height: 210px;
+      max-height: 380px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--soft);
+      padding: 12px;
+    }
+
+    .msg {
+      padding: 10px 12px;
+      border-radius: 12px;
+      margin: 0 0 10px;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .msg.user {
+      margin-left: 38px;
+      background: #111827;
+      border-color: #111827;
+      color: #fff;
+    }
+
+    .msg.bot { margin-right: 38px; }
+    .msg.error { color: var(--danger); }
+
+    .samples {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .sample {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 13px 14px;
+      background: #fff;
+    }
+
+    .sample strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .sample span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .code {
+      display: block;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .notice {
+      margin-top: 14px;
+      border: 1px solid #fed7aa;
+      background: #fff7ed;
+      color: #7c2d12;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 900px) {
+      .hero, .section { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      .topline { align-items: flex-start; flex-direction: column; }
+      .page { width: min(100% - 28px, var(--max)); padding-top: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topline">
+      <div class="brand"><span class="mark">DN</span> CartAssist chatbot demo</div>
+      <div class="status-pill"><span id="database-dot" class="dot"></span><span id="database-status">Loading product database summary...</span></div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">White demo storefront</p>
+        <h1>Clean page for chatbot testing.</h1>
+        <p class="lead">This page is intentionally plain: enough product context for a live demo, no old campaign content, and two chatbot test paths.</p>
+        <div class="actions">
+          <button class="btn" type="button" data-scroll="#official-widget">Load platform widget</button>
+          <button class="btn secondary" type="button" data-scroll="#direct-api">Test direct API</button>
         </div>
       </div>
 
-      <div class="section section-light">
-        <div class="orn about-orn-1"></div>
-        <div class="wrap">
-          <h2 class="section-title">Защо това събитие е различно</h2>
-          <p class="section-text">
-            Повечето хора не се провалят, защото нямат идея. Провалят се, защото остават прекалено дълго в колебание, страх и свръхмислене. Това събитие е създадено, за да прекъсне точно този модел и да те премести от “някой ден” към “започвам сега”.
-          </p>
-          <div class="cards-3">
-            <div class="card">
-              <h3>Не говорим общо</h3>
-              <p>Тук няма да слушаш абстрактни фрази за успех. Ще видиш как да преведеш идеята си в реална, изпълнима стъпка.</p>
-            </div>
-            <div class="card">
-              <h3>Не търсим емоционален пик</h3>
-              <p>Целта не е да си тръгнеш просто вдъхновен. Целта е да си тръгнеш решен и подготвен да действаш.</p>
-            </div>
-            <div class="card">
-              <h3>Не оставаш сам</h3>
-              <p>Ще получиш структура, която можеш да използваш и след събитието, вместо временен импулс, който изчезва след два дни.</p>
-            </div>
+      <aside class="panel" aria-label="Product database">
+        <div class="panel-head">
+          <h2 class="panel-title">Product database</h2>
+          <span class="label">json/ProductsDetailsExport.json</span>
+        </div>
+        <div class="panel-body">
+          <div class="grid">
+            <div class="card"><span id="metric-products" class="metric">-</span><span class="label">products</span></div>
+            <div class="card"><span id="metric-size" class="metric">-</span><span class="label">database size</span></div>
+            <div class="card"><span id="metric-cats" class="metric">-</span><span class="label">category ids</span></div>
           </div>
-          <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Да, това е за мен</a>
+          <p class="help">The page reads `json/products-demo-summary.json`; the full product database remains `json/ProductsDetailsExport.json` for backend import/sync.</p>
+          <div class="notice">Schema note: this export uses `Id`, `Name`, `Description`, `Appliances`, `CategoryId`. Dashboard `/v1/sync` payloads should map these to `external_id`, `name`, `description`, compatibility/category metadata, and stock/price fields when available.</div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <div id="official-widget" class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">Platform widget embed</h2>
+          <button id="load-widget" class="btn small" type="button">Load widget</button>
+        </div>
+        <div class="panel-body">
+          <div class="field">
+            <label for="widget-script">Widget script URL</label>
+            <input id="widget-script" class="input" value="http://127.0.0.1:8002/v1/widget/dn-chatbot.min.js">
           </div>
+          <div class="field">
+            <label for="widget-api">Dashboard public API base</label>
+            <input id="widget-api" class="input" value="http://127.0.0.1:8002/v1">
+          </div>
+          <div class="field">
+            <label for="public-key">Public API key</label>
+            <input id="public-key" class="input" placeholder="Paste store api_key_public from dashboard settings">
+          </div>
+          <p class="help">Use this when `dn-chatbot-dashboard` is running. The widget talks to `/v1/chat/session`, `/v1/chat/ask`, `/v1/chat/history`, `/v1/events`, and `/v1/widget-branding`.</p>
+          <code class="code" id="embed-code"></code>
         </div>
       </div>
 
-      <div class="section section-soft">
-        <div class="orn benefits-orn-1"></div>
-        <div class="wrap">
-          <h2 class="section-title">Какво ще получиш</h2>
-          <p class="section-text">
-            Ще получиш нещо много по-ценно от моментен ентусиазъм: яснота какво искаш, увереност как да започнеш и конкретен план за първата реална крачка.
-          </p>
-          <div class="cards-3">
-            <div class="card">
-              <h3>Яснота, която спестява време</h3>
-              <p>Ще разбереш какво точно те блокира и ще спреш да губиш месеци в отлагане, вътрешен шум и самосъмнение.</p>
-            </div>
-            <div class="card">
-              <h3>Вътрешна промяна</h3>
-              <p>Ще разпознаеш модела, който саботира действията ти, и ще получиш работещ подход как да излезеш от него.</p>
-            </div>
-            <div class="card">
-              <h3>Конкретен следващ ход</h3>
-              <p>Ще си тръгнеш с реална стъпка, която можеш да изпълниш веднага, вместо отново да оставиш идеята за по-късно.</p>
-            </div>
-          </div>
-          <div class="quote-box" style="margin-top: 30px;">„Няма да си тръгнеш само вдъхновен. Ще си тръгнеш с решение и посока.“</div>
-          <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Искам този резултат</a>
-          </div>
+      <div id="direct-api" class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">Direct chatbot API test</h2>
+          <button id="reset-session" class="btn secondary small" type="button">New session</button>
         </div>
-      </div>
-
-      <div class="section section-light">
-        <div class="wrap">
-          <h2 class="section-title">За кого е това събитие</h2>
-          <p class="section-text">
-            Това събитие е създадено за хора, които усещат, че имат повече потенциал, отколкото реално използват в момента.
-          </p>
-          <div class="cards-2">
-            <div class="card">
-              <h3>Това събитие е за теб, ако:</h3>
-              <ul class="bullet-list">
-                <li>имаш идея, проект или посока, които отлагаш твърде дълго</li>
-                <li>знаеш какво трябва да направиш, но не стигаш до действие</li>
-                <li>страхът, самосъмнението или перфекционизмът те държат в застой</li>
-                <li>искаш не просто мотивация, а практичен модел, който да приложиш веднага</li>
-                <li>си готов да отделиш внимание и енергия за реална промяна</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>Няма да е за теб, ако:</h3>
-              <ul class="bullet-list">
-                <li>искаш просто да чуеш нещо приятно, без да участваш истински</li>
-                <li>не си готов да погледнеш честно какво те спира</li>
-                <li>очакваш промяна без лична ангажираност</li>
-                <li>предпочиташ да останеш в зоната на извиненията вместо да започнеш</li>
-              </ul>
-            </div>
+        <div class="panel-body">
+          <div class="field">
+            <label for="core-api">Chatbot core API base</label>
+            <input id="core-api" class="input" value="http://127.0.0.1:8001">
           </div>
-          <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Това е за мен</a>
+          <div class="field">
+            <label for="client-id">Client/store id</label>
+            <input id="client-id" class="input" value="1">
           </div>
-        </div>
-      </div>
-
-      <div id="program" class="section section-soft">
-        <div class="orn program-orn-1"></div>
-        <div class="wrap">
-          <h2 class="section-title">5-часова програма, без празно говорене</h2>
-          <p class="section-text">
-            Програмата следва естествения ритъм на деня: фокус в началото, дълбока работа преди обед, практическо подреждане след почивките и финал с конкретен следващ ход.
-          </p>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-top">
-                <h3 class="timeline-title">1. Откриване и фокус</h3>
-                <div class="timeline-time">10:00</div>
-              </div>
-              <p>Влизаме в темата, изчистваме очакванията и насочваме вниманието към реалния въпрос: какво искаш да преместиш от идея към действие.</p>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-top">
-                <h3 class="timeline-title">2. Яснота и блокажи</h3>
-                <div class="timeline-time">Преди обед</div>
-              </div>
-              <p>Работим върху това какво реално те спира, къде губиш посока и защо добрата идея често остава само мисъл.</p>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-top">
-                <h3 class="timeline-title">3. Подреждане на идеята</h3>
-                <div class="timeline-time">След първата пауза</div>
-              </div>
-              <p>Превеждаш идеята си от общо желание към по-конкретна посока, за да видиш кое е важно и кое само създава шум.</p>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-top">
-                <h3 class="timeline-title">4. Обедна почивка и връщане към действие</h3>
-                <div class="timeline-time">Обед</div>
-              </div>
-              <p>След почивката продължаваме с практическа част, в която превръщаш яснотата в реален следващ ход.</p>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-top">
-                <h3 class="timeline-title">5. Алгоритъм от идея до резултат</h3>
-                <div class="timeline-time">До 15:00</div>
-              </div>
-              <p>Завършваш с конкретен модел и първа стъпка, която можеш да изпълниш след събитието, вместо отново да оставиш идеята за по-късно.</p>
-            </div>
+          <div class="field">
+            <label for="chat-input">Message</label>
+            <textarea id="chat-input" class="textarea" placeholder="Например: Покажи диамантена боркорона ROTHENBERGER"></textarea>
           </div>
-          <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Запази място за събитието</a>
+          <div class="actions" style="margin-top:0">
+            <button id="send-direct" class="btn" type="button">Send</button>
+            <button class="btn secondary" type="button" data-sample="Покажи продукти за сухо пробиване ROTHENBERGER">Sample: ROTHENBERGER</button>
+            <button class="btn secondary" type="button" data-sample="Търся резервна част за пералня">Sample: spare part</button>
           </div>
-        </div>
-      </div>
-
-      <div class="section section-light">
-        <div class="orn steps-orn-1"></div>
-        <div class="wrap">
-          <h2 class="section-title">5-те стъпки от идея до резултат</h2>
-          <p class="section-text">
-            Това е моделът, който ще можеш да използваш отново и отново, когато искаш да превърнеш добра идея в реален напредък.
-          </p>
-          <div class="steps">
-            <div class="step">
-              <div class="step-num">1</div>
-              <h4>Яснота</h4>
-              <p>Разбираш какво искаш наистина и защо си струва да го преследваш.</p>
-            </div>
-            <div class="step">
-              <div class="step-num">2</div>
-              <h4>Решение</h4>
-              <p>Правиш вътрешния избор, без който няма нито старт, нито резултат.</p>
-            </div>
-            <div class="step">
-              <div class="step-num">3</div>
-              <h4>Първо действие</h4>
-              <p>Започваш с реална стъпка, която създава инерция и увереност.</p>
-            </div>
-            <div class="step">
-              <div class="step-num">4</div>
-              <h4>Система</h4>
-              <p>Изграждаш подход, който работи и когато мотивацията спадне.</p>
-            </div>
-            <div class="step">
-              <div class="step-num">5</div>
-              <h4>Подкрепа</h4>
-              <p>Създаваш среда, която поддържа темпото и те държи в движение.</p>
-            </div>
-          </div>
-          <div class="quote-box" style="margin-top: 32px;">„Когато започнеш да действаш, увереността идва след теб.“</div>
-          <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Искам този резултат</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="section section-soft">
-        <div class="wrap">
-          <h2 class="section-title">Отзиви от участници</h2>
-          <p class="section-text">
-            По-долу е показан примерен формат как могат да изглеждат отзивите. Замени ги с реални мнения, имена и позиции, когато ги имате.
-          </p>
-          <div class="testimonials">
-            <div class="testimonial">
-              <div class="testimonial-tag">Отзив</div>
-              <p>„Влязох с хаос в главата и излязох с ясно решение какво да направя още на следващия ден. Това беше моментът, в който спрях да отлагам.“</p>
-              <strong>Мария Георгиева</strong>
-              <span>Собственик на онлайн магазин, София</span>
-            </div>
-            <div class="testimonial">
-              <div class="testimonial-tag">Отзив</div>
-              <p>„Най-силното за мен беше, че не получих просто вдъхновение, а структура. За първи път усетих, че имам реален път напред.“</p>
-              <strong>Иван Петров</strong>
-              <span>Търговски мениджър, Пловдив</span>
-            </div>
-            <div class="testimonial">
-              <div class="testimonial-tag">Отзив</div>
-              <p>„Това събитие ми помогна да видя как сама се спирам и какво точно да променя. Само тази яснота си струваше присъствието.“</p>
-              <strong>Елена Димитрова</strong>
-              <span>Консултант, Варна</span>
-            </div>
-          </div>
-          <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Искам да съм сред участниците</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="section section-soft">
-        <div class="orn speaker-orn-1"></div>
-        <div class="wrap">
-          <h2 class="section-title">Кои сме ние</h2>
-          <p class="section-text">
-            Събитието е водено от коучове, които съчетават вътрешна трансформация с практични инструменти за реално действие.
-          </p>
-          <div class="speaker-banner" aria-hidden="true"></div>
-          <div class="cards-2">
-            <div class="card">
-              <div class="speaker-photo speaker-photo-maria" aria-hidden="true"></div>
-              <div class="speaker-label">Лектор</div>
-              <h3>Мария Статева</h3>
-              <p><strong>NLP Master Coach.</strong> Специалист по личностно и професионално развитие, която работи с хора индивидуално и в групи.</p>
-              <p>Фокусът й е върху управление на мисленето и емоциите, изграждане на увереност, вземане на решения, справяне със стрес и вътрешни блокажи, както и развитие в кариерата и бизнеса.</p>
-              <p>В работата си използва техники от Невролингвистично програмиране (НЛП) и коучинг подходи, които помагат на хората да променят начина си на мислене и поведение.</p>
-            </div>
-            <div class="card">
-              <div class="speaker-photo speaker-photo-vanya" aria-hidden="true"></div>
-              <div class="speaker-label">Лектор</div>
-              <h3>Ваня Харбалиева</h3>
-              <p><strong>НЛП практик и мастер, педагог и позитивен консултант.</strong> Ваня работи с идеи и подходи, които подкрепят личното движение напред, осъзнатото действие и вътрешната устойчивост.</p>
-              <p>В работата си застъпва и реализира принципите на GO терапията: действай, апробирай и сбъдвай.</p>
-            </div>
-          </div>
-          <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Запази място сега</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="section section-light">
-        <div class="wrap">
-          <h2 class="section-title">Специална възможност само за участниците</h2>
-          <p class="section-text">
-            За някои хора това събитие ще е силен старт. За други ще е началото на много по-голяма промяна. Ако искаш не просто импулс, а дълбок и устойчив резултат, ще имаш възможност да продължиш напред.
-          </p>
-          <div class="offer-box">
-            <h3>Следваща стъпка за хората, които искат повече</h3>
-            <p>
-              Събитието отваря вратата. Ако искаш да продължиш с по-дълбока работа, лична подкрепа и по-ясна система за действие, ще имаш възможност да го направиш само като участник в събитието.
-            </p>
-            <div class="urgency-strip">
-              <div class="urgency-item">
-                <strong>Ограничени места</strong>
-                <span>по-малко хора, повече реално участие и фокус</span>
-              </div>
-              <div class="urgency-item">
-                <strong>Специални условия</strong>
-                <span>валидни само за присъстващите на събитието</span>
-              </div>
-              <div class="urgency-item">
-                <strong>Продължение</strong>
-                <span>за хора, които искат реална, а не временна промяна</span>
-              </div>
-            </div>
-          </div>
-          <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Искам достъп до това</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="section section-soft">
-        <div class="wrap">
-          <div class="cta-box">
-            <h2>Запази мястото си сега</h2>
-            <p>
-              Ако знаеш, че повече не искаш да въртиш едни и същи мисли без движение, това е точният момент. Влизаш в среда, структура и процес, които са направени да те извадят от отлагането и да те придвижат към действие.
-            </p>
-            <div class="cta-price">
-              Включени са практическите упражнения, работата по твоята посока и персонален подарък за всеки гост. Ако това е твоят момент, не чакай по-удобен.
-            </div>
-            <div class="section-cta">
-              <a href="#registration" class="btn btn-primary">Искам да запазя място</a>
-              <a href="#faq" class="btn btn-secondary">Имам въпроси</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="faq" class="section section-light">
-        <div class="orn faq-orn-1"></div>
-        <div class="wrap">
-          <h2 class="section-title">Често задавани въпроси</h2>
-          <div class="faq">
-            <div class="faq-item">
-              <h3>Какво включва участието?</h3>
-              <p>В участието са включени 5-часовият семинар от 10:00 до 15:00, практически упражнения, 2 кафе паузи по 15 минути с безплатни напитки, 1 час обедна почивка и персонален подарък за всеки гост.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Това просто мотивационно събитие ли е?</h3>
-              <p>Не. Това е практическо преживяване с упражнения, осъзнаване и конкретна рамка за действие. Идеята не е да се почувстваш добре за вечер, а да си тръгнеш с реален следващ ход.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Къде ще се проведе събитието?</h3>
-              <p>Събитието ще се проведе в хотел Campus 90. Локацията е подбрана така, че да даде комфортна среда, в която да се фокусираш изцяло върху себе си и следващата си крачка.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Подходящо ли е, ако още не съм напълно сигурен в идеята си?</h3>
-              <p>Да. Това събитие ще ти помогне да внесеш яснота, да подредиш посоката си и да видиш каква е най-правилната следваща крачка за теб.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Ще има ли упражнения?</h3>
-              <p>Да. Събитието включва индивидуални задачи и практическо приложение, за да не останеш само с теория, а да направиш реална вътрешна и външна стъпка.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Ще има ли кафе паузи и почерпка?</h3>
-              <p>Да. По време на събитието има 2 кафе паузи по 15 минути с безплатни напитки, както и 1 час обедна почивка.</p>
-            </div>
-            <div class="faq-item">
-              <h3>В колко часа започва и приключва събитието?</h3>
-              <p>Събитието е на 13.06 и е 5-часов семинар от 10:00 до 15:00. Препоръчваме да бъдеш на място малко по-рано за спокойна регистрация.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Ще получа ли нещо допълнително като гост?</h3>
-              <p>Да. Подготвили сме персонален подарък за всеки гост, като част от цялото преживяване и вниманието към детайла.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Подходящо ли е, ако имам бизнес, но се чувствам блокиран?</h3>
-              <p>Да. Събитието е особено ценно за хора, които имат потенциал, идеи и амбиция, но не успяват да превърнат това в последователно действие и растеж.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Подходящо ли е, ако съм в преход и още търся посоката си?</h3>
-              <p>Да. Ако си между етапи и имаш нужда от яснота каква е следващата ти стъпка, това събитие ще ти помогне да подредиш мисленето си и да спреш да се луташ.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Ще си тръгна ли с нещо конкретно?</h3>
-              <p>Това е целта. Да си тръгнеш с реално решение, конкретна стъпка и вътрешна яснота как да продължиш след събитието.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Колко места има?</h3>
-              <p>Местата са ограничени, за да се запази качеството на преживяването и реалното участие. Ако знаеш, че това събитие е за теб, не отлагай регистрацията.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Какво се случва след регистрация?</h3>
-              <p>Ще получиш потвърждение и последваща информация за събитието. Когато билетите и записването са активни, ще получите детайлите по имейл и телефон.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Защо да се регистрирам сега?</h3>
-              <p>Защото още един месец отлагане рядко носи повече яснота. Ако знаеш, че е време да тръгнеш напред, запази мястото си сега и си дай шанс за реален старт.</p>
-            </div>
-            <div class="faq-item">
-              <h3>Какво ако се колебая дали това е правилният момент?</h3>
-              <p>Именно колебанието е един от най-честите начини човек да остане на едно място. Ако усещаш, че имаш нужда от яснота и движение, това вероятно е точният момент да присъстваш.</p>
-            </div>
-          </div>
-          <div class="section-cta">
-            <a href="#registration" class="btn btn-primary">Запази място преди да се запълнят</a>
-          </div>
+          <p class="help">Use this when the standalone `dn-chatbot` core is running. Configure its catalog/search layer to use the product database before relying on search results.</p>
+          <div id="chat-log" class="log" aria-live="polite"></div>
         </div>
       </div>
     </section>
-    <script src="formspree-config.js"></script>
-    <script>
-      (function () {
-        var form = document.getElementById("lead-capture-form");
-        var submit = document.getElementById("lead-submit");
-        var note = document.getElementById("form-status");
-        var subjectField = document.getElementById("form-subject");
-        var sourceField = document.getElementById("form-source");
-        var tagsField = document.getElementById("form-tags");
-        var config = window.FORMSPREE_CONFIG || {};
-        var defaultSubmitLabel = submit ? submit.textContent : "";
-        var defaultNote = note ? note.textContent : "";
-        var registrationCtas = document.querySelectorAll('a[href="#registration"], button[href="#registration"]');
 
-        if (!form || !submit || !note || !subjectField || !sourceField || !tagsField) {
+    <section class="section">
+      <div class="panel">
+        <div class="panel-head"><h2 class="panel-title">Sample products</h2></div>
+        <div class="panel-body"><div id="samples" class="samples"></div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2 class="panel-title">Demo run notes</h2></div>
+        <div class="panel-body">
+          <code class="code"># Static demo page
+python3 main.py
+
+# Direct core mode expected origin
+CORS_ORIGINS=http://127.0.0.1:8090,http://localhost:8090
+
+# Product database path
+/home/xprmnt/dn-html-demo/json/ProductsDetailsExport.json</code>
+          <p class="help">Default demo server port is 8090 to match the standalone chatbot CORS development defaults.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      sessionId: makeSessionId(),
+      widgetLoaded: false
+    };
+
+    const els = {
+      databaseDot: document.getElementById('database-dot'),
+      databaseStatus: document.getElementById('database-status'),
+      metricProducts: document.getElementById('metric-products'),
+      metricSize: document.getElementById('metric-size'),
+      metricCats: document.getElementById('metric-cats'),
+      samples: document.getElementById('samples'),
+      widgetScript: document.getElementById('widget-script'),
+      widgetApi: document.getElementById('widget-api'),
+      publicKey: document.getElementById('public-key'),
+      embedCode: document.getElementById('embed-code'),
+      chatLog: document.getElementById('chat-log'),
+      chatInput: document.getElementById('chat-input'),
+      coreApi: document.getElementById('core-api'),
+      clientId: document.getElementById('client-id')
+    };
+
+    init();
+
+    function init() {
+      applyEnvironmentDefaults();
+      restoreSettings();
+      updateEmbedCode();
+      loadSummary();
+      bindEvents();
+      addLog('bot', 'Direct API test is idle. Start with a sample query or type a question.');
+    }
+
+    function bindEvents() {
+      document.querySelectorAll('[data-scroll]').forEach((btn) => {
+        btn.addEventListener('click', () => document.querySelector(btn.dataset.scroll).scrollIntoView({ behavior: 'smooth' }));
+      });
+      document.querySelectorAll('[data-sample]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          els.chatInput.value = btn.dataset.sample;
+          els.chatInput.focus();
+        });
+      });
+      ['widget-script', 'widget-api', 'public-key'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', () => {
+          saveSettings();
+          updateEmbedCode();
+        });
+      });
+      document.getElementById('load-widget').addEventListener('click', loadWidget);
+      document.getElementById('send-direct').addEventListener('click', sendDirect);
+      document.getElementById('reset-session').addEventListener('click', () => {
+        state.sessionId = makeSessionId();
+        els.chatLog.innerHTML = '';
+        addLog('bot', `New direct API session: ${state.sessionId}`);
+      });
+    }
+
+    function applyEnvironmentDefaults() {
+      const host = window.location.hostname;
+      if (host === 'test.cartassist.shop') {
+        els.widgetScript.value = 'https://dashboard.cartassist.shop/v1/widget/dn-chatbot.min.js';
+        els.widgetApi.value = 'https://dashboard.cartassist.shop/v1';
+        els.coreApi.value = 'https://api.cartassist.shop';
+      }
+    }
+
+    async function loadSummary() {
+      try {
+        const res = await fetch('json/products-demo-summary.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const summary = await res.json();
+        els.databaseDot.classList.add('ok');
+        els.databaseStatus.textContent = `${summary.recordCount.toLocaleString('en-US')} products ready`;
+        els.metricProducts.textContent = summary.recordCount.toLocaleString('en-US');
+        els.metricSize.textContent = `${(summary.fileSizeBytes / 1024 / 1024).toFixed(1)} MB`;
+        els.metricCats.textContent = summary.categoryCount.toLocaleString('en-US');
+        els.samples.innerHTML = '';
+        (summary.samples || []).forEach((product) => {
+          const row = document.createElement('div');
+          row.className = 'sample';
+          row.innerHTML = `<strong>${escapeHtml(product.name || 'Unnamed product')}</strong><span>ID ${escapeHtml(product.id)} · Category ${escapeHtml(product.categoryId)} · ${escapeHtml(product.description || '')}</span>`;
+          els.samples.appendChild(row);
+        });
+      } catch (error) {
+        els.databaseStatus.textContent = `Product summary unavailable: ${error.message}`;
+      }
+    }
+
+    function loadWidget() {
+      if (state.widgetLoaded) return;
+      const apiKeyPublic = els.publicKey.value.trim();
+      const apiUrl = trimSlash(els.widgetApi.value.trim());
+      const scriptUrl = els.widgetScript.value.trim();
+      if (!apiKeyPublic) {
+        alert('Paste a public API key first.');
+        return;
+      }
+      if (!apiUrl || !scriptUrl) {
+        alert('Widget script URL and API base are required.');
+        return;
+      }
+      window.DN_CHATBOT_CONFIG = {
+        storeId: 'demo-store',
+        apiKeyPublic,
+        apiUrl,
+        position: 'bottom-right',
+        branding: {
+          primaryColor: '#111827',
+          secondaryColor: '#374151',
+          bgColor: '#FFFFFF',
+          textColor: '#111827',
+          agentName: 'CartAssist Demo',
+          welcomeMessage: 'Здравейте! Мога да помогна с продукти от демо каталога.'
+        }
+      };
+      const script = document.createElement('script');
+      script.src = scriptUrl;
+      script.async = true;
+      script.onload = () => addLog('bot', 'Platform widget script loaded. Use the chat bubble in the bottom corner.');
+      script.onerror = () => addLog('error', `Could not load widget script: ${scriptUrl}`);
+      document.body.appendChild(script);
+      state.widgetLoaded = true;
+    }
+
+    async function sendDirect() {
+      const message = els.chatInput.value.trim();
+      if (!message) return;
+      const apiBase = trimSlash(els.coreApi.value.trim());
+      const clientId = els.clientId.value.trim() || 'default';
+      saveSettings();
+      addLog('user', message);
+      els.chatInput.value = '';
+      try {
+        await fetch(`${apiBase}/api/session/start?session_id=${encodeURIComponent(state.sessionId)}&client_id=${encodeURIComponent(clientId)}`, { method: 'POST' });
+        const res = await fetch(`${apiBase}/api/ask`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: state.sessionId, user_text: message, client_id: clientId })
+        });
+        const data = await res.json();
+        if (!res.ok || data.ok === false) {
+          addLog('error', data.message_html || data.error || `Request failed with HTTP ${res.status}`);
           return;
         }
+        addLog('bot', data.message_html || data.message || JSON.stringify(data, null, 2), true);
+      } catch (error) {
+        addLog('error', `Direct API unavailable: ${error.message}`);
+      }
+    }
 
-        function trackFb(eventName, payload) {
-          if (typeof window.fbq !== "function") {
-            return;
-          }
-          window.fbq("track", eventName, payload || {});
-        }
+    function addLog(type, content, html = false) {
+      const node = document.createElement('div');
+      node.className = `msg ${type}`;
+      if (html) node.innerHTML = content;
+      else node.textContent = content;
+      els.chatLog.appendChild(node);
+      els.chatLog.scrollTop = els.chatLog.scrollHeight;
+    }
 
-        function trackBookPlaceClick(label, location) {
-          trackFb("Subscribe", {
-            content_name: "Success Algorithm Event Registration",
-            cta_text: label || "",
-            cta_location: location || "",
-            step: "click"
-          });
-        }
+    function updateEmbedCode() {
+      const cfg = {
+        storeId: 'demo-store',
+        apiKeyPublic: els.publicKey.value.trim() || 'PASTE_PUBLIC_KEY',
+        apiUrl: trimSlash(els.widgetApi.value.trim()),
+        position: 'bottom-right'
+      };
+      els.embedCode.textContent = `<script>\nwindow.DN_CHATBOT_CONFIG = ${JSON.stringify(cfg, null, 2)};\n<\/script>\n<script src="${els.widgetScript.value.trim()}" async><\/script>`;
+    }
 
-        function isPlaceholder(value) {
-          return !value || String(value).indexOf("YOUR_") !== -1;
-        }
+    function saveSettings() {
+      const payload = {
+        widgetScript: els.widgetScript.value,
+        widgetApi: els.widgetApi.value,
+        publicKey: els.publicKey.value,
+        coreApi: els.coreApi.value,
+        clientId: els.clientId.value
+      };
+      localStorage.setItem('dn-demo-settings', JSON.stringify(payload));
+    }
 
-        function setStatus(message, kind) {
-          note.textContent = message;
-          note.classList.remove("warning", "success");
-          if (kind) {
-            note.classList.add(kind);
-          }
-        }
+    function restoreSettings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('dn-demo-settings') || '{}');
+        if (saved.widgetScript) els.widgetScript.value = saved.widgetScript;
+        if (saved.widgetApi) els.widgetApi.value = saved.widgetApi;
+        if (saved.publicKey) els.publicKey.value = saved.publicKey;
+        if (saved.coreApi) els.coreApi.value = saved.coreApi;
+        if (saved.clientId) els.clientId.value = saved.clientId;
+      } catch (_) {}
+    }
 
-        function setSubmitting(isSubmitting) {
-          submit.disabled = isSubmitting;
-          submit.textContent = isSubmitting ? "Изпращане..." : defaultSubmitLabel;
-        }
+    function makeSessionId() {
+      const bytes = new Uint8Array(8);
+      if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
+      const suffix = Array.from(bytes).map((b) => b.toString(16).padStart(2, '0')).join('') || String(Date.now());
+      return `demo_${suffix}`;
+    }
 
-        var endpoint = config.endpoint || "";
-        var configured = !isPlaceholder(endpoint);
+    function trimSlash(value) {
+      return String(value || '').replace(/\/+$/, '');
+    }
 
-        form.action = endpoint;
-        form.method = "post";
-        subjectField.value = config.subject || "";
-        sourceField.value = config.source || "";
-        tagsField.value = config.tags || "";
-
-        if (!configured) {
-          submit.disabled = true;
-          setStatus("Формата очаква настройка в formspree-config.js преди да започне да приема регистрации.", "warning");
-          return;
-        }
-
-        registrationCtas.forEach(function (cta, index) {
-          cta.addEventListener("click", function () {
-            trackBookPlaceClick((cta.textContent || "").trim(), "anchor_" + (index + 1));
-          });
-        });
-
-        submit.addEventListener("click", function () {
-          trackBookPlaceClick((submit.textContent || "").trim(), "form_submit_button");
-        });
-
-        form.addEventListener("submit", function (event) {
-          event.preventDefault();
-
-          if (!form.reportValidity()) {
-            return;
-          }
-
-          setSubmitting(true);
-          setStatus(defaultNote, "");
-
-          fetch(endpoint, {
-            method: "POST",
-            body: new FormData(form),
-            headers: {
-              Accept: "application/json"
-            }
-          })
-            .then(function (response) {
-              if (response.ok) {
-                form.reset();
-                subjectField.value = config.subject || "";
-                sourceField.value = config.source || "";
-                tagsField.value = config.tags || "";
-                setStatus(config.successMessage || "Благодарим. Регистрацията ти е получена.", "success");
-                trackFb("Subscribe", {
-                  content_name: "Success Algorithm Event Registration",
-                  form_id: "lead-capture-form",
-                  status: "success",
-                  step: "submit_success"
-                });
-                return null;
-              }
-
-              return response.json().then(function (data) {
-                var message = config.errorMessage || "Не успяхме да изпратим формата. Опитай отново след малко.";
-                if (data && data.errors && data.errors.length && data.errors[0].message) {
-                  message = data.errors[0].message;
-                }
-                throw new Error(message);
-              }).catch(function () {
-                throw new Error(config.errorMessage || "Не успяхме да изпратим формата. Опитай отново след малко.");
-              });
-            })
-            .then(function () {
-              setSubmitting(false);
-            })
-            .catch(function (error) {
-              setSubmitting(false);
-              setStatus(error.message, "warning");
-            });
-        });
-      })();
-    </script>
-  </body>
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+    }
+  </script>
+</body>
 </html>
