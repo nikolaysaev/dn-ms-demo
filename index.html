@@ -3,87 +3,113 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CartAssist Chatbot Demo</title>
-  <meta name="description" content="White demo storefront for the CartAssist chatbot and product database.">
+  <title>DemoParts Shop | CartAssist Demo</title>
+  <meta name="description" content="Sample ecommerce shop page for demonstrating the CartAssist chatbot.">
   <style>
     :root {
-      --bg: #ffffff;
-      --text: #111827;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --soft: #f9fafb;
-      --soft-2: #f3f4f6;
-      --accent: #111827;
-      --ok: #047857;
-      --warn: #b45309;
-      --danger: #b91c1c;
-      --radius: 18px;
-      --max: 1120px;
+      --ink: #14120f;
+      --muted: #716b62;
+      --paper: #fffaf1;
+      --white: #ffffff;
+      --sand: #f2e7d1;
+      --clay: #c86b39;
+      --clay-dark: #8d3f20;
+      --sage: #d7e3d1;
+      --line: rgba(20, 18, 15, 0.12);
+      --shadow: 0 22px 70px rgba(66, 42, 22, 0.13);
+      --radius: 22px;
+      --max: 1180px;
     }
 
     * { box-sizing: border-box; }
 
-    html { background: var(--bg); color: var(--text); }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 8%, rgba(200, 107, 57, 0.16), transparent 28%),
+        radial-gradient(circle at 88% 10%, rgba(104, 129, 88, 0.18), transparent 25%),
+        linear-gradient(180deg, #fffaf1 0%, #ffffff 46%, #fffaf1 100%);
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.5;
-      background:
-        linear-gradient(180deg, rgba(249, 250, 251, 0.9), #ffffff 34%),
-        #ffffff;
     }
 
     button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
 
-    a { color: inherit; }
-
-    .page {
-      width: min(var(--max), calc(100% - 40px));
+    .shell {
+      width: min(var(--max), calc(100% - 36px));
       margin: 0 auto;
-      padding: 44px 0 80px;
     }
 
-    .topline {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      padding-bottom: 36px;
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
       border-bottom: 1px solid var(--line);
+      background: rgba(255, 250, 241, 0.86);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 76px;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: -0.04em;
-      font-size: 18px;
+      font-size: 20px;
     }
 
-    .mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
       display: grid;
       place-items: center;
-      background: #111827;
       color: #fff;
+      background: linear-gradient(135deg, var(--ink), #3d3328);
+      box-shadow: 0 10px 28px rgba(20, 18, 15, 0.18);
       font-size: 13px;
-      letter-spacing: -0.06em;
+      letter-spacing: -0.08em;
     }
 
-    .status-pill {
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 8px 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.72);
       color: var(--muted);
-      background: rgba(255,255,255,0.86);
+      font-weight: 800;
       font-size: 13px;
       white-space: nowrap;
     }
@@ -92,235 +118,445 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--warn);
+      background: #b7791f;
     }
 
-    .dot.ok { background: var(--ok); }
+    .dot.ok { background: #16834a; }
+
+    .btn {
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fff;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 900;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 24px rgba(20,18,15,0.15); }
+    .btn.secondary { background: #fff; color: var(--ink); border-color: var(--line); }
+    .btn.ghost { background: transparent; color: var(--ink); border-color: transparent; }
+    .btn.small { padding: 9px 12px; font-size: 13px; }
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-      gap: 32px;
-      align-items: start;
-      padding: 54px 0 34px;
+      grid-template-columns: minmax(0, 1.04fr) minmax(330px, 0.96fr);
+      gap: 34px;
+      align-items: stretch;
+      padding: 54px 0 36px;
+    }
+
+    .hero-copy {
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      padding: clamp(30px, 5vw, 56px);
+      background:
+        linear-gradient(140deg, rgba(255, 255, 255, 0.86), rgba(255, 250, 241, 0.72)),
+        radial-gradient(circle at 90% 20%, rgba(200, 107, 57, 0.16), transparent 26%);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy:after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      right: -92px;
+      bottom: -92px;
+      border-radius: 50%;
+      border: 34px solid rgba(200, 107, 57, 0.12);
     }
 
     .eyebrow {
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
+      margin: 0 0 18px;
+      color: var(--clay-dark);
       text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 12px;
+      font-weight: 1000;
     }
 
     h1 {
       margin: 0;
       max-width: 760px;
-      font-size: clamp(40px, 6vw, 76px);
-      line-height: 0.94;
-      letter-spacing: -0.075em;
+      font-size: clamp(46px, 7vw, 88px);
+      line-height: 0.9;
+      letter-spacing: -0.085em;
     }
 
     .lead {
       margin: 24px 0 0;
-      max-width: 680px;
-      color: #374151;
-      font-size: clamp(17px, 2vw, 21px);
+      max-width: 620px;
+      color: #504940;
+      font-size: clamp(18px, 2vw, 22px);
     }
 
-    .actions {
+    .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 30px;
+      margin-top: 32px;
+      position: relative;
+      z-index: 1;
     }
 
-    .btn {
-      border: 1px solid #111827;
-      background: #111827;
+    .hero-card {
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      padding: 22px;
+      background: #1f1a15;
       color: #fff;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 520px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 26% 18%, rgba(255,255,255,0.16), transparent 24%),
+        radial-gradient(circle at 82% 88%, rgba(200,107,57,0.36), transparent 28%);
+      pointer-events: none;
+    }
+
+    .deal {
+      position: relative;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.13);
+      padding: 24px;
+    }
+
+    .deal-tag {
+      display: inline-flex;
       border-radius: 999px;
-      padding: 12px 18px;
-      cursor: pointer;
-      font-weight: 750;
-      transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+      padding: 7px 10px;
+      background: #f8d8a8;
+      color: #42230f;
+      font-size: 12px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
-    .btn:hover { transform: translateY(-1px); }
-
-    .btn.secondary {
-      background: #fff;
-      color: #111827;
-      border-color: var(--line);
+    .deal h2 {
+      margin: 18px 0 10px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
     }
 
-    .btn.small {
-      padding: 8px 12px;
+    .deal p { margin: 0; color: rgba(255,255,255,0.72); }
+
+    .stats {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .stat {
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 7px;
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .section { padding: 34px 0; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 46px);
+      letter-spacing: -0.06em;
+      line-height: 1;
+    }
+
+    .section-note {
+      max-width: 540px;
+      margin: 0;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .categories {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0 0;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: #51493f;
+      background: rgba(255,255,255,0.8);
+      font-weight: 900;
       font-size: 13px;
+    }
+
+    .chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .product {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.82);
+      overflow: hidden;
+      box-shadow: 0 12px 34px rgba(66, 42, 22, 0.07);
+      display: flex;
+      flex-direction: column;
+      min-height: 390px;
+    }
+
+    .product-art {
+      min-height: 145px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(215,227,209,0.95), rgba(242,231,209,0.95)),
+        #f7efe2;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-art:before,
+    .product-art:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.45);
+    }
+
+    .product-art:before { width: 104px; height: 104px; left: -24px; top: -28px; }
+    .product-art:after { width: 140px; height: 140px; right: -50px; bottom: -58px; }
+
+    .product-icon {
+      position: relative;
+      z-index: 1;
+      width: 86px;
+      height: 86px;
+      border-radius: 28px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.78);
+      color: var(--clay-dark);
+      font-size: 34px;
+      font-weight: 1000;
+      box-shadow: inset 0 0 0 1px rgba(20,18,15,0.08);
+    }
+
+    .product-body {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      padding: 16px;
+      flex: 1;
+    }
+
+    .product-kicker {
+      color: var(--clay-dark);
+      font-size: 11px;
+      font-weight: 1000;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .product h3 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.24;
+      letter-spacing: -0.025em;
+    }
+
+    .product p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-foot {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: 1000;
+      letter-spacing: -0.04em;
+    }
+
+    .mini-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sample-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 20px;
+      align-items: start;
     }
 
     .panel {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255,255,255,0.94);
-      box-shadow: 0 18px 60px rgba(17, 24, 39, 0.06);
+      background: rgba(255,255,255,0.82);
+      box-shadow: 0 12px 34px rgba(66, 42, 22, 0.07);
       overflow: hidden;
     }
 
     .panel-head {
-      padding: 18px 20px;
-      border-bottom: 1px solid var(--line);
       display: flex;
-      justify-content: space-between;
-      gap: 16px;
       align-items: center;
-      background: var(--soft);
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,250,241,0.68);
     }
 
     .panel-title {
       margin: 0;
       font-size: 15px;
-      font-weight: 850;
+      font-weight: 1000;
       letter-spacing: -0.02em;
     }
 
-    .panel-body { padding: 20px; }
+    .panel-body { padding: 18px; }
 
-    .grid {
+    .cart-list {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 18px;
+      gap: 10px;
+      min-height: 80px;
     }
 
-    .card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 18px;
-      background: #fff;
-    }
-
-    .metric {
-      display: block;
-      font-size: 28px;
-      line-height: 1;
-      letter-spacing: -0.05em;
-      font-weight: 900;
-    }
-
-    .label {
-      display: block;
-      margin-top: 7px;
+    .cart-empty {
       color: var(--muted);
-      font-size: 13px;
-    }
-
-    .section {
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .field { margin-bottom: 14px; }
-
-    .field label {
-      display: block;
-      color: #374151;
-      font-size: 13px;
       font-weight: 750;
-      margin-bottom: 6px;
+      font-size: 14px;
     }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 11px;
+      background: #fff;
+      font-size: 13px;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      font-weight: 1000;
+    }
+
+    .chat-panel {
+      margin-top: 20px;
+    }
+
+    .field { margin-bottom: 12px; }
+    .field label { display: block; margin-bottom: 6px; color: #4e463c; font-size: 12px; font-weight: 1000; }
 
     .input, .textarea {
       width: 100%;
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 11px 12px;
-      background: #fff;
-      color: var(--text);
+      background: rgba(255,255,255,0.9);
+      color: var(--ink);
       outline: none;
     }
 
-    .textarea {
-      min-height: 86px;
-      resize: vertical;
-    }
+    .textarea { min-height: 84px; resize: vertical; }
+    .input:focus, .textarea:focus { border-color: var(--clay); box-shadow: 0 0 0 3px rgba(200,107,57,0.14); }
 
-    .input:focus, .textarea:focus {
-      border-color: #111827;
-      box-shadow: 0 0 0 3px rgba(17,24,39,0.08);
-    }
-
-    .help {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
+    .help { margin: 8px 0 0; color: var(--muted); font-size: 12px; font-weight: 650; }
 
     .log {
-      min-height: 210px;
-      max-height: 380px;
+      min-height: 160px;
+      max-height: 320px;
       overflow: auto;
       border: 1px solid var(--line);
-      border-radius: 14px;
-      background: var(--soft);
+      border-radius: 16px;
+      background: #fffaf3;
       padding: 12px;
+      margin-top: 12px;
     }
 
     .msg {
       padding: 10px 12px;
-      border-radius: 12px;
+      border-radius: 14px;
       margin: 0 0 10px;
       background: #fff;
       border: 1px solid var(--line);
-      font-size: 14px;
+      font-size: 13px;
     }
 
-    .msg.user {
-      margin-left: 38px;
-      background: #111827;
-      border-color: #111827;
-      color: #fff;
-    }
-
-    .msg.bot { margin-right: 38px; }
-    .msg.error { color: var(--danger); }
-
-    .samples {
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .sample {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 13px 14px;
-      background: #fff;
-    }
-
-    .sample strong {
-      display: block;
-      font-size: 14px;
-      line-height: 1.35;
-    }
-
-    .sample span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 12px;
-    }
+    .msg.user { margin-left: 36px; background: var(--ink); color: #fff; border-color: var(--ink); }
+    .msg.bot { margin-right: 36px; }
+    .msg.error { color: #a32716; }
 
     .code {
       display: block;
       overflow: auto;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #0f172a;
-      color: #e5e7eb;
+      border-radius: 16px;
+      background: #17130f;
+      color: #f8efe4;
       padding: 14px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 12px;
@@ -328,131 +564,170 @@
       white-space: pre;
     }
 
-    .notice {
-      margin-top: 14px;
-      border: 1px solid #fed7aa;
-      background: #fff7ed;
-      color: #7c2d12;
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-size: 13px;
-    }
-
     .hidden { display: none !important; }
 
-    @media (max-width: 900px) {
-      .hero, .section { grid-template-columns: 1fr; }
-      .grid { grid-template-columns: 1fr; }
-      .topline { align-items: flex-start; flex-direction: column; }
-      .page { width: min(100% - 28px, var(--max)); padding-top: 24px; }
+    @media (max-width: 980px) {
+      .hero, .sample-layout { grid-template-columns: 1fr; }
+      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .links { display: none; }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 24px, var(--max)); }
+      .nav { min-height: 68px; }
+      .nav-actions .pill { display: none; }
+      .hero { padding-top: 28px; }
+      .hero-copy, .hero-card { min-height: auto; border-radius: 26px; }
+      .stats { grid-template-columns: 1fr; }
+      .product-grid { grid-template-columns: 1fr; }
+      .section-head { align-items: start; flex-direction: column; }
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <header class="topline">
-      <div class="brand"><span class="mark">DN</span> CartAssist chatbot demo</div>
-      <div class="status-pill"><span id="database-dot" class="dot"></span><span id="database-status">Loading product database summary...</span></div>
-    </header>
+  <header class="topbar">
+    <nav class="shell nav" aria-label="Primary navigation">
+      <a href="#top" class="brand"><span class="logo">DP</span><span>DemoParts</span></a>
+      <div class="links">
+        <a href="#products">Products</a>
+        <a href="#cart">Cart</a>
+        <a href="#assistant">Assistant</a>
+      </div>
+      <div class="nav-actions">
+        <span class="pill"><span id="database-dot" class="dot"></span><span id="database-status">Loading demo catalog</span></span>
+        <button class="btn small" type="button" data-scroll="#assistant">Chat setup</button>
+      </div>
+    </nav>
+  </header>
 
-    <section class="hero">
-      <div>
-        <p class="eyebrow">White demo storefront</p>
-        <h1>Clean page for chatbot testing.</h1>
-        <p class="lead">This page is intentionally plain: enough product context for a live demo, no old campaign content, and two chatbot test paths.</p>
-        <div class="actions">
-          <button class="btn" type="button" data-scroll="#official-widget">Load platform widget</button>
-          <button class="btn secondary" type="button" data-scroll="#direct-api">Test direct API</button>
+  <main id="top">
+    <section class="shell hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Sample shop page</p>
+        <h1>Parts, tools, and service items for a demo checkout.</h1>
+        <p class="lead">This is a fake storefront built only to demonstrate CartAssist. Products, prices, stock, cart actions, and promos are sample data.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#products">Browse sample products</a>
+          <button class="btn secondary" type="button" data-scroll="#assistant">Ask the assistant</button>
         </div>
       </div>
 
-      <aside class="panel" aria-label="Product database">
-        <div class="panel-head">
-          <h2 class="panel-title">Product database</h2>
-          <span class="label">json/ProductsDetailsExport.json</span>
+      <aside class="hero-card" aria-label="Featured sample promotion">
+        <div class="deal">
+          <span class="deal-tag">Demo weekend offer</span>
+          <h2>Ask before you buy.</h2>
+          <p>Use the chatbot to compare sample items, check compatibility examples, and generate a mock recommendation from the product database.</p>
         </div>
-        <div class="panel-body">
-          <div class="grid">
-            <div class="card"><span id="metric-products" class="metric">-</span><span class="label">products</span></div>
-            <div class="card"><span id="metric-size" class="metric">-</span><span class="label">database size</span></div>
-            <div class="card"><span id="metric-cats" class="metric">-</span><span class="label">category ids</span></div>
-          </div>
-          <p class="help">The page reads `json/products-demo-summary.json`; the full product database remains `json/ProductsDetailsExport.json` for backend import/sync.</p>
-          <div class="notice">Schema note: this export uses `Id`, `Name`, `Description`, `Appliances`, `CategoryId`. Dashboard `/v1/sync` payloads should map these to `external_id`, `name`, `description`, compatibility/category metadata, and stock/price fields when available.</div>
+        <div class="stats">
+          <div class="stat"><strong id="metric-products">-</strong><span>sample records</span></div>
+          <div class="stat"><strong id="metric-size">-</strong><span>database file</span></div>
+          <div class="stat"><strong id="metric-cats">-</strong><span>category ids</span></div>
         </div>
       </aside>
     </section>
 
-    <section class="section">
-      <div id="official-widget" class="panel">
-        <div class="panel-head">
-          <h2 class="panel-title">Platform widget embed</h2>
-          <button id="load-widget" class="btn small" type="button">Load widget</button>
+    <section class="shell section" id="products">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Demo catalog</p>
+          <h2>Featured sample products</h2>
         </div>
-        <div class="panel-body">
-          <div class="field">
-            <label for="widget-script">Widget script URL</label>
-            <input id="widget-script" class="input" value="http://127.0.0.1:8002/v1/widget/dn-chatbot.min.js">
-          </div>
-          <div class="field">
-            <label for="widget-api">Dashboard public API base</label>
-            <input id="widget-api" class="input" value="http://127.0.0.1:8002/v1">
-          </div>
-          <div class="field">
-            <label for="public-key">Public API key</label>
-            <input id="public-key" class="input" placeholder="Paste store api_key_public from dashboard settings">
-          </div>
-          <p class="help">Use this when `dn-chatbot-dashboard` is running. The widget talks to `/v1/chat/session`, `/v1/chat/ask`, `/v1/chat/history`, `/v1/events`, and `/v1/widget-branding`.</p>
-          <code class="code" id="embed-code"></code>
-        </div>
+        <p class="section-note">Cards are generated from `json/products-demo-summary.json`. The full product export remains on the server for backend import and chatbot search.</p>
       </div>
-
-      <div id="direct-api" class="panel">
-        <div class="panel-head">
-          <h2 class="panel-title">Direct chatbot API test</h2>
-          <button id="reset-session" class="btn secondary small" type="button">New session</button>
-        </div>
-        <div class="panel-body">
-          <div class="field">
-            <label for="core-api">Chatbot core API base</label>
-            <input id="core-api" class="input" value="http://127.0.0.1:8001">
-          </div>
-          <div class="field">
-            <label for="client-id">Client/store id</label>
-            <input id="client-id" class="input" value="1">
-          </div>
-          <div class="field">
-            <label for="chat-input">Message</label>
-            <textarea id="chat-input" class="textarea" placeholder="Например: Покажи диамантена боркорона ROTHENBERGER"></textarea>
-          </div>
-          <div class="actions" style="margin-top:0">
-            <button id="send-direct" class="btn" type="button">Send</button>
-            <button class="btn secondary" type="button" data-sample="Покажи продукти за сухо пробиване ROTHENBERGER">Sample: ROTHENBERGER</button>
-            <button class="btn secondary" type="button" data-sample="Търся резервна част за пералня">Sample: spare part</button>
-          </div>
-          <p class="help">Use this when the standalone `dn-chatbot` core is running. Configure its catalog/search layer to use the product database before relying on search results.</p>
-          <div id="chat-log" class="log" aria-live="polite"></div>
-        </div>
+      <div class="categories" id="categories">
+        <button class="chip active" type="button" data-category="all">All sample items</button>
       </div>
+      <div id="product-grid" class="product-grid"></div>
     </section>
 
-    <section class="section">
+    <section class="shell section sample-layout" id="cart">
       <div class="panel">
-        <div class="panel-head"><h2 class="panel-title">Sample products</h2></div>
-        <div class="panel-body"><div id="samples" class="samples"></div></div>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><h2 class="panel-title">Demo run notes</h2></div>
+        <div class="panel-head">
+          <h2 class="panel-title">Sample shop notes</h2>
+          <span class="pill">No real orders</span>
+        </div>
         <div class="panel-body">
-          <code class="code"># Static demo page
-python3 main.py
+          <p class="section-note">This page is intentionally not a real ecommerce checkout. It gives the chatbot a realistic storefront context without touching payments, inventory, or customer accounts.</p>
+          <div class="categories">
+            <span class="chip">Mock cart</span>
+            <span class="chip">Mock prices</span>
+            <span class="chip">Sample stock</span>
+            <span class="chip">Chatbot-ready</span>
+          </div>
+        </div>
+      </div>
 
-# Direct core mode expected origin
-CORS_ORIGINS=http://127.0.0.1:8090,http://localhost:8090
+      <aside class="panel" aria-label="Sample cart">
+        <div class="panel-head">
+          <h2 class="panel-title">Sample cart</h2>
+          <button class="btn ghost small" type="button" id="clear-cart">Clear</button>
+        </div>
+        <div class="panel-body">
+          <div id="cart-list" class="cart-list"><div class="cart-empty">Your sample cart is empty.</div></div>
+          <div class="cart-total"><span>Total</span><span id="cart-total">0.00 лв.</span></div>
+          <p class="help">Buttons only update this local mock cart.</p>
+        </div>
+      </aside>
+    </section>
 
-# Product database path
-/home/xprmnt/dn-html-demo/json/ProductsDetailsExport.json</code>
-          <p class="help">Default demo server port is 8090 to match the standalone chatbot CORS development defaults.</p>
+    <section class="shell section" id="assistant">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">CartAssist integration</p>
+          <h2>Chatbot controls</h2>
+        </div>
+        <p class="section-note">For the public demo, load the platform widget. The direct core panel is only a debugging fallback.</p>
+      </div>
+
+      <div class="sample-layout">
+        <div class="panel">
+          <div class="panel-head">
+            <h2 class="panel-title">Platform widget</h2>
+            <button id="load-widget" class="btn small" type="button">Load chat widget</button>
+          </div>
+          <div class="panel-body">
+            <div class="field">
+              <label for="widget-script">Widget script URL</label>
+              <input id="widget-script" class="input" value="http://127.0.0.1:8002/v1/widget/dn-chatbot.min.js">
+            </div>
+            <div class="field">
+              <label for="widget-api">Dashboard public API base</label>
+              <input id="widget-api" class="input" value="http://127.0.0.1:8002/v1">
+            </div>
+            <div class="field">
+              <label for="public-key">Public API key</label>
+              <input id="public-key" class="input" placeholder="Paste store api_key_public from dashboard settings">
+            </div>
+            <p class="help">On `test.cartassist.shop`, these fields automatically switch to the production dashboard/API domains.</p>
+            <code class="code" id="embed-code"></code>
+          </div>
+        </div>
+
+        <div class="panel chat-panel">
+          <div class="panel-head">
+            <h2 class="panel-title">Direct core test</h2>
+            <button id="reset-session" class="btn secondary small" type="button">New session</button>
+          </div>
+          <div class="panel-body">
+            <div class="field">
+              <label for="core-api">Chatbot core API base</label>
+              <input id="core-api" class="input" value="http://127.0.0.1:8001">
+            </div>
+            <div class="field">
+              <label for="client-id">Client/store id</label>
+              <input id="client-id" class="input" value="1">
+            </div>
+            <div class="field">
+              <label for="chat-input">Message</label>
+              <textarea id="chat-input" class="textarea" placeholder="Например: Покажи диамантена боркорона ROTHENBERGER"></textarea>
+            </div>
+            <div class="mini-actions">
+              <button id="send-direct" class="btn small" type="button">Send</button>
+              <button class="btn secondary small" type="button" data-sample="Покажи продукти за сухо пробиване ROTHENBERGER">Ask for tools</button>
+              <button class="btn secondary small" type="button" data-sample="Търся резервна част за пералня">Ask for parts</button>
+            </div>
+            <div id="chat-log" class="log" aria-live="polite"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -461,7 +736,11 @@ CORS_ORIGINS=http://127.0.0.1:8090,http://localhost:8090
   <script>
     const state = {
       sessionId: makeSessionId(),
-      widgetLoaded: false
+      widgetLoaded: false,
+      summary: null,
+      products: [],
+      activeCategory: 'all',
+      cart: []
     };
 
     const els = {
@@ -470,7 +749,10 @@ CORS_ORIGINS=http://127.0.0.1:8090,http://localhost:8090
       metricProducts: document.getElementById('metric-products'),
       metricSize: document.getElementById('metric-size'),
       metricCats: document.getElementById('metric-cats'),
-      samples: document.getElementById('samples'),
+      categories: document.getElementById('categories'),
+      productGrid: document.getElementById('product-grid'),
+      cartList: document.getElementById('cart-list'),
+      cartTotal: document.getElementById('cart-total'),
       widgetScript: document.getElementById('widget-script'),
       widgetApi: document.getElementById('widget-api'),
       publicKey: document.getElementById('public-key'),
@@ -487,9 +769,9 @@ CORS_ORIGINS=http://127.0.0.1:8090,http://localhost:8090
       applyEnvironmentDefaults();
       restoreSettings();
       updateEmbedCode();
-      loadSummary();
       bindEvents();
-      addLog('bot', 'Direct API test is idle. Start with a sample query or type a question.');
+      loadSummary();
+      addLog('bot', 'Direct API test is idle. Use the public widget for the real demo flow.');
     }
 
     function bindEvents() {
@@ -508,8 +790,15 @@ CORS_ORIGINS=http://127.0.0.1:8090,http://localhost:8090
           updateEmbedCode();
         });
       });
+      ['core-api', 'client-id'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', saveSettings);
+      });
       document.getElementById('load-widget').addEventListener('click', loadWidget);
       document.getElementById('send-direct').addEventListener('click', sendDirect);
+      document.getElementById('clear-cart').addEventListener('click', () => {
+        state.cart = [];
+        renderCart();
+      });
       document.getElementById('reset-session').addEventListener('click', () => {
         state.sessionId = makeSessionId();
         els.chatLog.innerHTML = '';
@@ -531,21 +820,124 @@ CORS_ORIGINS=http://127.0.0.1:8090,http://localhost:8090
         const res = await fetch('json/products-demo-summary.json', { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const summary = await res.json();
+        state.summary = summary;
+        state.products = (summary.samples || []).map(makeProduct);
         els.databaseDot.classList.add('ok');
-        els.databaseStatus.textContent = `${summary.recordCount.toLocaleString('en-US')} products ready`;
+        els.databaseStatus.textContent = `${summary.recordCount.toLocaleString('en-US')} sample records`;
         els.metricProducts.textContent = summary.recordCount.toLocaleString('en-US');
-        els.metricSize.textContent = `${(summary.fileSizeBytes / 1024 / 1024).toFixed(1)} MB`;
+        els.metricSize.textContent = `${(summary.fileSizeBytes / 1024 / 1024).toFixed(0)} MB`;
         els.metricCats.textContent = summary.categoryCount.toLocaleString('en-US');
-        els.samples.innerHTML = '';
-        (summary.samples || []).forEach((product) => {
-          const row = document.createElement('div');
-          row.className = 'sample';
-          row.innerHTML = `<strong>${escapeHtml(product.name || 'Unnamed product')}</strong><span>ID ${escapeHtml(product.id)} · Category ${escapeHtml(product.categoryId)} · ${escapeHtml(product.description || '')}</span>`;
-          els.samples.appendChild(row);
-        });
+        renderCategories(summary.topCategories || []);
+        renderProducts();
       } catch (error) {
-        els.databaseStatus.textContent = `Product summary unavailable: ${error.message}`;
+        els.databaseStatus.textContent = `Catalog summary unavailable: ${error.message}`;
+        state.products = fallbackProducts();
+        renderProducts();
       }
+    }
+
+    function makeProduct(item, index) {
+      const price = 24 + ((Number(item.id) || index + 1) % 9) * 7.9;
+      return {
+        id: String(item.id || `sample-${index + 1}`),
+        name: item.name || 'Sample product',
+        categoryId: String(item.categoryId || 'demo'),
+        description: item.description || 'Sample catalog item for chatbot demonstration.',
+        price: Number(price.toFixed(2)),
+        icon: ['DR', 'PT', 'TL', 'SE', 'FX', 'MT', 'SP', 'DN'][index % 8]
+      };
+    }
+
+    function fallbackProducts() {
+      return [
+        { id: 'demo-1', name: 'Sample pump filter kit', categoryId: 'demo', description: 'A fake product card used when the catalog summary is unavailable.', price: 39.9, icon: 'PT' },
+        { id: 'demo-2', name: 'Sample dry drilling crown', categoryId: 'demo', description: 'A fake tool product for chatbot testing.', price: 82.5, icon: 'DR' }
+      ];
+    }
+
+    function renderCategories(topCategories) {
+      const shown = topCategories.slice(0, 5);
+      shown.forEach((cat) => {
+        const button = document.createElement('button');
+        button.className = 'chip';
+        button.type = 'button';
+        button.dataset.category = String(cat.categoryId);
+        button.textContent = `Category ${cat.categoryId} (${cat.count})`;
+        button.addEventListener('click', () => {
+          state.activeCategory = button.dataset.category;
+          document.querySelectorAll('.chip[data-category]').forEach((el) => el.classList.toggle('active', el.dataset.category === state.activeCategory));
+          renderProducts();
+        });
+        els.categories.appendChild(button);
+      });
+      els.categories.querySelector('[data-category="all"]').addEventListener('click', () => {
+        state.activeCategory = 'all';
+        document.querySelectorAll('.chip[data-category]').forEach((el) => el.classList.toggle('active', el.dataset.category === 'all'));
+        renderProducts();
+      });
+    }
+
+    function renderProducts() {
+      const products = state.activeCategory === 'all'
+        ? state.products
+        : state.products.filter((p) => p.categoryId === state.activeCategory);
+      els.productGrid.innerHTML = '';
+      products.forEach((product) => {
+        const card = document.createElement('article');
+        card.className = 'product';
+        card.innerHTML = `
+          <div class="product-art"><div class="product-icon">${escapeHtml(product.icon)}</div></div>
+          <div class="product-body">
+            <div class="product-kicker">Sample ID ${escapeHtml(product.id)} · Category ${escapeHtml(product.categoryId)}</div>
+            <h3>${escapeHtml(product.name)}</h3>
+            <p>${escapeHtml(product.description)}</p>
+            <div class="product-foot">
+              <span class="price">${formatPrice(product.price)}</span>
+              <div class="mini-actions">
+                <button class="btn small" type="button" data-add="${escapeHtml(product.id)}">Add</button>
+                <button class="btn secondary small" type="button" data-ask="${escapeHtml(product.name)}">Ask</button>
+              </div>
+            </div>
+          </div>`;
+        els.productGrid.appendChild(card);
+      });
+      els.productGrid.querySelectorAll('[data-add]').forEach((button) => {
+        button.addEventListener('click', () => addToCart(button.dataset.add));
+      });
+      els.productGrid.querySelectorAll('[data-ask]').forEach((button) => {
+        button.addEventListener('click', () => {
+          els.chatInput.value = `Разкажи ми за ${button.dataset.ask}`;
+          document.querySelector('#assistant').scrollIntoView({ behavior: 'smooth' });
+          els.chatInput.focus();
+        });
+      });
+    }
+
+    function addToCart(productId) {
+      const product = state.products.find((p) => p.id === productId);
+      if (!product) return;
+      const existing = state.cart.find((item) => item.id === productId);
+      if (existing) existing.qty += 1;
+      else state.cart.push({ ...product, qty: 1 });
+      renderCart();
+    }
+
+    function renderCart() {
+      els.cartList.innerHTML = '';
+      if (!state.cart.length) {
+        els.cartList.innerHTML = '<div class="cart-empty">Your sample cart is empty.</div>';
+        els.cartTotal.textContent = formatPrice(0);
+        return;
+      }
+      let total = 0;
+      state.cart.forEach((item) => {
+        total += item.price * item.qty;
+        const row = document.createElement('div');
+        row.className = 'cart-item';
+        row.innerHTML = `<span>${escapeHtml(item.name)}<br><small>Qty ${item.qty}</small></span><strong>${formatPrice(item.price * item.qty)}</strong>`;
+        els.cartList.appendChild(row);
+      });
+      els.cartTotal.textContent = formatPrice(total);
     }
 
     function loadWidget() {
@@ -567,12 +959,12 @@ CORS_ORIGINS=http://127.0.0.1:8090,http://localhost:8090
         apiUrl,
         position: 'bottom-right',
         branding: {
-          primaryColor: '#111827',
-          secondaryColor: '#374151',
+          primaryColor: '#14120f',
+          secondaryColor: '#c86b39',
           bgColor: '#FFFFFF',
-          textColor: '#111827',
-          agentName: 'CartAssist Demo',
-          welcomeMessage: 'Здравейте! Мога да помогна с продукти от демо каталога.'
+          textColor: '#14120f',
+          agentName: 'DemoParts Assistant',
+          welcomeMessage: 'Здравейте! Това е sample shop. Мога да помогна с примерни продукти и съвместимост.'
         }
       };
       const script = document.createElement('script');
@@ -658,10 +1050,8 @@ CORS_ORIGINS=http://127.0.0.1:8090,http://localhost:8090
       return `demo_${suffix}`;
     }
 
-    function trimSlash(value) {
-      return String(value || '').replace(/\/+$/, '');
-    }
-
+    function trimSlash(value) { return String(value || '').replace(/\/+$/, ''); }
+    function formatPrice(value) { return `${Number(value || 0).toFixed(2)} лв.`; }
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
     }
