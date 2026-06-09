@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DemoParts Shop | CartAssist Demo</title>
-  <meta name="description" content="Sample ecommerce shop page for demonstrating the CartAssist chatbot.">
+  <title>DemoParts Shop</title>
+  <meta name="description" content="DemoParts sample storefront.">
   <style>
     :root {
       --ink: #14120f;
@@ -14,7 +14,6 @@
       --sand: #f2e7d1;
       --clay: #c86b39;
       --clay-dark: #8d3f20;
-      --sage: #d7e3d1;
       --line: rgba(20, 18, 15, 0.12);
       --shadow: 0 22px 70px rgba(66, 42, 22, 0.13);
       --radius: 22px;
@@ -23,11 +22,13 @@
 
     * { box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html, body { height: 100%; }
 
     body {
       margin: 0;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       color: var(--ink);
       background:
         radial-gradient(circle at 8% 8%, rgba(200, 107, 57, 0.16), transparent 28%),
@@ -41,15 +42,9 @@
     button { cursor: pointer; }
     a { color: inherit; text-decoration: none; }
 
-    .shell {
-      width: min(var(--max), calc(100% - 36px));
-      margin: 0 auto;
-    }
+    .shell { width: min(var(--max), calc(100% - 36px)); margin: 0 auto; }
 
     .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
       border-bottom: 1px solid var(--line);
       background: rgba(255, 250, 241, 0.86);
       backdrop-filter: blur(16px);
@@ -60,7 +55,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      min-height: 76px;
+      min-height: 72px;
     }
 
     .brand {
@@ -85,20 +80,7 @@
       letter-spacing: -0.08em;
     }
 
-    .links {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
 
     .pill {
       display: inline-flex;
@@ -114,15 +96,6 @@
       white-space: nowrap;
     }
 
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #b7791f;
-    }
-
-    .dot.ok { background: #16834a; }
-
     .btn {
       border: 1px solid var(--ink);
       background: var(--ink);
@@ -135,43 +108,32 @@
 
     .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 24px rgba(20,18,15,0.15); }
     .btn.secondary { background: #fff; color: var(--ink); border-color: var(--line); }
-    .btn.ghost { background: transparent; color: var(--ink); border-color: transparent; }
+    .btn.ghost { background: transparent; color: var(--muted); border-color: transparent; font-weight: 700; font-size: 13px; padding: 8px 10px; }
     .btn.small { padding: 9px 12px; font-size: 13px; }
 
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.04fr) minmax(330px, 0.96fr);
-      gap: 34px;
-      align-items: stretch;
-      padding: 54px 0 36px;
+    main { flex: 1 0 auto; }
+
+    .shop {
+      padding: 38px 0 28px;
     }
 
-    .hero-copy {
-      min-height: 520px;
-      border: 1px solid var(--line);
-      border-radius: 34px;
-      padding: clamp(30px, 5vw, 56px);
-      background:
-        linear-gradient(140deg, rgba(255, 255, 255, 0.86), rgba(255, 250, 241, 0.72)),
-        radial-gradient(circle at 90% 20%, rgba(200, 107, 57, 0.16), transparent 26%);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
+    .shop-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
     }
 
-    .hero-copy:after {
-      content: "";
-      position: absolute;
-      width: 240px;
-      height: 240px;
-      right: -92px;
-      bottom: -92px;
-      border-radius: 50%;
-      border: 34px solid rgba(200, 107, 57, 0.12);
+    .shop-head h1 {
+      margin: 0;
+      font-size: clamp(30px, 4.6vw, 50px);
+      letter-spacing: -0.06em;
+      line-height: 1;
     }
 
-    .eyebrow {
-      margin: 0 0 18px;
+    .shop-head .eyebrow {
+      margin: 0 0 8px;
       color: var(--clay-dark);
       text-transform: uppercase;
       letter-spacing: 0.16em;
@@ -179,162 +141,10 @@
       font-weight: 1000;
     }
 
-    h1 {
-      margin: 0;
-      max-width: 760px;
-      font-size: clamp(46px, 7vw, 88px);
-      line-height: 0.9;
-      letter-spacing: -0.085em;
-    }
-
-    .lead {
-      margin: 24px 0 0;
-      max-width: 620px;
-      color: #504940;
-      font-size: clamp(18px, 2vw, 22px);
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 32px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-card {
-      border: 1px solid var(--line);
-      border-radius: 34px;
-      padding: 22px;
-      background: #1f1a15;
-      color: #fff;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 520px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-card:before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 26% 18%, rgba(255,255,255,0.16), transparent 24%),
-        radial-gradient(circle at 82% 88%, rgba(200,107,57,0.36), transparent 28%);
-      pointer-events: none;
-    }
-
-    .deal {
-      position: relative;
-      border-radius: 26px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.13);
-      padding: 24px;
-    }
-
-    .deal-tag {
-      display: inline-flex;
-      border-radius: 999px;
-      padding: 7px 10px;
-      background: #f8d8a8;
-      color: #42230f;
-      font-size: 12px;
-      font-weight: 1000;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .deal h2 {
-      margin: 18px 0 10px;
-      font-size: clamp(28px, 4vw, 48px);
-      line-height: 0.98;
-      letter-spacing: -0.055em;
-    }
-
-    .deal p { margin: 0; color: rgba(255,255,255,0.72); }
-
-    .stats {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .stat {
-      border-radius: 20px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 16px;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 24px;
-      letter-spacing: -0.05em;
-      line-height: 1;
-    }
-
-    .stat span {
-      display: block;
-      margin-top: 7px;
-      color: rgba(255,255,255,0.62);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .section { padding: 34px 0; }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 18px;
-    }
-
-    .section h2 {
-      margin: 0;
-      font-size: clamp(28px, 4vw, 46px);
-      letter-spacing: -0.06em;
-      line-height: 1;
-    }
-
-    .section-note {
-      max-width: 540px;
-      margin: 0;
-      color: var(--muted);
-      font-weight: 650;
-    }
-
-    .categories {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 18px 0 0;
-    }
-
-    .chip {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 10px 14px;
-      color: #51493f;
-      background: rgba(255,255,255,0.8);
-      font-weight: 900;
-      font-size: 13px;
-    }
-
-    .chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-
     .product-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
-      margin-top: 22px;
     }
 
     .product {
@@ -345,11 +155,10 @@
       box-shadow: 0 12px 34px rgba(66, 42, 22, 0.07);
       display: flex;
       flex-direction: column;
-      min-height: 390px;
     }
 
     .product-art {
-      min-height: 145px;
+      min-height: 120px;
       display: grid;
       place-items: center;
       background:
@@ -361,38 +170,26 @@
     }
 
     .product-art:before,
-    .product-art:after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.45);
-    }
-
+    .product-art:after { content: ""; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.45); }
     .product-art:before { width: 104px; height: 104px; left: -24px; top: -28px; }
     .product-art:after { width: 140px; height: 140px; right: -50px; bottom: -58px; }
 
     .product-icon {
       position: relative;
       z-index: 1;
-      width: 86px;
-      height: 86px;
-      border-radius: 28px;
+      width: 74px;
+      height: 74px;
+      border-radius: 24px;
       display: grid;
       place-items: center;
       background: rgba(255,255,255,0.78);
       color: var(--clay-dark);
-      font-size: 34px;
+      font-size: 28px;
       font-weight: 1000;
       box-shadow: inset 0 0 0 1px rgba(20,18,15,0.08);
     }
 
-    .product-body {
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-      padding: 16px;
-      flex: 1;
-    }
+    .product-body { display: flex; flex-direction: column; gap: 9px; padding: 15px; flex: 1; }
 
     .product-kicker {
       color: var(--clay-dark);
@@ -404,17 +201,11 @@
 
     .product h3 {
       margin: 0;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.24;
       letter-spacing: -0.025em;
-    }
-
-    .product p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -427,30 +218,75 @@
       gap: 12px;
     }
 
-    .price {
-      font-size: 18px;
-      font-weight: 1000;
-      letter-spacing: -0.04em;
+    .price { font-size: 18px; font-weight: 1000; letter-spacing: -0.04em; }
+
+    footer {
+      flex-shrink: 0;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 250, 241, 0.7);
     }
 
-    .mini-actions {
+    .foot-inner {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 52px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    .sample-layout {
+    /* ---------- gate + setup overlay ---------- */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 20px;
-      align-items: start;
+      place-items: center;
+      padding: 20px;
+      background: rgba(20, 18, 15, 0.55);
+      backdrop-filter: blur(6px);
     }
+
+    .modal {
+      width: min(420px, 100%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .setup-sheet {
+      width: min(960px, 100%);
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .setup-head {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,250,241,0.96);
+      backdrop-filter: blur(8px);
+    }
+
+    .setup-body { padding: 20px; display: grid; gap: 18px; }
 
     .panel {
       border: 1px solid var(--line);
-      border-radius: var(--radius);
+      border-radius: 16px;
       background: rgba(255,255,255,0.82);
-      box-shadow: 0 12px 34px rgba(66, 42, 22, 0.07);
       overflow: hidden;
     }
 
@@ -459,55 +295,18 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 16px 18px;
+      padding: 13px 16px;
       border-bottom: 1px solid var(--line);
       background: rgba(255,250,241,0.68);
     }
 
-    .panel-title {
-      margin: 0;
-      font-size: 15px;
-      font-weight: 1000;
-      letter-spacing: -0.02em;
-    }
+    .panel-title { margin: 0; font-size: 14px; font-weight: 1000; letter-spacing: -0.02em; }
+    .panel-body { padding: 16px; }
 
-    .panel-body { padding: 18px; }
-
-    .cart-list {
-      display: grid;
-      gap: 10px;
-      min-height: 80px;
-    }
-
-    .cart-empty {
-      color: var(--muted);
-      font-weight: 750;
-      font-size: 14px;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 11px;
-      background: #fff;
-      font-size: 13px;
-    }
-
-    .cart-total {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--line);
-      font-weight: 1000;
-    }
-
-    .chat-panel {
-      margin-top: 20px;
-    }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .metric { border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: #fff; }
+    .metric strong { display: block; font-size: 22px; letter-spacing: -0.05em; }
+    .metric span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; font-weight: 800; }
 
     .field { margin-bottom: 12px; }
     .field label { display: block; margin-bottom: 6px; color: #4e463c; font-size: 12px; font-weight: 1000; }
@@ -515,7 +314,7 @@
     .input, .textarea {
       width: 100%;
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: 12px;
       padding: 11px 12px;
       background: rgba(255,255,255,0.9);
       color: var(--ink);
@@ -526,27 +325,20 @@
     .input:focus, .textarea:focus { border-color: var(--clay); box-shadow: 0 0 0 3px rgba(200,107,57,0.14); }
 
     .help { margin: 8px 0 0; color: var(--muted); font-size: 12px; font-weight: 650; }
+    .mini-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
     .log {
-      min-height: 160px;
-      max-height: 320px;
+      min-height: 120px;
+      max-height: 260px;
       overflow: auto;
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 14px;
       background: #fffaf3;
       padding: 12px;
       margin-top: 12px;
     }
 
-    .msg {
-      padding: 10px 12px;
-      border-radius: 14px;
-      margin: 0 0 10px;
-      background: #fff;
-      border: 1px solid var(--line);
-      font-size: 13px;
-    }
-
+    .msg { padding: 10px 12px; border-radius: 12px; margin: 0 0 10px; background: #fff; border: 1px solid var(--line); font-size: 13px; }
     .msg.user { margin-left: 36px; background: var(--ink); color: #fff; border-color: var(--ink); }
     .msg.bot { margin-right: 36px; }
     .msg.error { color: #a32716; }
@@ -554,7 +346,7 @@
     .code {
       display: block;
       overflow: auto;
-      border-radius: 16px;
+      border-radius: 14px;
       background: #17130f;
       color: #f8efe4;
       padding: 14px;
@@ -562,156 +354,127 @@
       font-size: 12px;
       line-height: 1.55;
       white-space: pre;
+      margin-top: 12px;
     }
 
     .hidden { display: none !important; }
 
     @media (max-width: 980px) {
-      .hero, .sample-layout { grid-template-columns: 1fr; }
       .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .links { display: none; }
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 560px) {
       .shell { width: min(100% - 24px, var(--max)); }
-      .nav { min-height: 68px; }
-      .nav-actions .pill { display: none; }
-      .hero { padding-top: 28px; }
-      .hero-copy, .hero-card { min-height: auto; border-radius: 26px; }
-      .stats { grid-template-columns: 1fr; }
       .product-grid { grid-template-columns: 1fr; }
-      .section-head { align-items: start; flex-direction: column; }
+      .shop-head { flex-direction: column; align-items: start; }
+      .metrics { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <header class="topbar">
     <nav class="shell nav" aria-label="Primary navigation">
-      <a href="#top" class="brand"><span class="logo">DP</span><span>DemoParts</span></a>
-      <div class="links">
-        <a href="#products">Products</a>
-        <a href="#cart">Cart</a>
-        <a href="#assistant">Assistant</a>
-      </div>
+      <a href="#" class="brand"><span class="logo">DP</span><span>DemoParts</span></a>
       <div class="nav-actions">
-        <span class="pill"><span id="database-dot" class="dot"></span><span id="database-status">Loading demo catalog</span></span>
-        <button class="btn small" type="button" data-scroll="#assistant">Chat setup</button>
+        <span class="pill"><span id="cart-pill">Cart · 0 · 0.00 лв.</span></span>
       </div>
     </nav>
   </header>
 
-  <main id="top">
-    <section class="shell hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Sample shop page</p>
-        <h1>Parts, tools, and service items for a demo checkout.</h1>
-        <p class="lead">This is a fake storefront built only to demonstrate CartAssist. Products, prices, stock, cart actions, and promos are sample data.</p>
-        <div class="hero-actions">
-          <a class="btn" href="#products">Browse sample products</a>
-          <button class="btn secondary" type="button" data-scroll="#assistant">Ask the assistant</button>
-        </div>
-      </div>
-
-      <aside class="hero-card" aria-label="Featured sample promotion">
-        <div class="deal">
-          <span class="deal-tag">Demo weekend offer</span>
-          <h2>Ask before you buy.</h2>
-          <p>Use the chatbot to compare sample items, check compatibility examples, and generate a mock recommendation from the product database.</p>
-        </div>
-        <div class="stats">
-          <div class="stat"><strong id="metric-products">-</strong><span>sample records</span></div>
-          <div class="stat"><strong id="metric-size">-</strong><span>database file</span></div>
-          <div class="stat"><strong id="metric-cats">-</strong><span>category ids</span></div>
-        </div>
-      </aside>
-    </section>
-
-    <section class="shell section" id="products">
-      <div class="section-head">
+  <main>
+    <section class="shell shop">
+      <div class="shop-head">
         <div>
-          <p class="eyebrow">Demo catalog</p>
-          <h2>Featured sample products</h2>
+          <p class="eyebrow">DemoParts</p>
+          <h1>Featured products</h1>
         </div>
-        <p class="section-note">Cards are generated from `json/products-demo-summary.json`. The full product export remains on the server for backend import and chatbot search.</p>
-      </div>
-      <div class="categories" id="categories">
-        <button class="chip active" type="button" data-category="all">All sample items</button>
       </div>
       <div id="product-grid" class="product-grid"></div>
     </section>
+  </main>
 
-    <section class="shell section sample-layout" id="cart">
-      <div class="panel">
-        <div class="panel-head">
-          <h2 class="panel-title">Sample shop notes</h2>
-          <span class="pill">No real orders</span>
-        </div>
-        <div class="panel-body">
-          <p class="section-note">This page is intentionally not a real ecommerce checkout. It gives the chatbot a realistic storefront context without touching payments, inventory, or customer accounts.</p>
-          <div class="categories">
-            <span class="chip">Mock cart</span>
-            <span class="chip">Mock prices</span>
-            <span class="chip">Sample stock</span>
-            <span class="chip">Chatbot-ready</span>
+  <footer>
+    <div class="shell foot-inner">
+      <span>DemoParts</span>
+      <button id="open-setup" class="btn ghost" type="button">Setup</button>
+    </div>
+  </footer>
+
+  <!-- Password gate -->
+  <div id="gate" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Setup login">
+    <div class="modal">
+      <h2 class="panel-title" style="font-size:18px;margin:0 0 4px;">Setup access</h2>
+      <p class="help" style="margin:0 0 16px;">Enter the password to open the configuration & debug tools.</p>
+      <div class="field">
+        <label for="gate-password">Password</label>
+        <input id="gate-password" class="input" type="password" autocomplete="off" placeholder="••••••••">
+      </div>
+      <div class="mini-actions">
+        <button id="gate-submit" class="btn small" type="button">Unlock</button>
+        <button id="gate-cancel" class="btn secondary small" type="button">Cancel</button>
+      </div>
+      <p id="gate-error" class="help hidden" style="color:#a32716;">Wrong password.</p>
+    </div>
+  </div>
+
+  <!-- Setup / debug area (gated) -->
+  <div id="setup" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Setup">
+    <div class="setup-sheet">
+      <div class="setup-head">
+        <h2 class="panel-title" style="font-size:16px;">Demo setup & debug</h2>
+        <button id="close-setup" class="btn secondary small" type="button">Close</button>
+      </div>
+      <div class="setup-body">
+        <div class="panel">
+          <div class="panel-head"><h3 class="panel-title">About this demo</h3></div>
+          <div class="panel-body">
+            <p class="help" style="font-size:13px;">
+              This is a fake storefront built only to demonstrate the CartAssist chatbot. Products,
+              prices and the cart are sample data. The chat widget auto-loads on page load using the
+              hardcoded public key and talks to the dashboard <code>/v1</code> API; the panel below is a
+              direct-to-core debugging fallback. The full product export lives on the server for
+              backend import and chatbot search.
+            </p>
+            <div class="metrics" style="margin-top:14px;">
+              <div class="metric"><strong id="metric-products">-</strong><span>sample records</span></div>
+              <div class="metric"><strong id="metric-size">-</strong><span>database file</span></div>
+              <div class="metric"><strong id="metric-cats">-</strong><span>category ids</span></div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <aside class="panel" aria-label="Sample cart">
-        <div class="panel-head">
-          <h2 class="panel-title">Sample cart</h2>
-          <button class="btn ghost small" type="button" id="clear-cart">Clear</button>
-        </div>
-        <div class="panel-body">
-          <div id="cart-list" class="cart-list"><div class="cart-empty">Your sample cart is empty.</div></div>
-          <div class="cart-total"><span>Total</span><span id="cart-total">0.00 лв.</span></div>
-          <p class="help">Buttons only update this local mock cart.</p>
-        </div>
-      </aside>
-    </section>
-
-    <section class="shell section" id="assistant">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">CartAssist integration</p>
-          <h2>Chatbot controls</h2>
-        </div>
-        <p class="section-note">For the public demo, load the platform widget. The direct core panel is only a debugging fallback.</p>
-      </div>
-
-      <div class="sample-layout">
         <div class="panel">
           <div class="panel-head">
-            <h2 class="panel-title">Platform widget</h2>
-            <button id="load-widget" class="btn small" type="button">Load chat widget</button>
+            <h3 class="panel-title">Platform widget</h3>
+            <button id="apply-widget" class="btn small" type="button">Apply &amp; reload</button>
           </div>
           <div class="panel-body">
             <div class="field">
               <label for="widget-script">Widget script URL</label>
-              <input id="widget-script" class="input" value="http://127.0.0.1:8002/v1/widget/dn-chatbot.min.js">
+              <input id="widget-script" class="input">
             </div>
             <div class="field">
               <label for="widget-api">Dashboard public API base</label>
-              <input id="widget-api" class="input" value="http://127.0.0.1:8002/v1">
+              <input id="widget-api" class="input">
             </div>
             <div class="field">
               <label for="public-key">Public API key</label>
-              <input id="public-key" class="input" placeholder="Paste store api_key_public from dashboard settings">
+              <input id="public-key" class="input">
             </div>
-            <p class="help">On `test.cartassist.shop`, these fields automatically switch to the production dashboard/API domains.</p>
+            <p class="help">The live widget loads automatically with these values. "Apply &amp; reload" saves overrides for this session and reloads the page.</p>
             <code class="code" id="embed-code"></code>
           </div>
         </div>
 
-        <div class="panel chat-panel">
+        <div class="panel">
           <div class="panel-head">
-            <h2 class="panel-title">Direct core test</h2>
+            <h3 class="panel-title">Direct core test</h3>
             <button id="reset-session" class="btn secondary small" type="button">New session</button>
           </div>
           <div class="panel-body">
             <div class="field">
               <label for="core-api">Chatbot core API base</label>
-              <input id="core-api" class="input" value="http://127.0.0.1:8001">
+              <input id="core-api" class="input">
             </div>
             <div class="field">
               <label for="client-id">Client/store id</label>
@@ -730,107 +493,128 @@
           </div>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 
   <script>
+    // Hardcoded storefront public widget key (public by design — safe in browser JS).
+    const PUBLIC_KEY = 'fiT5lMJiXCoHUfRzvHduFA';
+    // Client-side gate password for the setup/debug tools (not real security).
+    const SETUP_PASSWORD = 'Lexo123##';
+
     const state = {
       sessionId: makeSessionId(),
       widgetLoaded: false,
-      summary: null,
       products: [],
-      activeCategory: 'all',
       cart: []
     };
 
     const els = {
-      databaseDot: document.getElementById('database-dot'),
-      databaseStatus: document.getElementById('database-status'),
+      cartPill: document.getElementById('cart-pill'),
+      productGrid: document.getElementById('product-grid'),
       metricProducts: document.getElementById('metric-products'),
       metricSize: document.getElementById('metric-size'),
       metricCats: document.getElementById('metric-cats'),
-      categories: document.getElementById('categories'),
-      productGrid: document.getElementById('product-grid'),
-      cartList: document.getElementById('cart-list'),
-      cartTotal: document.getElementById('cart-total'),
       widgetScript: document.getElementById('widget-script'),
       widgetApi: document.getElementById('widget-api'),
       publicKey: document.getElementById('public-key'),
       embedCode: document.getElementById('embed-code'),
-      chatLog: document.getElementById('chat-log'),
-      chatInput: document.getElementById('chat-input'),
       coreApi: document.getElementById('core-api'),
-      clientId: document.getElementById('client-id')
+      clientId: document.getElementById('client-id'),
+      chatInput: document.getElementById('chat-input'),
+      chatLog: document.getElementById('chat-log'),
+      gate: document.getElementById('gate'),
+      gatePassword: document.getElementById('gate-password'),
+      gateError: document.getElementById('gate-error'),
+      setup: document.getElementById('setup')
     };
 
     init();
 
     function init() {
-      applyEnvironmentDefaults();
-      restoreSettings();
-      updateEmbedCode();
-      bindEvents();
+      applyConfigDefaults();
+      autoLoadWidget();
       loadSummary();
-      addLog('bot', 'Direct API test is idle. Use the public widget for the real demo flow.');
+      bindEvents();
+      updateEmbedCode();
+      // ?admin / #setup opens the gate directly.
+      if (location.search.includes('admin') || location.hash === '#setup') openGate();
     }
 
-    function bindEvents() {
-      document.querySelectorAll('[data-scroll]').forEach((btn) => {
-        btn.addEventListener('click', () => document.querySelector(btn.dataset.scroll).scrollIntoView({ behavior: 'smooth' }));
-      });
-      document.querySelectorAll('[data-sample]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          els.chatInput.value = btn.dataset.sample;
-          els.chatInput.focus();
-        });
-      });
-      ['widget-script', 'widget-api', 'public-key'].forEach((id) => {
-        document.getElementById(id).addEventListener('input', () => {
-          saveSettings();
-          updateEmbedCode();
-        });
-      });
-      ['core-api', 'client-id'].forEach((id) => {
-        document.getElementById(id).addEventListener('input', saveSettings);
-      });
-      document.getElementById('load-widget').addEventListener('click', loadWidget);
-      document.getElementById('send-direct').addEventListener('click', sendDirect);
-      document.getElementById('clear-cart').addEventListener('click', () => {
-        state.cart = [];
-        renderCart();
-      });
-      document.getElementById('reset-session').addEventListener('click', () => {
-        state.sessionId = makeSessionId();
-        els.chatLog.innerHTML = '';
-        addLog('bot', `New direct API session: ${state.sessionId}`);
-      });
-    }
-
-    function applyEnvironmentDefaults() {
+    // ---------- environment / config ----------
+    function envDefaults() {
       const host = window.location.hostname;
       if (host === 'test.cartassist.shop') {
-        els.widgetScript.value = 'https://dashboard.cartassist.shop/v1/widget/dn-chatbot.min.js';
-        els.widgetApi.value = 'https://dashboard.cartassist.shop/v1';
-        els.coreApi.value = 'https://api.cartassist.shop';
+        return {
+          widgetScript: 'https://dashboard.cartassist.shop/v1/widget/dn-chatbot.min.js',
+          widgetApi: 'https://dashboard.cartassist.shop/v1',
+          coreApi: 'https://api.cartassist.shop'
+        };
       }
+      return {
+        widgetScript: 'http://127.0.0.1:8002/v1/widget/dn-chatbot.min.js',
+        widgetApi: 'http://127.0.0.1:8002/v1',
+        coreApi: 'http://127.0.0.1:8001'
+      };
     }
 
+    function config() {
+      const base = envDefaults();
+      let saved = {};
+      try { saved = JSON.parse(sessionStorage.getItem('dn-demo-overrides') || '{}'); } catch (_) {}
+      return {
+        widgetScript: saved.widgetScript || base.widgetScript,
+        widgetApi: saved.widgetApi || base.widgetApi,
+        coreApi: saved.coreApi || base.coreApi,
+        publicKey: saved.publicKey || PUBLIC_KEY
+      };
+    }
+
+    function applyConfigDefaults() {
+      const c = config();
+      els.widgetScript.value = c.widgetScript;
+      els.widgetApi.value = c.widgetApi;
+      els.coreApi.value = c.coreApi;
+      els.publicKey.value = c.publicKey;
+    }
+
+    // ---------- widget ----------
+    function autoLoadWidget() {
+      if (state.widgetLoaded) return;
+      const c = config();
+      window.DN_CHATBOT_CONFIG = {
+        storeId: 'demo-store',
+        apiKeyPublic: c.publicKey,
+        apiUrl: trimSlash(c.widgetApi),
+        position: 'bottom-right',
+        branding: {
+          primaryColor: '#14120f',
+          secondaryColor: '#c86b39',
+          bgColor: '#FFFFFF',
+          textColor: '#14120f',
+          agentName: 'DemoParts Assistant',
+          welcomeMessage: 'Здравейте! Това е sample shop. Мога да помогна с примерни продукти и съвместимост.'
+        }
+      };
+      const script = document.createElement('script');
+      script.src = trimSlash(c.widgetScript);
+      script.async = true;
+      document.body.appendChild(script);
+      state.widgetLoaded = true;
+    }
+
+    // ---------- catalog ----------
     async function loadSummary() {
       try {
         const res = await fetch('json/products-demo-summary.json', { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const summary = await res.json();
-        state.summary = summary;
-        state.products = (summary.samples || []).map(makeProduct);
-        els.databaseDot.classList.add('ok');
-        els.databaseStatus.textContent = `${summary.recordCount.toLocaleString('en-US')} sample records`;
-        els.metricProducts.textContent = summary.recordCount.toLocaleString('en-US');
-        els.metricSize.textContent = `${(summary.fileSizeBytes / 1024 / 1024).toFixed(0)} MB`;
-        els.metricCats.textContent = summary.categoryCount.toLocaleString('en-US');
-        renderCategories(summary.topCategories || []);
+        state.products = (summary.samples || []).slice(0, 8).map(makeProduct);
+        els.metricProducts.textContent = (summary.recordCount || 0).toLocaleString('en-US');
+        els.metricSize.textContent = `${((summary.fileSizeBytes || 0) / 1024 / 1024).toFixed(0)} MB`;
+        els.metricCats.textContent = (summary.categoryCount || 0).toLocaleString('en-US');
         renderProducts();
       } catch (error) {
-        els.databaseStatus.textContent = `Catalog summary unavailable: ${error.message}`;
         state.products = fallbackProducts();
         renderProducts();
       }
@@ -842,7 +626,6 @@
         id: String(item.id || `sample-${index + 1}`),
         name: item.name || 'Sample product',
         categoryId: String(item.categoryId || 'demo'),
-        description: item.description || 'Sample catalog item for chatbot demonstration.',
         price: Number(price.toFixed(2)),
         icon: ['DR', 'PT', 'TL', 'SE', 'FX', 'MT', 'SP', 'DN'][index % 8]
       };
@@ -850,66 +633,32 @@
 
     function fallbackProducts() {
       return [
-        { id: 'demo-1', name: 'Sample pump filter kit', categoryId: 'demo', description: 'A fake product card used when the catalog summary is unavailable.', price: 39.9, icon: 'PT' },
-        { id: 'demo-2', name: 'Sample dry drilling crown', categoryId: 'demo', description: 'A fake tool product for chatbot testing.', price: 82.5, icon: 'DR' }
+        { id: 'demo-1', name: 'Sample pump filter kit', categoryId: 'demo', price: 39.9, icon: 'PT' },
+        { id: 'demo-2', name: 'Sample dry drilling crown', categoryId: 'demo', price: 82.5, icon: 'DR' },
+        { id: 'demo-3', name: 'Sample door gasket', categoryId: 'demo', price: 28.4, icon: 'SE' },
+        { id: 'demo-4', name: 'Sample heating element', categoryId: 'demo', price: 54.0, icon: 'MT' }
       ];
     }
 
-    function renderCategories(topCategories) {
-      const shown = topCategories.slice(0, 5);
-      shown.forEach((cat) => {
-        const button = document.createElement('button');
-        button.className = 'chip';
-        button.type = 'button';
-        button.dataset.category = String(cat.categoryId);
-        button.textContent = `Category ${cat.categoryId} (${cat.count})`;
-        button.addEventListener('click', () => {
-          state.activeCategory = button.dataset.category;
-          document.querySelectorAll('.chip[data-category]').forEach((el) => el.classList.toggle('active', el.dataset.category === state.activeCategory));
-          renderProducts();
-        });
-        els.categories.appendChild(button);
-      });
-      els.categories.querySelector('[data-category="all"]').addEventListener('click', () => {
-        state.activeCategory = 'all';
-        document.querySelectorAll('.chip[data-category]').forEach((el) => el.classList.toggle('active', el.dataset.category === 'all'));
-        renderProducts();
-      });
-    }
-
     function renderProducts() {
-      const products = state.activeCategory === 'all'
-        ? state.products
-        : state.products.filter((p) => p.categoryId === state.activeCategory);
       els.productGrid.innerHTML = '';
-      products.forEach((product) => {
+      state.products.forEach((product) => {
         const card = document.createElement('article');
         card.className = 'product';
         card.innerHTML = `
           <div class="product-art"><div class="product-icon">${escapeHtml(product.icon)}</div></div>
           <div class="product-body">
-            <div class="product-kicker">Sample ID ${escapeHtml(product.id)} · Category ${escapeHtml(product.categoryId)}</div>
+            <div class="product-kicker">ID ${escapeHtml(product.id)} · Cat ${escapeHtml(product.categoryId)}</div>
             <h3>${escapeHtml(product.name)}</h3>
-            <p>${escapeHtml(product.description)}</p>
             <div class="product-foot">
               <span class="price">${formatPrice(product.price)}</span>
-              <div class="mini-actions">
-                <button class="btn small" type="button" data-add="${escapeHtml(product.id)}">Add</button>
-                <button class="btn secondary small" type="button" data-ask="${escapeHtml(product.name)}">Ask</button>
-              </div>
+              <button class="btn small" type="button" data-add="${escapeHtml(product.id)}">Add</button>
             </div>
           </div>`;
         els.productGrid.appendChild(card);
       });
       els.productGrid.querySelectorAll('[data-add]').forEach((button) => {
         button.addEventListener('click', () => addToCart(button.dataset.add));
-      });
-      els.productGrid.querySelectorAll('[data-ask]').forEach((button) => {
-        button.addEventListener('click', () => {
-          els.chatInput.value = `Разкажи ми за ${button.dataset.ask}`;
-          document.querySelector('#assistant').scrollIntoView({ behavior: 'smooth' });
-          els.chatInput.focus();
-        });
       });
     }
 
@@ -923,65 +672,47 @@
     }
 
     function renderCart() {
-      els.cartList.innerHTML = '';
-      if (!state.cart.length) {
-        els.cartList.innerHTML = '<div class="cart-empty">Your sample cart is empty.</div>';
-        els.cartTotal.textContent = formatPrice(0);
-        return;
-      }
-      let total = 0;
-      state.cart.forEach((item) => {
-        total += item.price * item.qty;
-        const row = document.createElement('div');
-        row.className = 'cart-item';
-        row.innerHTML = `<span>${escapeHtml(item.name)}<br><small>Qty ${item.qty}</small></span><strong>${formatPrice(item.price * item.qty)}</strong>`;
-        els.cartList.appendChild(row);
-      });
-      els.cartTotal.textContent = formatPrice(total);
+      const count = state.cart.reduce((n, item) => n + item.qty, 0);
+      const total = state.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      els.cartPill.textContent = `Cart · ${count} · ${formatPrice(total)}`;
     }
 
-    function loadWidget() {
-      if (state.widgetLoaded) return;
-      const apiKeyPublic = els.publicKey.value.trim();
-      const apiUrl = trimSlash(els.widgetApi.value.trim());
-      const scriptUrl = els.widgetScript.value.trim();
-      if (!apiKeyPublic) {
-        alert('Paste a public API key first.');
-        return;
-      }
-      if (!apiUrl || !scriptUrl) {
-        alert('Widget script URL and API base are required.');
-        return;
-      }
-      window.DN_CHATBOT_CONFIG = {
-        storeId: 'demo-store',
-        apiKeyPublic,
-        apiUrl,
-        position: 'bottom-right',
-        branding: {
-          primaryColor: '#14120f',
-          secondaryColor: '#c86b39',
-          bgColor: '#FFFFFF',
-          textColor: '#14120f',
-          agentName: 'DemoParts Assistant',
-          welcomeMessage: 'Здравейте! Това е sample shop. Мога да помогна с примерни продукти и съвместимост.'
-        }
-      };
-      const script = document.createElement('script');
-      script.src = scriptUrl;
-      script.async = true;
-      script.onload = () => addLog('bot', 'Platform widget script loaded. Use the chat bubble in the bottom corner.');
-      script.onerror = () => addLog('error', `Could not load widget script: ${scriptUrl}`);
-      document.body.appendChild(script);
-      state.widgetLoaded = true;
+    // ---------- gate ----------
+    function openGate() {
+      if (sessionStorage.getItem('dn-demo-unlocked') === '1') return openSetup();
+      els.gate.classList.remove('hidden');
+      els.gateError.classList.add('hidden');
+      els.gatePassword.value = '';
+      els.gatePassword.focus();
     }
 
+    function closeGate() { els.gate.classList.add('hidden'); }
+
+    function submitGate() {
+      if (els.gatePassword.value === SETUP_PASSWORD) {
+        sessionStorage.setItem('dn-demo-unlocked', '1');
+        closeGate();
+        openSetup();
+      } else {
+        els.gateError.classList.remove('hidden');
+        els.gatePassword.select();
+      }
+    }
+
+    function openSetup() {
+      applyConfigDefaults();
+      updateEmbedCode();
+      els.setup.classList.remove('hidden');
+    }
+
+    function closeSetup() { els.setup.classList.add('hidden'); }
+
+    // ---------- direct core test ----------
     async function sendDirect() {
       const message = els.chatInput.value.trim();
       if (!message) return;
       const apiBase = trimSlash(els.coreApi.value.trim());
       const clientId = els.clientId.value.trim() || 'default';
-      saveSettings();
       addLog('user', message);
       els.chatInput.value = '';
       try {
@@ -1014,35 +745,52 @@
     function updateEmbedCode() {
       const cfg = {
         storeId: 'demo-store',
-        apiKeyPublic: els.publicKey.value.trim() || 'PASTE_PUBLIC_KEY',
+        apiKeyPublic: els.publicKey.value.trim() || PUBLIC_KEY,
         apiUrl: trimSlash(els.widgetApi.value.trim()),
         position: 'bottom-right'
       };
       els.embedCode.textContent = `<script>\nwindow.DN_CHATBOT_CONFIG = ${JSON.stringify(cfg, null, 2)};\n<\/script>\n<script src="${els.widgetScript.value.trim()}" async><\/script>`;
     }
 
-    function saveSettings() {
-      const payload = {
-        widgetScript: els.widgetScript.value,
-        widgetApi: els.widgetApi.value,
-        publicKey: els.publicKey.value,
-        coreApi: els.coreApi.value,
-        clientId: els.clientId.value
-      };
-      localStorage.setItem('dn-demo-settings', JSON.stringify(payload));
+    // ---------- events ----------
+    function bindEvents() {
+      document.getElementById('open-setup').addEventListener('click', openGate);
+      document.getElementById('close-setup').addEventListener('click', closeSetup);
+      document.getElementById('gate-submit').addEventListener('click', submitGate);
+      document.getElementById('gate-cancel').addEventListener('click', closeGate);
+      els.gatePassword.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitGate(); });
+      els.gate.addEventListener('click', (e) => { if (e.target === els.gate) closeGate(); });
+      els.setup.addEventListener('click', (e) => { if (e.target === els.setup) closeSetup(); });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { closeGate(); closeSetup(); }
+      });
+
+      ['widget-script', 'widget-api', 'public-key'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', updateEmbedCode);
+      });
+
+      document.getElementById('apply-widget').addEventListener('click', () => {
+        sessionStorage.setItem('dn-demo-overrides', JSON.stringify({
+          widgetScript: els.widgetScript.value.trim(),
+          widgetApi: els.widgetApi.value.trim(),
+          coreApi: els.coreApi.value.trim(),
+          publicKey: els.publicKey.value.trim()
+        }));
+        location.reload();
+      });
+
+      document.getElementById('send-direct').addEventListener('click', sendDirect);
+      document.querySelectorAll('[data-sample]').forEach((btn) => {
+        btn.addEventListener('click', () => { els.chatInput.value = btn.dataset.sample; els.chatInput.focus(); });
+      });
+      document.getElementById('reset-session').addEventListener('click', () => {
+        state.sessionId = makeSessionId();
+        els.chatLog.innerHTML = '';
+        addLog('bot', `New direct API session: ${state.sessionId}`);
+      });
     }
 
-    function restoreSettings() {
-      try {
-        const saved = JSON.parse(localStorage.getItem('dn-demo-settings') || '{}');
-        if (saved.widgetScript) els.widgetScript.value = saved.widgetScript;
-        if (saved.widgetApi) els.widgetApi.value = saved.widgetApi;
-        if (saved.publicKey) els.publicKey.value = saved.publicKey;
-        if (saved.coreApi) els.coreApi.value = saved.coreApi;
-        if (saved.clientId) els.clientId.value = saved.clientId;
-      } catch (_) {}
-    }
-
+    // ---------- helpers ----------
     function makeSessionId() {
       const bytes = new Uint8Array(8);
       if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
