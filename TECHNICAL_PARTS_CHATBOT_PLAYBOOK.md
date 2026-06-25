@@ -1600,7 +1600,7 @@ Frontend widget config:
 ```html
 <script>
 window.DN_CHATBOT_CONFIG = {
-  storeId: "demo-store",
+  storeId: "4",
   apiKeyPublic: "fiT5lMJiXCoHUfRzvHduFA",
   apiUrl: "https://dashboard.cartassist.shop/v1",
   position: "bottom-right"
@@ -1899,4 +1899,3 @@ curl -I https://test.cartassist.shop/
 ```
 
 Do not overwrite `/srv/apps/dn-html-demo/json/ProductsDetailsExport.json` unless intentionally updating the product database.
-
