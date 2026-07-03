@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CartAssist — Perfume Vertical & Branch vs Main</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--line:#2d3646;--txt:#dbe2ea;--dim:#8b98a9;
+--blue:#58a6ff;--green:#3fb950;--amber:#d29922;--rose:#f85149;--violet:#bc8cff;--cyan:#39c5cf;--bar:#4c8dd6;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:15px/1.55 "Segoe UI",system-ui,sans-serif;padding:32px 20px 80px}
+.wrap{max-width:1100px;margin:0 auto}
+h1{font-size:25px} h2{font-size:18px;margin:44px 0 8px;color:var(--blue);border-bottom:1px solid var(--line);padding-bottom:6px}
+h3{font-size:13.5px;color:var(--violet);margin:20px 0 6px;text-transform:uppercase;letter-spacing:.8px}
+p.lead{color:var(--dim);margin:6px 0}
+a{color:var(--cyan);text-decoration:none} a:hover{text-decoration:underline}
+code{font:12.5px/1.5 Consolas,monospace;color:var(--cyan)}
+.tag{font:11px monospace;padding:1px 8px;border-radius:10px;border:1px solid var(--line);color:var(--dim);margin-left:8px}
+.grid{display:grid;gap:12px} .g2{grid-template-columns:1fr 1fr} .g3{grid-template-columns:repeat(3,1fr)}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+.box h4{font-size:13.5px;margin-bottom:4px} .box .sub{font-size:12.5px;color:var(--dim)}
+.b-blue{border-left:3px solid var(--blue)} .b-green{border-left:3px solid var(--green)}
+.b-amber{border-left:3px solid var(--amber)} .b-rose{border-left:3px solid var(--rose)} .b-violet{border-left:3px solid var(--violet)}
+.flow{list-style:none;counter-reset:s}
+.flow li{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 14px 9px 50px;margin:7px 0;counter-increment:s}
+.flow li::before{content:counter(s);position:absolute;left:13px;top:9px;width:23px;height:23px;border-radius:50%;
+background:var(--panel2);border:1px solid var(--line);color:var(--blue);font:600 12px/21px monospace;text-align:center}
+.flow li .sub{display:block;font-size:12.5px;color:var(--dim)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+th{color:var(--dim);text-align:left;font-weight:600;padding:6px 10px;border-bottom:1px solid var(--line);font-size:11.5px;text-transform:uppercase;letter-spacing:.6px}
+td{padding:6px 10px;border-bottom:1px solid #202836;vertical-align:top}
+.pill{display:inline-block;font:11px monospace;padding:1px 7px;border-radius:9px;margin:1px}
+.pg{background:#12351f;color:var(--green)} .pa{background:#3a2c10;color:var(--amber)}
+.pb{background:#132f52;color:var(--blue)} .pr{background:#3d1418;color:var(--rose)} .pv{background:#2a1c42;color:var(--violet)}
+.note{background:#1b2130;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--dim);margin:12px 0}
+.lane{display:flex;gap:8px;align-items:stretch;flex-wrap:wrap;margin:8px 0}
+.lane .st{flex:1;min-width:130px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px}
+.lane .st b{display:block;font-size:12.5px;color:var(--cyan)} .lane .ar{align-self:center;color:var(--amber);font-weight:700}
+/* single-series CSS bar chart: magnitude job → one hue, direct labels, no legend */
+.chart{margin:12px 0}
+.crow{display:grid;grid-template-columns:230px 1fr 70px;gap:10px;align-items:center;margin:5px 0;font-size:12.5px}
+.crow .lbl{color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crow .track{background:var(--panel2);border-radius:4px;height:16px;position:relative}
+.crow .fill{background:var(--bar);height:16px;border-radius:4px 4px 4px 4px;min-width:2px}
+.crow .val{color:var(--txt);font:600 12px monospace}
+.crow.hl .fill{background:var(--green)}
+figcaption{font-size:11.5px;color:var(--dim);margin-top:4px}
+.timeline{border-left:2px solid var(--line);margin:12px 0 12px 8px;padding-left:18px}
+.tl{position:relative;margin:10px 0;font-size:13px}
+.tl::before{content:"";position:absolute;left:-23.5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--blue)}
+.tl code{color:var(--amber)} .tl .sub{color:var(--dim);font-size:12px;display:block}
+@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}.crow{grid-template-columns:120px 1fr 60px}}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>Perfume Vertical & Branch-vs-Main <span class="tag">CartAssist · 2026-07-03</span></h1>
+<p class="lead">Part I — every conversational case of the <b>perfume store</b> (the original vertical, still served by the legacy cascade) and exactly how the apogee99 work was fenced off from it. Part II — the complete delta between our branches and GitHub <code>main</code>: architecture, flows, files, commits, links.</p>
+
+<h2>Part I · The perfume vertical — all cases</h2>
+<p class="lead">A perfume store is <code>vertical: "perfume"</code> with a slots profile (notes, gender, occasion, budget) and <b>no parts capabilities</b> — so <code>store_is_parts=False</code>, <code>agent_loop</code> is off, and every request runs the classic cascade. The engine ships no copy: all customer-facing text comes from the store's own <code>AssistantProfile</code> (<code>intent_messages</code>/<code>intent_chips</code>).</p>
+
+<h3>Conversational cases (cascade order)</h3>
+<ol class="flow">
+<li><b>Welcome</b> — empty first turn → the store's authored welcome + starter chips; dashboard appends active promotions.</li>
+<li><b>Canned intent gates</b> — greeting, self-intro, off-topic, thanks/goodbye, bare „не" (context-aware: after greeting vs after results), delivery, returns/complaints, payment/order-status, contact/„искам оператор" (sets <code>human_takeover</code>). Each answers from profile copy and exits.</li>
+<li><b>PATH A — „Покажи препоръки" button</b> → starts the guided profiling collection.</li>
+<li><b>PATH E — active collection session</b> — the multi-turn preference Q&amp;A (notes → gender → occasion → budget); runs <em>before</em> B/C/D so answers („дамски", „до 50 лв") aren't re-classified as fresh queries.</li>
+<li><b>PATH C — inline preference</b> — „харесвам Baccarat Rouge и Yara" → <code>_profiling_oneshot</code>: the named perfumes are profiled by LLM into notes/character and matched in one shot.</li>
+<li><b>Router + memory merge</b> — gpt-class router extracts gender/notes/budget into session memory; „show more" reuses the last result set; price questions answer from the last shown product.</li>
+<li><b>Semantic search + note filter</b> — dense retrieval, then <code>_apply_perfume_note_filter</code>: notes requested with „с …" („с ванилия и уд") become <em>required</em>; under <code>STRICT_NOTE_MATCH</code> an empty result retries exact-note Qdrant search. The Bulgarian preposition „с" is why this filter is <b>perfume-only</b> — on parts it read „маркуч с аквастоп" as a scent note.</li>
+<li><b>Gender handling</b> — Qdrant payload filter on canonical gender + a rerank backstop that demotes clear opposite-gender matches written before normalization.</li>
+<li><b>Cross-script matching</b> — „латафа яра" ≈ <code>Lattafa Yara</code>: transliteration bonus + tightness bonus (exact-length name beats „Yara Moi").</li>
+<li><b>Post-result</b> — perfume refine chips (<code>__refine:</code> payloads: по-евтино/по-луксозно/друг характер), Fragella enrichment (notes/imagery via per-store key), grounded reasoning card with perfume trait vocabulary.</li>
+</ol>
+
+<h3>How the apogee99 work was fenced off — the protection matrix</h3>
+<table>
+<tr><th>Change (parts work)</th><th>Perfume exposure</th><th>Fence</th></tr>
+<tr><td>Agent loop</td><td><span class="pill pg">none</span></td><td><code>capabilities.agent_loop</code> off; perfume has no parts capabilities</td></tr>
+<tr><td>Hybrid lexical leg + relevance floor</td><td><span class="pill pg">none</span></td><td>both live only in the <code>apply_note_filter=False</code> branch / <code>search_products</code> tool — perfume takes the note-filter branch</td></tr>
+<tr><td><code>_lex_score</code> rerank bonus</td><td><span class="pill pg">none</span></td><td>only lexical-leg candidates carry the field; pure-dense (perfume) never set it</td></tr>
+<tr><td>SQL identity lookups</td><td><span class="pill pg">none</span></td><td>gated by <code>exact_code_priority</code>/<code>compatibility_match</code> capabilities</td></tr>
+<tr><td>Sticker vision upload</td><td><span class="pill pg">none</span></td><td>dashboard branch requires <code>catalog_profile == technical_parts</code>; perfume uploads keep human review</td></tr>
+<tr><td>Reasoning trait vocabulary</td><td><span class="pill pa">improved</span></td><td>the ONE deliberate perfume-adjacent change: trait lines are now gated by <code>_is_perfume_shop</code>, so parts stores stopped receiving perfume wording — perfume stores unchanged</td></tr>
+<tr><td>Post-result chips</td><td><span class="pill pg">none</span></td><td><code>build_post_result_suggestion</code> branches by sector; perfume labels pinned by test</td></tr>
+</table>
+<div class="note">Regression evidence: the full unit suite (~513 tests, incl. the perfume note-filter, gender, PATH and profile-copy tests) is green on the branch; the perfume paths were additionally pinned by <code>tests/integration/test_api_ask.py</code> behavior tests that gated the <code>_compose_search_response</code> extraction.</div>
+
+<h2>Part II · Branch vs GitHub main</h2>
+<p class="lead">Core: <a href="https://github.com/datanetica/dn-virtual-assistant/tree/fix/apogee99-flow-accuracy"><code>fix/apogee99-flow-accuracy</code></a> vs <code>origin/main</code> (base <code>b2084c8d</code>) — <b>17 commits · 27 files · +2543 / −150</b> · <a href="https://github.com/datanetica/dn-virtual-assistant/pull/23">PR #23</a>.<br>
+Dashboard: <a href="https://github.com/datanetica/dn-chatbot-dashboard/tree/feat/apogee99-sql-vision-agent"><code>feat/apogee99-sql-vision-agent</code></a> vs <code>dashboard/main</code> — <b>8 commits · 11 files · +665 / −14</b> (already <em>includes</em> the merge of main's api_key_public retirement) · <a href="https://github.com/datanetica/dn-chatbot-dashboard/pull/28">PR #28</a>.</p>
+
+<h3>Architecture: main → branch</h3>
+<div class="grid g2">
+<div class="box b-rose"><h4>main (before)</h4><div class="sub">One 3,350-line handler cascade in <code>ask.py</code> — 43 exit points, correctness = implicit ordering. Identity lookups via Qdrant <em>scroll</em> (id-order truncation bias, per-term count calls). Fitment capped at 80 rows/product (94% of data discarded). Photos → human review only. Dense-only retrieval. No external agent surfaces.</div></div>
+<div class="box b-green"><h4>branch (after)</h4><div class="sub">Deterministic pre-layer → <b>tool-calling agent</b> (per-store flag, cascade as automatic fallback) → server-side composition. Identity in <b>SQL</b> (uncapped fitment), payloads fetched by id. Vision intake, hybrid dense+lexical retrieval with a relevance floor, session-memory persistence for photo readings, MCP + product-feed surfaces, analytics KPIs.</div></div>
+</div>
+<div class="lane">
+<div class="st"><b>widget</b>store_id + Origin</div><div class="ar">→</div>
+<div class="st"><b>dashboard /v1</b>edge intercepts · sync → SQL+Qdrant · upload → vision</div><div class="ar">→</div>
+<div class="st"><b>core pre-layer</b>buttons · symptom · photo-offer</div><div class="ar">→</div>
+<div class="st"><b>agent loop</b>7-tool registry · JSON protocol</div><div class="ar">→</div>
+<div class="st"><b>compose</b>cards · badges · chips · memory</div>
+</div>
+
+<h3>Where the +2,543 lines went (core)</h3>
+<figure class="chart">
+<div class="crow"><div class="lbl">agent_loop.py <span class="pill pv">new</span></div><div class="track"><div class="fill" style="width:97%"></div></div><div class="val">389</div></div>
+<div class="crow"><div class="lbl">routes/ask.py</div><div class="track"><div class="fill" style="width:79%"></div></div><div class="val">314</div></div>
+<div class="crow"><div class="lbl">exact_code.py</div><div class="track"><div class="fill" style="width:54%"></div></div><div class="val">214</div></div>
+<div class="crow"><div class="lbl">search.py (hybrid leg)</div><div class="track"><div class="fill" style="width:48%"></div></div><div class="val">190</div></div>
+<div class="crow"><div class="lbl">llm_dispatch.py (tool calls)</div><div class="track"><div class="fill" style="width:40%"></div></div><div class="val">159</div></div>
+<div class="crow"><div class="lbl">fitment.py</div><div class="track"><div class="fill" style="width:35%"></div></div><div class="val">139</div></div>
+<div class="crow"><div class="lbl">routes/mcp.py <span class="pill pv">new</span></div><div class="track"><div class="fill" style="width:35%"></div></div><div class="val">138</div></div>
+<div class="crow"><div class="lbl">routes/vision.py <span class="pill pv">new</span></div><div class="track"><div class="fill" style="width:28%"></div></div><div class="val">110</div></div>
+<div class="crow"><div class="lbl">app/tools/* (registry, 6 files) <span class="pill pv">new</span></div><div class="track"><div class="fill" style="width:100%"></div></div><div class="val">~400</div></div>
+<figcaption>Lines changed per module, <code>origin/main…HEAD</code> (tests excluded). One hue — the job is magnitude.</figcaption>
+</figure>
+
+<h3>Accuracy through the workstream</h3>
+<figure class="chart">
+<div class="crow"><div class="lbl">agent loop, first eval run</div><div class="track"><div class="fill" style="width:85%;background:var(--rose)"></div></div><div class="val">85.0%</div></div>
+<div class="crow hl"><div class="lbl">after show-first + photo-layer fixes</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="val">100%</div></div>
+<div class="crow hl"><div class="lbl">719-question stratified soak</div><div class="track"><div class="fill" style="width:98.5%"></div></div><div class="val">98.5%</div></div>
+<div class="crow hl"><div class="lbl">browse failures after hybrid retrieval</div><div class="track"><div class="fill" style="width:82%"></div></div><div class="val">9/11</div></div>
+<figcaption>Graded GOOD rate on the 120-question gate and the 1000-question soak (stopped at 719). Red = the failing first run; the remaining 2 browse holdouts need category names from the client.</figcaption>
+</figure>
+
+<h3>Every architecture / flow change, mapped to commits</h3>
+<div class="timeline">
+<div class="tl"><code>d335a4f · 0ebc9ef</code> <b>Self-validating identity guards</b><span class="sub">digit-tail ≥5 (wak260 class), match-count guard (≤8 products per term), fitment ≥5-char terms + &gt;8-distinct-appliance guard (LG 80N class).</span></div>
+<div class="tl"><code>29ab986</code> <b>SQL-first identity lookups</b><span class="sub"><code>product_code_terms</code> + uncapped <code>product_fitment</code>; one GROUP BY = the count guard; Qdrant retrieve-by-id kills scroll bias; automatic Qdrant fallback per store. Dashboard twin: <code>lookup_index.py</code>, capped Qdrant legacy view.</span></div>
+<div class="tl"><code>1e733e2</code> <b>Router-model rescue</b><span class="sub">the identity index adjudicates router mislabels („V-i260" is a part code, not an appliance model).</span></div>
+<div class="tl"><code>edb02c3</code> <b>Sticker vision</b><span class="sub"><code>read_appliance_sticker</code> tool + <code>/api/vision/sticker</code>; dashboard upload branch; readable plate → normal ask turn, unreadable → human review.</span></div>
+<div class="tl"><code>606f01e</code> <b>Phase-1 tool registry complete</b><span class="sub">7 typed tools, guards inside, Bulgarian model-facing contracts in <code>registry()</code>.</span></div>
+<div class="tl"><code>64aa731 · 03fd130</code> <b>Phase-2 agent loop + eval gate</b><span class="sub"><code>chat_completion_tools</code>, JSON final protocol, cascade fallback; show-first hardening after the 85% first run; photo intercept pinned to the pre-layer. Gate passed at 100%.</span></div>
+<div class="tl"><code>7894597</code> <b>MCP endpoint</b><span class="sub">stateless JSON-RPC (<code>initialize</code>/<code>tools/list</code>/<code>tools/call</code>), read-only tool subset, <code>?store_id=</code> binding. Dashboard twin: <code>/v1/feed/products</code> (OpenAI feed shape, Bearer auth).</span></div>
+<div class="tl"><code>a0b52ae</code> <b>Hybrid retrieval</b><span class="sub">lexical head-noun leg (BG-stemmed, IDF-weighted, cached name map) injected into the rerank pool + <code>_lex_score</code> tie-breaker; search tool routed off the perfume branch.</span></div>
+<div class="tl"><code>e36cc5b</code> <b>Memory fixes from live log</b><span class="sub">sticker reading persists brand/model/type + photo flag into session memory; anaphora rule („за тази сушилня", „нали пратих снимка", translit BG); honest no-match for bare codes.</span></div>
+<div class="tl"><code>bd35070</code> <b>Relevance floor + honesty precedence</b><span class="sub">candidates sharing no content stem with the query are dropped; „nothing close → show nothing, say so"; wrong-appliance-type parts are never „подходящи"; R800a→R600a style corrections.</span></div>
+</div>
+
+<h3>Dashboard branch delta <span class="tag">vs dashboard/main</span></h3>
+<table>
+<tr><th>Change</th><th>Files</th></tr>
+<tr><td>SQL index writes at sync (uncapped fitment; Qdrant capped legacy view)</td><td><code>services/lookup_index.py</code> <span class="pill pv">new</span> · <code>routes/external_api.py</code> · <code>database.py</code> (migration <code>technical_lookup.tables</code>)</td></tr>
+<tr><td>Upload → sticker-vision flow (parts stores), widget renders chips on upload replies</td><td><code>routes/external_api.py</code> · <code>services/core_client.py</code> · <code>static/widget/dn-chatbot.min.js</code></td></tr>
+<tr><td>Analytics: AI-Resolved % · Escalated % · photo uploads · escalation review queue</td><td><code>routes/analytics.py</code> · <code>templates/analytics.html</code></td></tr>
+<tr><td>Pipeline-capability toggles incl. <code>agent_loop</code> (beta) with hot reload</td><td><code>routes/settings.py</code> · <code>templates/settings.html</code></td></tr>
+<tr><td>Agentic-commerce product feed (Bearer secret, rate-limited)</td><td><code>routes/external_api.py</code> · <code>rate_limit.py</code></td></tr>
+<tr><td>Merge of main's <b>api_key_public retirement</b> — store_id + Origin tenancy kept; feed moved to the secret Bearer contract</td><td>merge commit <code>f7e0204</code></td></tr>
+</table>
+
+<h3>Links</h3>
+<table>
+<tr><th>What</th><th>Where</th></tr>
+<tr><td>Core PR (17 commits)</td><td><a href="https://github.com/datanetica/dn-virtual-assistant/pull/23">datanetica/dn-virtual-assistant #23</a></td></tr>
+<tr><td>Dashboard PR (8 commits, merge-ready)</td><td><a href="https://github.com/datanetica/dn-chatbot-dashboard/pull/28">datanetica/dn-chatbot-dashboard #28</a></td></tr>
+<tr><td>Demo repo (harness, demo script, this doc)</td><td><a href="https://github.com/nikolaysaev/dn-ms-demo">nikolaysaev/dn-ms-demo</a></td></tr>
+<tr><td>Companion doc: full system architecture</td><td><a href="architecture.html">docs/architecture.html</a></td></tr>
+<tr><td>Presenter script · client data request</td><td><a href="../DEMO_SCRIPT.md">DEMO_SCRIPT.md</a> · <a href="../APOGEE99_DATA_REQUEST.md">APOGEE99_DATA_REQUEST.md</a></td></tr>
+</table>
+
+<p style="margin-top:36px;color:var(--dim);font-size:12px">Generated 2026-07-03 · base <code>b2084c8d</code> · core +2543/−150 · dashboard +665/−14</p>
+</div></body></html>
