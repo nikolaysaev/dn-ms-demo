@@ -23,8 +23,7 @@ CASES = OUTDIR / "cases.jsonl"
 RESULTS = OUTDIR / "results.jsonl"
 
 API = "http://127.0.0.1:8002/v1/chat/ask"
-API_KEY_PUBLIC = "utU3nELf_8Z1-m0XB2P0Cg"
-STORE_ID = "4"
+STORE_ID = "11"  # tenanted by store_id + Origin (api_key_public retired)
 
 GATE_MARKERS = (
     "идентификатори на уреда",
@@ -59,13 +58,12 @@ class RateLimiter:
 
 def ask(session_id, user_text, timeout=120):
     payload = json.dumps({
-        "api_key_public": API_KEY_PUBLIC,
         "store_id": STORE_ID,
         "session_id": session_id,
         "user_text": user_text,
     }).encode("utf-8")
     req = urllib.request.Request(API, data=payload,
-                                 headers={"Content-Type": "application/json"})
+                                 headers={"Content-Type": "application/json", "Origin": "http://127.0.0.1:8090"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         return resp.status, json.loads(resp.read().decode("utf-8"))
 
