@@ -2,8 +2,17 @@
 """Sync the demo product database into the CartAssist dashboard.
 
 Reads the large local product export (``json/ProductsDetailsExport.json``) and
-converts each record into the dashboard ``POST /v1/sync`` payload shape, then
-uploads it in batches.
+uploads it in two phases:
+
+1. ``POST /v1/sync`` — product catalog (embedding + Qdrant + SQL code terms),
+   WITHOUT inline appliance rows so payloads stay small.
+2. ``POST /v1/sync/compatibility`` — the FULL appliance-fitment data, streamed
+   in row batches that never split one product across requests (the dashboard
+   replaces fitment per product, so a split product would erase its own rows).
+
+The full export carries ~2.08M fitment rows (a single product can fit 45k+
+appliance models). The dashboard stores every row in SQL (``product_fitment``)
+and keeps only a capped legacy view in Qdrant.
 
 Field mapping (see TECHNICAL_PARTS_CHATBOT_PLAYBOOK.md §24.13–24.14):
 
@@ -11,7 +20,7 @@ Field mapping (see TECHNICAL_PARTS_CHATBOT_PLAYBOOK.md §24.13–24.14):
     Name        -> name        (truncated to 320 chars)
     Description -> description  (truncated to 2500 chars)
     CategoryId  -> categories
-    Appliances  -> compatibility   (capped at 80 rows per product)
+    Appliances  -> compatibility   (phase 2; --appliance-limit 0 = ALL rows)
 
 The store **secret** key authenticates the request and is read from ``--key`` or
 the ``DN_DEMO_SECRET_KEY`` environment variable. It must never be committed or
@@ -21,6 +30,7 @@ Examples:
     export DN_DEMO_SECRET_KEY='...secret...'
     python3 sync_products.py --limit 3 --batch-size 3        # smoke test
     python3 sync_products.py --batch-size 10                 # full sync
+    python3 sync_products.py --compat-only                   # re-stream fitment only
 """
 from __future__ import annotations
 
@@ -36,7 +46,7 @@ DEFAULT_INPUT = "json/ProductsDetailsExport.json"
 DEFAULT_API_BASE = "https://dashboard.cartassist.shop"
 NAME_LIMIT = 320
 DESCRIPTION_LIMIT = 2500
-APPLIANCE_LIMIT = 80
+COMPAT_ROWS_PER_REQUEST = 5000
 
 
 def _truncate(value: object, limit: int) -> str:
@@ -44,11 +54,11 @@ def _truncate(value: object, limit: int) -> str:
     return text[:limit]
 
 
-def normalize_appliances(rows: object, limit: int = APPLIANCE_LIMIT) -> list[dict]:
+def normalize_appliances(rows: object, limit: int = 0) -> list[dict]:
     """Convert source ``Appliances`` rows into dashboard compatibility rows.
 
-    Capped at ``limit`` rows so products with thousands of compatible models do
-    not produce an oversized sync payload (playbook §24.14)."""
+    ``limit`` == 0 keeps every row — the dashboard's SQL fitment table is
+    uncapped (only its legacy Qdrant view caps per product, server-side)."""
     out: list[dict] = []
     if not isinstance(rows, list):
         return out
@@ -61,7 +71,7 @@ def normalize_appliances(rows: object, limit: int = APPLIANCE_LIMIT) -> list[dic
         if not (brand or code or serial):
             continue
         out.append({"brand": brand, "code": code, "serialNumber": serial})
-        if len(out) >= limit:
+        if limit and len(out) >= limit:
             break
     return out
 
@@ -83,19 +93,16 @@ def build_product(item: dict) -> dict | None:
         "name": _truncate(item.get("Name") or item.get("name"), NAME_LIMIT),
         "description": _truncate(item.get("Description") or item.get("description"), DESCRIPTION_LIMIT),
         "categories": categories,
-        "compatibility": normalize_appliances(item.get("Appliances") or item.get("appliances")),
+        # Appliance rows go through /v1/sync/compatibility (phase 2), not inline.
+        "compatibility": [],
     }
 
 
-def post_batch(api_base: str, key: str, products: list[dict], full_sync: bool, total: int, timeout: float) -> dict:
-    url = api_base.rstrip("/") + "/v1/sync"
-    body = json.dumps(
-        {"products": products, "full_sync": full_sync, "total_count": total},
-        ensure_ascii=False,
-    ).encode("utf-8")
+def _post(url: str, key: str, body: dict, timeout: float) -> dict:
+    data = json.dumps(body, ensure_ascii=False).encode("utf-8")
     req = urllib.request.Request(
         url,
-        data=body,
+        data=data,
         method="POST",
         headers={
             "Content-Type": "application/json",
@@ -106,14 +113,64 @@ def post_batch(api_base: str, key: str, products: list[dict], full_sync: bool, t
         return json.loads(resp.read().decode("utf-8") or "{}")
 
 
+def post_batch(api_base: str, key: str, products: list[dict], full_sync: bool, total: int, timeout: float) -> dict:
+    return _post(
+        api_base.rstrip("/") + "/v1/sync",
+        key,
+        {"products": products, "full_sync": full_sync, "total_count": total},
+        timeout,
+    )
+
+
+def post_compat_batch(api_base: str, key: str, products: list[dict], timeout: float) -> dict:
+    # full_sync stays False: /v1/sync already cleared the store's fitment rows
+    # (compat_full on the first product batch); True here would erase the
+    # previous compatibility batches.
+    return _post(
+        api_base.rstrip("/") + "/v1/sync/compatibility",
+        key,
+        {"products": products, "full_sync": False},
+        timeout,
+    )
+
+
+def iter_compat_batches(items: list[dict], appliance_limit: int, max_rows: int = COMPAT_ROWS_PER_REQUEST):
+    """Yield ``/v1/sync/compatibility`` product batches of ≤ ``max_rows`` fitment
+    rows, never splitting one product's rows across two requests."""
+    batch: list[dict] = []
+    batch_rows = 0
+    for item in items:
+        product = build_product(item) if isinstance(item, dict) else None
+        if not product:
+            continue
+        appliances = normalize_appliances(item.get("Appliances") or item.get("appliances"), appliance_limit)
+        if not appliances:
+            continue
+        entry = {
+            "external_id": product["external_id"],
+            "name": product["name"],
+            "appliances": appliances,
+        }
+        if batch and batch_rows + len(appliances) > max_rows:
+            yield batch, batch_rows
+            batch, batch_rows = [], 0
+        batch.append(entry)
+        batch_rows += len(appliances)
+    if batch:
+        yield batch, batch_rows
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--input", default=DEFAULT_INPUT, help=f"source product export (default: {DEFAULT_INPUT})")
     parser.add_argument("--api-base", default=DEFAULT_API_BASE, help=f"dashboard base URL (default: {DEFAULT_API_BASE})")
     parser.add_argument("--key", default=os.environ.get("DN_DEMO_SECRET_KEY", ""), help="store secret key (or env DN_DEMO_SECRET_KEY)")
     parser.add_argument("--limit", type=int, default=0, help="only sync the first N products (0 = all)")
-    parser.add_argument("--batch-size", type=int, default=10, help="products per request (default: 10)")
-    parser.add_argument("--timeout", type=float, default=120.0, help="per-request timeout in seconds")
+    parser.add_argument("--batch-size", type=int, default=10, help="products per /v1/sync request (default: 10)")
+    parser.add_argument("--appliance-limit", type=int, default=0, help="max fitment rows per product (0 = ALL, default)")
+    parser.add_argument("--compat-only", action="store_true", help="skip products, only stream fitment rows")
+    parser.add_argument("--skip-compat", action="store_true", help="only sync products, skip fitment rows")
+    parser.add_argument("--timeout", type=float, default=180.0, help="per-request timeout in seconds")
     args = parser.parse_args(argv)
 
     if not args.key:
@@ -131,32 +188,56 @@ def main(argv: list[str]) -> int:
         print("Expected the product export to be a JSON array.", file=sys.stderr)
         return 2
 
-    products = [p for p in (build_product(item) for item in data if isinstance(item, dict)) if p]
+    items = [item for item in data if isinstance(item, dict)]
     if args.limit > 0:
-        products = products[: args.limit]
+        items = items[: args.limit]
 
-    total = len(products)
-    if total == 0:
-        print("No valid products to sync.")
-        return 0
+    # ---- Phase 1: product catalog ----
+    if not args.compat_only:
+        products = [p for p in (build_product(item) for item in items) if p]
+        total = len(products)
+        if total == 0:
+            print("No valid products to sync.")
+            return 0
 
-    synced = 0
-    for start in range(0, total, args.batch_size):
-        batch = products[start : start + args.batch_size]
-        full_sync = start == 0  # first batch resets the collection
-        try:
-            result = post_batch(args.api_base, args.key, batch, full_sync, total, args.timeout)
-        except urllib.error.HTTPError as exc:
-            detail = exc.read().decode("utf-8", "replace")[:500]
-            print(f"\nHTTP {exc.code} on batch starting at {start}: {detail}", file=sys.stderr)
-            return 1
-        except urllib.error.URLError as exc:
-            print(f"\nNetwork error on batch starting at {start}: {exc}", file=sys.stderr)
-            return 1
-        synced += int(result.get("synced", len(batch)))
-        print(f"  synced {min(start + len(batch), total)}/{total} (last response: {result.get('message', 'ok')})")
+        synced = 0
+        for start in range(0, total, args.batch_size):
+            batch = products[start : start + args.batch_size]
+            full_sync = start == 0  # first batch resets collection + SQL indexes
+            try:
+                result = post_batch(args.api_base, args.key, batch, full_sync, total, args.timeout)
+            except urllib.error.HTTPError as exc:
+                detail = exc.read().decode("utf-8", "replace")[:500]
+                print(f"\nHTTP {exc.code} on batch starting at {start}: {detail}", file=sys.stderr)
+                return 1
+            except urllib.error.URLError as exc:
+                print(f"\nNetwork error on batch starting at {start}: {exc}", file=sys.stderr)
+                return 1
+            synced += int(result.get("synced", len(batch)))
+            print(f"  synced {min(start + len(batch), total)}/{total} (last response: {result.get('message', 'ok')})")
+        print(f"Products done. Synced {synced}/{total}.")
 
-    print(f"Done. Synced {synced}/{total} products.")
+    # ---- Phase 2: full fitment data ----
+    if not args.skip_compat:
+        sent_rows = 0
+        sent_batches = 0
+        for batch, rows in iter_compat_batches(items, args.appliance_limit):
+            try:
+                result = post_compat_batch(args.api_base, args.key, batch, args.timeout)
+            except urllib.error.HTTPError as exc:
+                detail = exc.read().decode("utf-8", "replace")[:500]
+                print(f"\nHTTP {exc.code} on compat batch {sent_batches} ({sent_rows} rows sent): {detail}", file=sys.stderr)
+                return 1
+            except urllib.error.URLError as exc:
+                print(f"\nNetwork error on compat batch {sent_batches} ({sent_rows} rows sent): {exc}", file=sys.stderr)
+                return 1
+            sent_rows += rows
+            sent_batches += 1
+            if sent_batches % 10 == 0 or rows >= COMPAT_ROWS_PER_REQUEST:
+                print(f"  compat: {sent_rows} rows in {sent_batches} batches "
+                      f"(last: sql={result.get('sql_fitment_rows')}, qdrant={result.get('synced')})")
+        print(f"Compatibility done. Streamed {sent_rows} fitment rows in {sent_batches} batches.")
+
     return 0
 
 
