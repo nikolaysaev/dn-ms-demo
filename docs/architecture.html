@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CartAssist · Apogee99 — Technical Architecture</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--line:#2d3646;--txt:#dbe2ea;--dim:#8b98a9;
+--blue:#58a6ff;--green:#3fb950;--amber:#d29922;--rose:#f85149;--violet:#bc8cff;--cyan:#39c5cf;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:15px/1.55 "Segoe UI",system-ui,sans-serif;padding:32px 20px 80px}
+.wrap{max-width:1100px;margin:0 auto}
+h1{font-size:26px;letter-spacing:.3px}
+h2{font-size:18px;margin:44px 0 6px;color:var(--blue);border-bottom:1px solid var(--line);padding-bottom:6px}
+h3{font-size:14px;color:var(--violet);margin:18px 0 6px;text-transform:uppercase;letter-spacing:.8px}
+p.lead{color:var(--dim);margin:6px 0 4px}
+code,.mono{font:12.5px/1.5 "Cascadia Code",Consolas,monospace;color:var(--cyan)}
+.tag{display:inline-block;font:11px monospace;padding:1px 8px;border-radius:10px;border:1px solid var(--line);color:var(--dim);margin-left:8px;vertical-align:middle}
+.grid{display:grid;gap:12px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.box h4{font-size:13.5px;margin-bottom:4px}
+.box .sub{font-size:12.5px;color:var(--dim)}
+.port{float:right;font:11px monospace;color:var(--amber)}
+.topo{grid-template-columns:repeat(3,1fr)}
+.b-blue{border-left:3px solid var(--blue)} .b-green{border-left:3px solid var(--green)}
+.b-amber{border-left:3px solid var(--amber)} .b-rose{border-left:3px solid var(--rose)}
+.b-violet{border-left:3px solid var(--violet)} .b-cyan{border-left:3px solid var(--cyan)}
+.flow{list-style:none;counter-reset:s}
+.flow li{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:8px;
+padding:10px 14px 10px 52px;margin:8px 0;counter-increment:s}
+.flow li::before{content:counter(s);position:absolute;left:14px;top:10px;width:24px;height:24px;
+border-radius:50%;background:var(--panel2);border:1px solid var(--line);color:var(--blue);
+font:600 12px/22px monospace;text-align:center}
+.flow li b{color:var(--txt)} .flow li .sub{display:block;font-size:12.5px;color:var(--dim)}
+.arrow{color:var(--amber);font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+th{color:var(--dim);text-align:left;font-weight:600;padding:7px 10px;border-bottom:1px solid var(--line);font-size:11.5px;text-transform:uppercase;letter-spacing:.6px}
+td{padding:7px 10px;border-bottom:1px solid #202836;vertical-align:top}
+td:first-child{white-space:nowrap}
+.pill{display:inline-block;font:11px monospace;padding:1px 7px;border-radius:9px;margin:1px 2px}
+.pg{background:#12351f;color:var(--green)} .pa{background:#3a2c10;color:var(--amber)}
+.pb{background:#132f52;color:var(--blue)} .pr{background:#3d1418;color:var(--rose)}
+.kpis{grid-template-columns:repeat(4,1fr);margin-top:10px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;text-align:center}
+.kpi .n{font:700 22px monospace;color:var(--green)} .kpi .l{font-size:11.5px;color:var(--dim)}
+.lane{display:flex;gap:8px;align-items:stretch;flex-wrap:wrap;margin:8px 0}
+.lane .st{flex:1;min-width:120px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px}
+.lane .st b{display:block;font-size:12.5px;color:var(--cyan)}
+.lane .ar{align-self:center;color:var(--amber);font-weight:700}
+.note{background:#1b2130;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--dim);margin:10px 0}
+.guard{border-left:3px solid var(--rose)}
+@media(max-width:800px){.topo{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>CartAssist · Apogee99 <span class="tag">technical architecture · 2026-07-03</span></h1>
+<p class="lead">AI parts-assistant platform: agent + typed tools over a fitment brain. Everything below runs locally; only OpenAI calls leave the machine.</p>
+<div class="grid kpis">
+<div class="kpi"><div class="n">2.04M</div><div class="l">fitment rows (SQL, uncapped)</div></div>
+<div class="kpi"><div class="n">98.5–100%</div><div class="l">graded eval accuracy</div></div>
+<div class="kpi"><div class="n">7</div><div class="l">typed tools in registry</div></div>
+<div class="kpi"><div class="n">213k</div><div class="l">distinct appliance models</div></div>
+</div>
+
+<h2>1 · System topology</h2>
+<div class="grid topo">
+<div class="box b-blue"><h4>Widget <span class="port">dn-chatbot.min.js</span></h4><div class="sub">Chat UI on the shop page. Chips (sendText / <code>upload</code> / <code>prefill</code>), image picker, escalation polling. Talks only to the dashboard public API.</div></div>
+<div class="box b-blue"><h4>Demo shop <span class="port">:8090</span></h4><div class="sub">dn-html-demo storefront hosting the widget. <code>sync_products.py</code> streams the catalog + ALL appliance rows to the dashboard.</div></div>
+<div class="box b-green"><h4>Dashboard <span class="port">:8002</span></h4><div class="sub">dn-chatbot-dashboard (FastAPI). Public edge <code>/v1/*</code>, admin UI, analytics, sync ingestion, sessions/messages persistence. Proxies AI turns to the core.</div></div>
+<div class="box b-amber"><h4>Core <span class="port">:8001</span></h4><div class="sub">dn-chatbot (FastAPI). The brain: <code>/api/ask</code> pipeline, agent loop, tool registry, vision, MCP. Multi-tenant via StoreContext (client_id).</div></div>
+<div class="box b-violet"><h4>Qdrant <span class="port">:6333</span></h4><div class="sub"><code>store_11_products</code> (4155 pts, dense vectors + payloads) · <code>store_11_compatibility</code> (legacy view, capped 80/product).</div></div>
+<div class="box b-cyan"><h4>MySQL <span class="port">:3307 · dn_chatbot_platform</span></h4><div class="sub">stores, sessions, messages, usage, events, store_secrets (Fernet) + identity indexes: <code>product_code_terms</code>, <code>product_fitment</code>.</div></div>
+</div>
+<div class="note"><b>Design rule:</b> Qdrant answers <i>similarity</i>; MySQL answers <i>identity</i> (which products does this term identify, and how many). Product payloads live once, in Qdrant, fetched by id.</div>
+
+<h2>2 · A customer message, end to end</h2>
+<ol class="flow">
+<li><b>Widget → dashboard</b> <code>POST /v1/chat/ask</code> {api_key_public, session_id, user_text}<span class="sub">Origin allowlist, rate limit (45/min), session ownership check, plan limit.</span></li>
+<li><b>Dashboard edge intercepts</b><span class="sub">order-status lookup, promo details, technical escalation (warranty/unreadable sticker → human), sales-demo. Anything unclaimed → <code>ask_core(session_id, text, client_id)</code>.</span></li>
+<li><b>Core: StoreContext resolve</b><span class="sub">stores row + decrypted secrets → profile, capabilities, collection, LLM overrides. No default profile — misconfigured store fails loud.</span></li>
+<li><b>Deterministic pre-layer</b><span class="sub">welcome, <code>__refine:</code> buttons, symptom memo + diagnose fast-path, find-model helper, <b>photo-offer intercept</b> (regex → 📎 upload chip; its wording drives the widget attach flow).</span></li>
+<li><b>Agent loop</b> <code>capabilities.agent_loop</code><span class="sub">Tool-calling LLM (max 3 rounds). Model picks tools; tools decide truth. Final answer = strict JSON protocol. Any failure → <span class="arrow">cascade fallback</span> (legacy 43-exit pipeline, still intact below).</span></li>
+<li><b>Server-side composition</b> <code>_compose_search_response</code><span class="sub">Model may only reference product ids returned by tools this turn. Cards, badges, chips, reasoning card, session memory update — all rendered server-side.</span></li>
+<li><b>Dashboard bookkeeping → widget</b><span class="sub">assistant message persisted, usage/tokens counted, promotions appended on greetings, escalation flag → response JSON {message_html, picked, actions}.</span></li>
+</ol>
+
+<h2>3 · The agent loop <span class="tag">app/agent_loop.py</span></h2>
+<div class="lane">
+<div class="st"><b>system prompt</b>store identity + memory (brand/model/part) + 8 policy rules (show-first is iron law)</div><div class="ar">→</div>
+<div class="st"><b>LLM tool turn</b><code>chat_completion_tools</code> (OpenAI, gpt-5.2) — tool_choice auto</div><div class="ar">→</div>
+<div class="st"><b>execute tools</b>runtime injects store_id / collection / keys — model never sees them</div><div class="ar">→</div>
+<div class="st"><b>final JSON</b>show_products · ask · store_info (verbatim) · operator</div>
+</div>
+<table>
+<tr><th>Tool</th><th>Contract (what the model is promised)</th><th>Backend</th></tr>
+<tr><td><code>lookup_exact_code</code></td><td>Part's own code → products. Empty = not an identifier, keep searching.</td><td>SQL <code>GROUP BY</code> count guard → Qdrant retrieve-by-id</td></tr>
+<tr><td><code>check_fitment</code></td><td>3-state: unavailable ≠ no-fit ≠ confirmed rows. Confirmed rows ⇒ „Съвместимо" badge.</td><td>SQL norm/tail equality → Python scorer + guards</td></tr>
+<tr><td><code>search_products</code></td><td>Semantic search; <code>allowed_ids</code> constrains to fitment-confirmed.</td><td>dense (Qdrant) + lexical leg → rerank</td></tr>
+<tr><td><code>diagnose_symptom</code></td><td>Fault text → causes + part families. Fails closed below confidence 0.55.</td><td>LLM + <code>parse_diagnosis</code> structural enforcement</td></tr>
+<tr><td><code>get_store_info</code></td><td>Store's authored policy copy — pass through VERBATIM.</td><td>AssistantProfile intent_messages</td></tr>
+<tr><td><code>request_operator</code></td><td>Human handoff; caller owns session flagging.</td><td>profile + escalation_requested</td></tr>
+<tr><td><code>read_appliance_sticker</code></td><td>Rating-plate photo → brand/model/serial. Never guesses; unreadable → human.</td><td>gpt-4o-mini vision (upload path only; excluded from chat agent)</td></tr>
+</table>
+<div class="note">The same registry is exported externally: <code>POST /api/mcp?store_id=N</code> (stateless MCP JSON-RPC, read-only subset) and <code>GET /v1/feed/products</code> (OpenAI product-feed shape) — the agentic-commerce surfaces.</div>
+
+<h2>4 · Retrieval — hybrid pool</h2>
+<div class="lane">
+<div class="st"><b>dense leg</b>embed query (OpenAI) → Qdrant top-30 → note-filter (perfume only)</div><div class="ar">＋</div>
+<div class="st"><b>lexical leg</b>cached name map (10-min TTL) → BG-suffix stems, IDF-weighted → top-12 by head-noun match</div><div class="ar">→</div>
+<div class="st"><b>rerank</b>base + name bonus + translit bonus + <code>_lex_score</code>×0.12 + stock/gender penalties</div><div class="ar">→</div>
+<div class="st"><b>top-k</b>best + alternatives, family-aware grouping</div>
+</div>
+<div class="note"><b>Why:</b> dense matches context and misses the decisive noun — „<b>входящи</b> маркучи" returned „<b>Изходящ</b> маркуч"; „<b>пружини</b> за барабан" returned „<b>преграда</b> за барабан". Only the lexical leg knows which candidate carried the head noun; its IDF score rides into rerank as the tie-breaker. Fixed 9/11 browse failures; the rest need category <i>names</i> (client data).</div>
+
+<h2>5 · Identity guards <span class="tag">self-validating — the data decides, not vocabularies</span></h2>
+<div class="grid" style="grid-template-columns:1fr 1fr">
+<div class="box guard"><h4>Match-count guard <span class="port">exact_code.py</span></h4><div class="sub">A term identifying &gt; 8 products is a spec fragment („80n", „11mm", „260"), not a code — dropped. One SQL <code>GROUP BY</code> answers all terms; retrieve-by-id kills the old scroll id-order bias.</div></div>
+<div class="box guard"><h4>Distinct-appliance guard <span class="port">fitment.py</span></h4><div class="sub">Fitment terms whose matches span &gt; 8 distinct appliances are not identifiers → ignored. Terms and substring evidence need ≥ 5 normalized chars (junk rows with appliance_code "80N" become unmatchable).</div></div>
+<div class="box guard"><h4>Digit-tail ≥ 5 <span class="port">wak260 bug class</span></h4><div class="sub">Model digit-tails („wak260"→„260") only count with ≥ 5 chars — bare „260" matched a vacuum pump V-i260 and a gasket in prod.</div></div>
+<div class="box guard"><h4>Router-model rescue <span class="port">ask.py</span></h4><div class="sub">Router can mislabel a part code as appliance model („V-i260"). The identity index adjudicates: a full "model" token identifying 1–8 products IS a part code — kept. Digit fragments („885") never eligible.</div></div>
+</div>
+
+<h2>6 · Sticker-photo flow <span class="tag">the headline feature</span></h2>
+<ol class="flow">
+<li><b>Widget upload</b> <code>POST /v1/chat/upload</code> (multipart)<span class="sub">Image saved per-session, persisted as user message.</span></li>
+<li><b>Vision extraction</b> <code>POST /api/vision/sticker</code> (parts stores only)<span class="sub">gpt-4o-mini vision, prompt forbids guessing. Output: brand, model, full_model, serial, PNC + readable flag.</span></li>
+<li><b>Readable → normal ask turn</b><span class="sub">Synthesized Bulgarian message („Уредът е с марка BOSCH, модел WAE16422IT/01…") through the standard pipeline → „Намерих 22 съвместими части. Каква част търсите?" + part-type chips.</span></li>
+<li><b>Unreadable → human review</b><span class="sub">Original behavior kept: escalation, admin notification, „специалист ще я прегледа".</span></li>
+</ol>
+
+<h2>7 · Data model</h2>
+<table>
+<tr><th>Store</th><th>What</th><th>Written by</th><th>Read by</th></tr>
+<tr><td><code>product_fitment</code> <span class="pill pg">MySQL</span></td><td>1 row / product × appliance; norm + digit-tail indexed; <b>uncapped</b> (2.04M rows — the old 80-row cap discarded 94%)</td><td>dashboard <code>lookup_index.py</code> at sync</td><td>core <code>fitment._sql_rows</code></td></tr>
+<tr><td><code>product_code_terms</code> <span class="pill pg">MySQL</span></td><td>(store, term, product) — SQL twin of payload <code>search_terms</code></td><td>same</td><td><code>exact_code._sql_term_matches</code></td></tr>
+<tr><td><code>store_N_products</code> <span class="pill pb">Qdrant</span></td><td>dense vectors + full payloads (the single payload source, fetched by id)</td><td><code>/v1/sync</code> (embeds)</td><td>search, exact-code payloads, feed</td></tr>
+<tr><td><code>store_N_compatibility</code> <span class="pill pb">Qdrant</span></td><td>legacy capped view (80/product) for un-migrated readers</td><td>sync (capped server-side)</td><td>fitment fallback only</td></tr>
+<tr><td>sessions / messages / usage / events <span class="pill pg">MySQL</span></td><td>conversations, escalation status, tokens, funnel events → analytics KPIs</td><td>dashboard</td><td>dashboard UI + analytics</td></tr>
+<tr><td><code>store_secrets</code> <span class="pill pr">MySQL</span></td><td>Fernet-encrypted per-store keys (CONFIG_ENC_KEY); never in JSON config</td><td>dashboard settings</td><td>core StoreContext</td></tr>
+</table>
+
+<h2>8 · Module map</h2>
+<table>
+<tr><th>Module</th><th>Role</th></tr>
+<tr><td><code>core app/routes/ask.py</code></td><td>Pipeline orchestrator: pre-layer intercepts → agent branch → legacy cascade → compose. (3.3k lines; cascade scheduled for deletion after soak.)</td></tr>
+<tr><td><code>core app/agent_loop.py</code></td><td>Tool-calling turn, JSON final protocol, cascade fallback.</td></tr>
+<tr><td><code>core app/tools/</code></td><td>Registry: lookup.py, catalog.py, diagnosis.py, store_info.py, vision.py + <code>registry()</code>.</td></tr>
+<tr><td><code>core app/exact_code.py · fitment.py · platform_db.py</code></td><td>SQL-first identity lookups + guards, pymysql boundary.</td></tr>
+<tr><td><code>core app/search.py</code></td><td>Dense retrieval, lexical leg, rerank, payload→candidate.</td></tr>
+<tr><td><code>core app/llm_dispatch.py</code></td><td>Provider dispatch (OpenAI/Anthropic/Ollama), reasoning-model quirks, <code>chat_completion_tools</code>.</td></tr>
+<tr><td><code>core app/routes/vision.py · mcp.py</code></td><td>Sticker endpoint · MCP JSON-RPC server.</td></tr>
+<tr><td><code>dash app/routes/external_api.py</code></td><td>Public edge: chat, upload+vision branch, sync (SQL + Qdrant writes), feed, widget-branding.</td></tr>
+<tr><td><code>dash app/services/lookup_index.py · core_client.py</code></td><td>SQL index writes · core proxy (ask, vision, reload).</td></tr>
+<tr><td><code>demo tests/</code></td><td>5,800-question generator, runner, grader — the eval harness gating every change.</td></tr>
+</table>
+
+<h2>9 · Quality gates</h2>
+<table>
+<tr><th>Gate</th><th>Result</th></tr>
+<tr><td>Incident suite (LG 80N · AWG 885 AV · wak260 · V-i260 · exact codes · bearing 609)</td><td><span class="pill pg">all pass</span> re-run after every change</td></tr>
+<tr><td>120-question eval (agent loop, formal Phase-3 gate)</td><td><span class="pill pg">100% GOOD</span></td></tr>
+<tr><td>719-question stratified soak</td><td><span class="pill pg">98.5% GOOD</span> — misses were browse bleed, since fixed 9/11</td></tr>
+<tr><td>Unit suite (~513 tests incl. guards, tools, vision)</td><td><span class="pill pg">green</span></td></tr>
+<tr><td>Known open</td><td><span class="pill pa">2 browse holdouts need category names</span> <span class="pill pa">badge polish on photo→part path</span> <span class="pill pa">dashboard main merge (api_key_public retirement)</span></td></tr>
+</table>
+
+<p style="margin-top:40px;color:var(--dim);font-size:12px">Generated 2026-07-03 · branches: core <code>fix/apogee99-flow-accuracy</code> (PR #23) · dashboard <code>feat/apogee99-sql-vision-agent</code> (PR #28)</p>
+</div></body></html>
