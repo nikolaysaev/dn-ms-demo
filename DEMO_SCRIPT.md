@@ -18,11 +18,13 @@ Total time: ~7 minutes for the three "wow" flows + Q&A.
 **Say:** "Клиентите не си знаят модела. Знаят как да снимат."
 
 1. Click chip **„📷 Ще снимам стикера на уреда"** → the bot explains and shows **„📎 Прикачи снимка"**.
-2. Attach the rating-plate photo.
-3. **Audience should notice:** the bot *reads the plate* („📷 Разчетох от стикера: марка BOSCH,
-   модел WAE16422IT/01…") and returns pumps with the green badge **„Съвместимо с BOSCH WAE16422IT/01"** —
-   confirmed fitment, not guesses. No human involved.
-4. Mention: an unreadable/blurry photo automatically goes to a human operator instead — show
+2. Attach the rating-plate photo. *(Reading + answering takes ~30–45 s — narrate: „в момента чете
+   табелката и проверява 2 милиона реда съвместимост".)*
+3. **Audience should notice:** the bot *reads the plate* — „📷 Разчетох от стикера: марка BOSCH,
+   модел WAE16422IT/01, сериен № …" — and answers **„Намерих 22 съвместими части за WAE16422IT/01.
+   Каква част търсите?"** with part-type chips. Confirmed fitment from a photo, no human involved.
+4. Click **„Помпа"** → the pumps/filters that fit exactly this model (~30 s on the reasoning model).
+5. Mention: an unreadable/blurry photo automatically goes to a human operator instead — show
    the dashboard tab where the conversation would light up.
 
 ## Flow 2 — Symptom → diagnosis → parts (~2 min)
@@ -45,7 +47,8 @@ Total time: ~7 minutes for the three "wow" flows + Q&A.
 
 - **2,04 млн. реда съвместимост** заредени за демото (пълните данни, без съкращения) — 213 000 различни модела уреди.
 - **100% точност** на вътрешния тест от 120 клиентски въпроса (8 категории: кодове, съвместимост, размери, симптоми, снимки…).
-- Отговор за ~2–8 сек; снимка на стикер ~15 сек.
+- Отговор: кодове/модели ~5–10 сек; диагноза и снимка на стикер ~25–45 сек (reasoning модел) —
+  паузите се запълват с разказ, не са мълчание.
 - Всеки разговор се вижда живо в таблото; операторът може да поеме чата по всяко време.
 
 ## If something goes wrong
