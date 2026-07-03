@@ -10,3 +10,4 @@ json/ProductsDetailsExport.json
 # Large/private chat exports and generated analysis
 json/LiveChat all.json
 json/livechat-analysis-summary.json
+tests/out/
