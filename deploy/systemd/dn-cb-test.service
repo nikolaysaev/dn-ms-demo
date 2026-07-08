@@ -1,0 +1,24 @@
+[Unit]
+Description=CartAssist QA Chatbot Demo (dn-cb-test) static page
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/apps/dn-cb-test
+Environment=HOST=127.0.0.1
+Environment=PORT=8090
+ExecStart=/usr/bin/python3 /srv/apps/dn-cb-test/main.py
+Restart=always
+RestartSec=3
+
+# Hardening: this is a read-only static server, so lock it down.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=
+
+[Install]
+WantedBy=multi-user.target
