@@ -503,7 +503,9 @@
   <script>
     // Hardcoded storefront public widget key (public by design — safe in browser JS).
     const PUBLIC_KEY = 'utU3nELf_8Z1-m0XB2P0Cg';
-    const DEFAULT_STORE_ID = '11';
+    // Apogee99's public_id (store_key) in the local dev DB — the tenancy handle
+    // the new widget uses (WIDGET.html §6). Legacy numeric storeId '11' is retired.
+    const DEFAULT_STORE_KEY = 'apogee99_e6swgn';
     const OVERRIDES_KEY = 'dn-demo-overrides-apogee99';
     // Client-side gate password for the setup/debug tools (not real security).
     const SETUP_PASSWORD = 'Lexo123##';
@@ -553,13 +555,13 @@
       const host = window.location.hostname;
       if (host === 'test.cartassist.shop') {
         return {
-          widgetScript: 'https://dashboard.cartassist.shop/v1/widget/dn-chatbot.min.js',
+          widgetScript: 'https://dashboard.cartassist.shop/v1/widget/widget.js',
           widgetApi: 'https://dashboard.cartassist.shop/v1',
           coreApi: 'https://api.cartassist.shop'
         };
       }
       return {
-        widgetScript: 'http://127.0.0.1:8002/v1/widget/dn-chatbot.min.js',
+        widgetScript: 'http://127.0.0.1:8002/v1/widget/widget.js',
         widgetApi: 'http://127.0.0.1:8002/v1',
         coreApi: 'http://127.0.0.1:8001'
       };
@@ -572,7 +574,7 @@
       return {
         widgetScript: saved.widgetScript || base.widgetScript,
         widgetApi: saved.widgetApi || base.widgetApi,
-        widgetStoreId: saved.widgetStoreId || DEFAULT_STORE_ID,
+        widgetStoreId: saved.widgetStoreId || DEFAULT_STORE_KEY,
         coreApi: saved.coreApi || base.coreApi,
         publicKey: saved.publicKey || PUBLIC_KEY
       };
@@ -592,18 +594,12 @@
       if (state.widgetLoaded) return;
       const c = config();
       window.DN_CHATBOT_CONFIG = {
-        storeId: c.widgetStoreId,
-        apiKeyPublic: c.publicKey,
+        storeKey: c.widgetStoreId,
         apiUrl: trimSlash(c.widgetApi),
         position: 'bottom-right',
-        branding: {
-          primaryColor: '#14120f',
-          secondaryColor: '#c86b39',
-          bgColor: '#FFFFFF',
-          textColor: '#14120f',
-          agentName: 'Apogee99 Assistant',
-          welcomeMessage: 'Здравейте! Това е Apogee99 test site. Мога да помогна с продукти, наличност и съвместимост.'
-        }
+        autoOpenDelay: 0
+        // No branding/agentName here — the widget fetches its look + greeting
+        // live from /v1/widget-branding (the frozen embed contract, WIDGET.html §6).
       };
       const script = document.createElement('script');
       script.src = trimSlash(c.widgetScript);
@@ -753,10 +749,10 @@
 
     function updateEmbedCode() {
       const cfg = {
-        storeId: els.widgetStoreId.value.trim() || DEFAULT_STORE_ID,
-        apiKeyPublic: els.publicKey.value.trim() || PUBLIC_KEY,
+        storeKey: els.widgetStoreId.value.trim() || DEFAULT_STORE_KEY,
         apiUrl: trimSlash(els.widgetApi.value.trim()),
-        position: 'bottom-right'
+        position: 'bottom-right',
+        autoOpenDelay: 0
       };
       els.embedCode.textContent = `<script>\nwindow.DN_CHATBOT_CONFIG = ${JSON.stringify(cfg, null, 2)};\n<\/script>\n<script src="${els.widgetScript.value.trim()}" async><\/script>`;
     }
@@ -782,7 +778,7 @@
         sessionStorage.setItem(OVERRIDES_KEY, JSON.stringify({
           widgetScript: els.widgetScript.value.trim(),
           widgetApi: els.widgetApi.value.trim(),
-          widgetStoreId: els.widgetStoreId.value.trim() || DEFAULT_STORE_ID,
+          widgetStoreId: els.widgetStoreId.value.trim() || DEFAULT_STORE_KEY,
           coreApi: els.coreApi.value.trim(),
           publicKey: els.publicKey.value.trim()
         }));
