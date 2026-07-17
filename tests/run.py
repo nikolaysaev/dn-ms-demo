@@ -23,7 +23,10 @@ CASES = OUTDIR / "cases.jsonl"
 RESULTS = OUTDIR / "results.jsonl"
 
 API = "http://127.0.0.1:8002/v1/chat/ask"
-STORE_ID = "11"  # tenanted by store_id + Origin (api_key_public retired)
+# Tenanted by store_key + Origin. `store_key` is the store's opaque, immutable
+# public_id — the only external handle; the internal numeric store_id never
+# appears on the wire (the legacy "11" is retired).
+STORE_KEY = "apogee99_e6swgn"
 
 GATE_MARKERS = (
     "идентификатори на уреда",
@@ -58,7 +61,7 @@ class RateLimiter:
 
 def ask(session_id, user_text, timeout=120):
     payload = json.dumps({
-        "store_id": STORE_ID,
+        "store_key": STORE_KEY,
         "session_id": session_id,
         "user_text": user_text,
     }).encode("utf-8")
